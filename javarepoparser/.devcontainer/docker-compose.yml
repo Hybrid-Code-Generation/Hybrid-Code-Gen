@@ -1,0 +1,24 @@
+services:
+  app:
+    image: eclipse-temurin:24-jdk
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    environment:
+      NEO4J_URL: bolt://neo4j-db:7687
+    depends_on:
+      - neo4j
+
+  neo4j:
+    image: neo4j:5
+    container_name: neo4j-db
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: "neo4j/~n?Ven2GphBV"
+    volumes:
+      - neo4j-data:/data
+
+volumes:
+  neo4j-data:

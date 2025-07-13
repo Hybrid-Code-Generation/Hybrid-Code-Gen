@@ -1,0 +1,23 @@
+{
+  "name": "Java Neo4j KG Builder",
+  "dockerComposeFile": "docker-compose.yml",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "24"
+    },
+  },
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {}
+    }
+  },
+  "postCreateCommand": "apt update && apt install -y maven && mvn install",
+  "forwardPorts": [
+    7474,
+    7687
+  ],
+  "remoteUser": "root"
+}

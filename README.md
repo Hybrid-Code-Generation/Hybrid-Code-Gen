@@ -1,6 +1,6 @@
 # Hybrid-Code-Gen
-This is Hybrid code gen.
 
+This is Hybrid code gen.
 
 # Hybrid AST+KG RAG Pipeline
 
@@ -16,10 +16,10 @@ javac -cp javaparser-core-3.x.jar AstExtractor.java
 
 # 1.2 Run against your source directory, outputting methods.csv
 java -cp .:javaparser-core-3.x.jar AstExtractor /path/to/your/java/src methods.csv
-````
+```
 
-* **Input:** Java source directory
-* **Output:** `methods.csv` (one row per method with metadata: file path, package, class, signature, body, LOC, etc.)
+- **Input:** Java source directory
+- **Output:** `methods.csv` (one row per method with metadata: file path, package, class, signature, body, LOC, etc.)
 
 ---
 
@@ -40,8 +40,8 @@ This step will:
 3. Compute and normalize a fixed-size embedding for each method
 4. Build and persist:
 
-   * `method_index.faiss` (FAISS index)
-   * `method_ids.pkl`  (mapping from index positions back to method IDs)
+   - `method_index.faiss` (FAISS index)
+   - `method_ids.pkl` (mapping from index positions back to method IDs)
 
 ---
 
@@ -54,21 +54,26 @@ python gnnpipeline.py methods.csv --query "hash passwords securely"
 
 This will:
 
-* Convert your text prompt into a minimal AST‑style query graph
-* Encode it via the trained GNN
-* Normalize the resulting vector
-* Perform a top‑3 nearest‑neighbor search in FAISS
-* Print each method’s ID and similarity score
+- Convert your text prompt into a minimal AST‑style query graph
+- Encode it via the trained GNN
+- Normalize the resulting vector
+- Perform a top‑3 nearest‑neighbor search in FAISS
+- Print each method’s ID and similarity score
 
 ---
 
 ## Artifacts Produced
 
-* `methods.csv`          – Flat CSV of extracted AST metadata
-* `method_index.faiss`   – FAISS index of 256‑dim method embeddings
-* `method_ids.pkl`       – Python pickle mapping FAISS indices → method IDs
+- `methods.csv` – Flat CSV of extracted AST metadata
+- `method_index.faiss` – FAISS index of 256‑dim method embeddings
+- `method_ids.pkl` – Python pickle mapping FAISS indices → method IDs
 
-> *Tip: Tweak the Java graph construction, GNN architecture, and training objective to best reflect your codebase’s actual AST patterns and semantics.*
+> _Tip: Tweak the Java graph construction, GNN architecture, and training objective to best reflect your codebase’s actual AST patterns and semantics._
 
 ```
+
 ```
+
+## 4. Java Code Repo KG Builder
+
+To get all the information about Java code repo parser, [Read here](javarepoparser/README.md)

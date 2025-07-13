@@ -1,0 +1,55 @@
+# === Java / Maven ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# === IntelliJ IDEA ===
+*.iml
+.idea/
+
+# === VS Code ===
+.vscode/
+
+# === Dev Container ===
+.devcontainer/**/.cache/
+.devcontainer/**/.python-version
+
+# === Neo4j Data ===
+neo4j/data/
+!neo4j/data/.keep  # Optional: keep dir structure if needed
+
+# === OS Generated ===
+.DS_Store
+Thumbs.db
+
+# === Logs and temp files ===
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# === Eclipse / NetBeans ===
+.nb-gradle/
+nbproject/private/
+.buildpath
+.project
+.classpath
+
+# === Temp folder with cloned project ===
+temp/
+
+# === Ignore nested Git repo unless needed ===
+temp/Library-Management-System-JAVA/.git/
+
+# === Database binary logs ===
+**/Database/**/log/
+**/Database/**/seg0/
+
+# === Java Annotation Processing ===
+**/generated-sources/
+javarepoparser/neo4j/*
+
