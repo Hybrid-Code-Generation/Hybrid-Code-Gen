@@ -7,6 +7,7 @@ import java.util.logging.Logger;
  * This is the main application class.
  */
 public class App {
+
     public static void main(String[] args) throws IOException {
         LoggerConfig.setup();
 
@@ -18,6 +19,7 @@ public class App {
         }
         String projectDir = args[0];
         ProjectParser parser = new ProjectParser(projectDir);
+
         parser.parse();
     }
 }

@@ -24,7 +24,7 @@ public class Neo4jWriter {
     private static final String logPrefix = "Neo4jWriter: ";
 
     public Neo4jWriter() {
-        driver = GraphDatabase.driver("bolt://neo4j-db:7687", AuthTokens.basic("neo4j", "~n?Ven2GphBV"));
+        driver = GraphDatabase.driver("bolt://4.187.169.27:7687", AuthTokens.basic("neo4j", "MyStrongPassword123"));
     }
 
     public void createClassNode(ClassOrInterfaceDeclaration clazz) {
@@ -213,6 +213,7 @@ public class Neo4jWriter {
                     "MATCH (c:Class {name: $className}), (m:Method {name: $methodName}) " +
                             "MERGE (c)-[:HAS_METHOD]->(m)",
                     params);
+
             logger.info(logPrefix + "Linked method '" + methodName + "' to class '" + className + "'");
         } catch (Exception e) {
             logger.severe(
@@ -231,12 +232,36 @@ public class Neo4jWriter {
                 session.run("MERGE (caller:Method {name: $caller}) " +
                         "MERGE (callee:Method {name: $callee}) " +
                         "MERGE (caller)-[:CALLS]->(callee)", Map.of("caller", caller, "callee", callee));
+
                 logger.info(logPrefix + "Created call relation from '" + caller + "' to '" + callee + "'");
             } catch (Exception e) {
                 logger.severe(logPrefix + "Exception in createCallRelation (inner): " + e.getMessage());
             }
         } catch (Exception e) {
             logger.severe(logPrefix + "Exception in createCallRelation (resolve): " + e.getMessage());
+        }
+    }
+
+    /**
+     * Scans the database for CALLS and HAS_METHOD relationships and creates the
+     * reverse
+     * CALLED_BY and BELONGS_TO relationships if missing.
+     */
+    public void updateReverseRelations() {
+        try (Session session = driver.session()) {
+            // For each CALLS, create CALLED_BY if missing
+            String callsToCalledBy = "MATCH (caller:Method)-[:CALLS]->(callee:Method) " +
+                    "MERGE (callee)-[:CALLED_BY]->(caller)";
+            session.run(callsToCalledBy);
+
+            // For each HAS_METHOD, create BELONGS_TO if missing
+            String hasMethodToBelongsTo = "MATCH (c:Class)-[:HAS_METHOD]->(m:Method) " +
+                    "MERGE (m)-[:BELONGS_TO]->(c)";
+            session.run(hasMethodToBelongsTo);
+
+            logger.info(logPrefix + "Updated reverse relationships: CALLED_BY and BELONGS_TO.");
+        } catch (Exception e) {
+            logger.severe(logPrefix + "Failed to update reverse relationships: " + e.getMessage());
         }
     }
 

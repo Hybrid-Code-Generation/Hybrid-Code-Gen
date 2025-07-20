@@ -53,5 +53,7 @@ public class ProjectParser {
 
         logger.info("Updating node depths in the database");
         writer.updateAllNodeDepths();
+
+        writer.updateReverseRelations();
     }
 }
