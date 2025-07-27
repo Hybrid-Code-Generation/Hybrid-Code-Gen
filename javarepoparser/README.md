@@ -190,7 +190,7 @@ For questions or support, please open an issue in this repository.
 ## 🧪 Database Credentials
 
 ```
-URL: http://4.187.169.27:7474/browser/
+URL: http://98.70.123.110:7474/browser/
 UserName: neo4j
-Password: MyStrongPassword123
+Password: y?si+:qDV3DK
 ```
