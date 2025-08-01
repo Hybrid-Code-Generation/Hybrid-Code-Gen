@@ -1,0 +1,31 @@
+# Requirements for Static Importance Analyzer
+# 
+# This file lists all the Python packages required to run the 
+# static_importance_analyzer.py script
+#
+# Install with: pip install -r requirements.txt
+
+# Core data processing
+pandas>=1.5.0
+numpy>=1.21.0
+
+# Neo4j connectivity
+neo4j>=5.0.0
+
+# Graph analysis
+networkx>=2.8.0
+
+# Optional: For enhanced plotting (used in notebook version)
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Graph analysis
+networkx>=2.8.0
+
+# AST parsing (optional, for enhanced complexity calculation)
+tree-sitter>=0.20.0
+tree-sitter-languages>=1.5.0
+
+# Additional utilities
+scikit-learn>=1.1.0
+scipy>=1.9.0
