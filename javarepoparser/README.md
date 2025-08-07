@@ -69,24 +69,25 @@ Follow these steps to run the project locally inside a development container.
 git clone https://github.com/spring-projects/spring-petclinic ./temp/spring-petclinic
 mvn clean compile exec:java -Dexec.args="./temp/spring-petclinic"
 ```
+
 Then, open the Neo4j browser as described above.
 
 ---
 
 ## 🔗 Relations Stored
 
-| Relation         | Emoji | Description                                 |
-|------------------|:-----:|---------------------------------------------|
-| HAS_ANNOTATION   | 🏷️    | Node has an annotation                      |
-| HAS_CONSTRUCTOR  | 🏗️    | Class has a constructor                     |
-| HAS_FIELD        | 📦    | Class has a field                           |
-| HAS_METHOD       | 🧩    | Class has a method                          |
-| HAS_PARAMETER    | 🎚️    | Method/Constructor has a parameter          |
-| INHERITS         | 🧬    | Class inherits another class                |
-| IMPLEMENTS       | 🛠️    | Class implements an interface               |
-| RETURNS          | 🔙    | Method returns a type                       |
-| USES             | 🔗    | Method uses a variable                      |
-| CALLS            | 📞    | Method calls another method                 |
+| Relation        | Emoji | Description                        |
+| --------------- | :---: | ---------------------------------- |
+| HAS_ANNOTATION  |  🏷️   | Node has an annotation             |
+| HAS_CONSTRUCTOR |  🏗️   | Class has a constructor            |
+| HAS_FIELD       |  📦   | Class has a field                  |
+| HAS_METHOD      |  🧩   | Class has a method                 |
+| HAS_PARAMETER   |  🎚️   | Method/Constructor has a parameter |
+| INHERITS        |  🧬   | Class inherits another class       |
+| IMPLEMENTS      |  🛠️   | Class implements an interface      |
+| RETURNS         |  🔙   | Method returns a type              |
+| USES            |  🔗   | Method uses a variable             |
+| CALLS           |  📞   | Method calls another method        |
 
 ---
 
@@ -185,3 +186,11 @@ Contributions are welcome! Please open issues or submit pull requests for improv
 For questions or support, please open an issue in this repository.
 
 ---
+
+## 🧪 Database Credentials
+
+```
+URL: http://98.70.123.110:7474/browser/
+UserName: neo4j
+Password: y?si+:qDV3DK
+```

@@ -1,0 +1,28 @@
+{
+  "Dataset Overview": {
+    "Total Methods": 264,
+    "Total Features": 27,
+    "Classes Analyzed": 42,
+    "Packages Analyzed": 0
+  },
+  "Complexity Metrics Summary": {
+    "Avg LOC": 8.518939393939394,
+    "Avg Cyclomatic Complexity": 2.015151515151515,
+    "Avg Cognitive Complexity": 2.6856060606060606,
+    "Avg Halstead Effort": 497.3594888646038
+  },
+  "Centrality Metrics Summary": {
+    "Avg Degree Centrality": 0.026718800912349298,
+    "Avg Betweenness Centrality": 0.02058036652304057,
+    "Avg Eigenvector Centrality": 0.04265745307631685,
+    "Avg Fan-in": 3.727272727272727,
+    "Avg Fan-out": 3.727272727272727
+  },
+  "Importance Distribution": {
+    "Critical Methods": 79,
+    "High Importance": 0,
+    "Medium Importance": 53,
+    "Low Importance": 132,
+    "Minimal Importance": 0
+  }
+}
