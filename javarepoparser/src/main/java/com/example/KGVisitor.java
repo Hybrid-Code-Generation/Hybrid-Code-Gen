@@ -110,8 +110,7 @@ public class KGVisitor extends VoidVisitorAdapter<Void> {
     public void visit(FieldDeclaration n, Void arg) {
         logger.info(logPrefix + "Visiting field declaration: " + n.getVariables().get(0).getNameAsString());
         writer.createFieldNode(n);
-        // Link field to its class
-        logger.info(logPrefix + "Linking field '" + n.getVariables().get(0).getNameAsString() + "' to its class");
+        // Field linking is now handled inside createFieldNode
         super.visit(n, arg);
     }
 

@@ -1,2371 +1,843 @@
 FilePath,Package,Class,Method Name,Return Type,Parameters,Function Body,Throws,Modifiers,Generics
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\alert\AlertMaker.java,,AlertMaker,showSimpleAlert,void,"String title, String content","{
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        styleAlert(alert);
-        alert.showAndWait();
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\alert\AlertMaker.java,,AlertMaker,showErrorMessage,void,"String title, String content","{
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(""Error"");
-        alert.setHeaderText(title);
-        alert.setContentText(content);
-        styleAlert(alert);
-        alert.showAndWait();
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\alert\AlertMaker.java,,AlertMaker,showErrorMessage,void,Exception ex,"{
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(""Error occured"");
-        alert.setHeaderText(""Error Occured"");
-        alert.setContentText(ex.getLocalizedMessage());
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\Main.java,,Main,main,void,String[] args,"{
 
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        String exceptionText = sw.toString();
-
-        Label label = new Label(""The exception stacktrace was:"");
-
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-
-        alert.getDialogPane().setExpandableContent(expContent);
-
-        styleAlert(alert);
-        alert.showAndWait();
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\alert\AlertMaker.java,,AlertMaker,showErrorMessage,void,"Exception ex, String title, String content","{
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(""Error occured"");
-        alert.setHeaderText(title);
-        alert.setContentText(content);
-
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        String exceptionText = sw.toString();
-
-        Label label = new Label(""The exception stacktrace was:"");
-
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-
-        alert.getDialogPane().setExpandableContent(expContent);
-        alert.showAndWait();
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\alert\AlertMaker.java,,AlertMaker,showMaterialDialog,void,"StackPane root, Node nodeToBeBlurred, List<JFXButton> controls, String header, String body","{
-        BoxBlur blur = new BoxBlur(3, 3, 3);
-        if (controls.isEmpty()) {
-            controls.add(new JFXButton(""Okay""));
-        }
-        JFXDialogLayout dialogLayout = new JFXDialogLayout();
-        JFXDialog dialog = new JFXDialog(root, dialogLayout, JFXDialog.DialogTransition.TOP);
-
-        controls.forEach(controlButton -> {
-            controlButton.getStyleClass().add(""dialog-button"");
-            controlButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseEvent) -> {
-                dialog.close();
-            });
-        });
-
-        dialogLayout.setHeading(new Label(header));
-        dialogLayout.setBody(new Label(body));
-        dialogLayout.setActions(controls);
-        dialog.show();
-        dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
-            nodeToBeBlurred.setEffect(null);
-        });
-        nodeToBeBlurred.setEffect(blur);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\alert\AlertMaker.java,,AlertMaker,showTrayMessage,void,"String title, String message","{
-        try {
-            SystemTray tray = SystemTray.getSystemTray();
-            BufferedImage image = ImageIO.read(AlertMaker.class.getResource(LibraryAssistantUtil.ICON_IMAGE_LOC));
-            TrayIcon trayIcon = new TrayIcon(image, ""Library Assistant"");
-            trayIcon.setImageAutoSize(true);
-            trayIcon.setToolTip(""Library Assistant"");
-            tray.add(trayIcon);
-            trayIcon.displayMessage(title, message, MessageType.INFO);
-            tray.remove(trayIcon);
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\alert\AlertMaker.java,,AlertMaker,styleAlert,void,Alert alert,"{
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        LibraryAssistantUtil.setStageIcon(stage);
-
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(AlertMaker.class.getResource(""/resources/dark-theme.css"").toExternalForm());
-        dialogPane.getStyleClass().add(""custom-alert"");
-    }",,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\callback\GenericCallback.java,,GenericCallback,taskCompleted,Object,Object val,,,,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,getId,String,,"{
-        return id;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,setId,void,String id,"{
-        this.id = id;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,getTitle,String,,"{
-        return title;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,setTitle,void,String title,"{
-        this.title = title;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,getAuthor,String,,"{
-        return author;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,setAuthor,void,String author,"{
-        this.author = author;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,getPublisher,String,,"{
-        return publisher;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,setPublisher,void,String publisher,"{
-        this.publisher = publisher;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,getAvailability,Boolean,,"{
-        return isAvail;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Book.java,,Book,setIsAvail,void,Boolean isAvail,"{
-        this.isAvail = isAvail;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\MailServerInfo.java,,MailServerInfo,getMailServer,String,,"{
-        return mailServer;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\MailServerInfo.java,,MailServerInfo,getPort,Integer,,"{
-        return port;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\MailServerInfo.java,,MailServerInfo,getEmailID,String,,"{
-        return emailID;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\MailServerInfo.java,,MailServerInfo,getPassword,String,,"{
-        return password;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\MailServerInfo.java,,MailServerInfo,getSslEnabled,Boolean,,"{
-        return sslEnabled;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\MailServerInfo.java,,MailServerInfo,toString,String,,"{
-        return String.format(""%s:%d @ %s"", mailServer, port, emailID);
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\MailServerInfo.java,,MailServerInfo,validate,boolean,,"{
-        boolean flag = mailServer == null || mailServer.isEmpty() || port == null || emailID == null || emailID.isEmpty() || password.isEmpty();
-        return !flag;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,getId,String,,"{
-        return id;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,setId,void,String id,"{
-        this.id = id;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,getName,String,,"{
-        return name;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,setName,void,String name,"{
-        this.name = name;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,getEmail,String,,"{
-        return email;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,setEmail,void,String email,"{
-        this.email = email;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,getMobile,String,,"{
-        return mobile;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\data\model\Member.java,,Member,setMobile,void,String mobile,"{
-        this.mobile = mobile;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,getInstance,DatabaseHandler,,"{
-        if (handler == null) {
-            handler = new DatabaseHandler();
-        }
-        return handler;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,inflateDB,void,,"{
-        List<String> tableData = new ArrayList<>();
-        try {
-            Set<String> loadedTables = getDBTables();
-            System.out.println(""Already loaded tables "" + loadedTables);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(DatabaseHandler.class.getClass().getResourceAsStream(""/resources/database/tables.xml""));
-            NodeList nList = doc.getElementsByTagName(""table-entry"");
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node nNode = nList.item(i);
-                Element entry = (Element) nNode;
-                String tableName = entry.getAttribute(""name"");
-                String query = entry.getAttribute(""col-data"");
-                if (!loadedTables.contains(tableName.toLowerCase())) {
-                    tableData.add(String.format(""CREATE TABLE %s (%s)"", tableName, query));
-                }
-            }
-            if (tableData.isEmpty()) {
-                System.out.println(""Tables are already loaded"");
-            }
-            else {
-                System.out.println(""Inflating new tables."");
-                createTables(tableData);
-            }
-        }
-        catch (Exception ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-    }",,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,createConnection,void,,"{
-        try {
-            Class.forName(""org.apache.derby.jdbc.EmbeddedDriver"").newInstance();
-            conn = DriverManager.getConnection(DB_URL);
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, ""Cant load database"", ""Database Error"", JOptionPane.ERROR_MESSAGE);
+        if (args.length == 1 && args[0].equals(""--help"")) {
+            System.out.println(""Usage: java -jar PA1.jar"");
+            System.out.println(""Usage: java -jar PA1.jar [file]"");
+            System.out.println(""Usage: java -jar PA1.jar [rows] [cols]"");
             System.exit(0);
         }
-    }",,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,getDBTables,Set<String>,,"{
-        Set<String> set = new HashSet<>();
-        DatabaseMetaData dbmeta = conn.getMetaData();
-        readDBTable(set, dbmeta, ""TABLE"", null);
-        return set;
-    }",throws SQLException,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,readDBTable,void,"Set<String> set, DatabaseMetaData dbmeta, String searchCriteria, String schema","{
-        ResultSet rs = dbmeta.getTables(null, schema, null, new String[]{searchCriteria});
-        while (rs.next()) {
-            set.add(rs.getString(""TABLE_NAME"").toLowerCase());
-        }
-    }",throws SQLException,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,execQuery,ResultSet,String query,"{
-        ResultSet result;
+
+        Game g = null;
+
         try {
-            stmt = conn.createStatement();
-            result = stmt.executeQuery(query);
+            if (args.length == 0) {
+                int rows = 8;
+                int cols = 8;
+
+                g = new Game(rows, cols);
+            } else if (args.length == 1) {
+                try {
+                    Deserializer deserializer = new Deserializer(args[0]);
+                    g = deserializer.parseGame();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+            } else if (args.length == 2) {
+                int rows = Integer.parseInt(args[0]);
+                int cols = Integer.parseInt(args[1]);
+
+                g = new Game(rows, cols);
+            }
+        } catch (final Throwable tr) {
+            tr.printStackTrace();
+            System.err.println(""Unable to create game: "" + tr.getMessage());
+            System.exit(1);
         }
-        catch (SQLException ex) {
-            System.out.println(""Exception at execQuery:dataHandler"" + ex.getLocalizedMessage());
+
+        if (g == null) {
+            System.err.println(""Unable to create game!"");
+            System.exit(1);
+        }
+
+        System.out.println(""Enter \"":q\"" to quit the game."");
+        System.out.println(""Enter \"":u\"" to undo the last step."");
+        System.out.println();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            do {
+                g.display();
+                System.out.print(""Enter coordinates for pipe (<col#><row#>): "");
+                String input = reader.readLine();
+
+                if (Arrays.stream(QUIT_RESPONSES).anyMatch(it -> it.equalsIgnoreCase(input))) {
+                    break;
+                }
+                if (Arrays.stream(UNDO_RESPONSES).anyMatch(it -> it.equalsIgnoreCase(input))) {
+                    if (!g.undoStep()) {
+                        System.err.println(""No steps to undo!"");
+                    }
+                    continue;
+                }
+
+                char col = Character.toUpperCase(input.charAt(0));
+                if (!Character.isAlphabetic(col)) {
+                    System.err.println(""Cannot parse column!"");
+                    continue;
+                }
+
+                String rowStr = input.codePoints()
+                        .skip(1)
+                        .takeWhile(Character::isDigit)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+                if (rowStr.isBlank()) {
+                    System.err.println(""Cannot parse row!"");
+                    continue;
+                }
+                int row = Integer.parseInt(rowStr);
+
+                if (g.placePipe(row, col)) {
+                    g.updateState();
+                    if (g.hasWon()) {
+                        System.out.println(""You win using "" + g.getNumOfSteps() + "" steps!"");
+                        break;
+                    } else if (g.hasLost()) {
+                        System.out.println(""You lost!"");
+                        break;
+                    }
+                } else {
+                    System.err.println(""Cannot place pipe on that location!"");
+                }
+            } while (true);
+        } catch (IOException e) {
+            System.err.println(""Cannot read from console!"");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }",,public static,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\CellStack.java,,CellStack,push,void,FillableCell cell,"{
+        // TODO
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\CellStack.java,,CellStack,pop,FillableCell,,"{
+        // TODO
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\CellStack.java,,CellStack,getUndoCount,int,,"{
+        // TODO
+        return 0;
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\CellStack.java,,CellStack,display,void,,"{
+        System.out.println(""Undo Count: "" + count);
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\DelayBar.java,,DelayBar,countdown,void,,"{
+        // TODO
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\DelayBar.java,,DelayBar,distance,int,,"{
+        // TODO
+        return 0;
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\DelayBar.java,,DelayBar,display,void,,"{
+        if (currentValue > 0) {
+            System.out.print(""Rounds Countdown: "");
+            System.out.print(StringUtils.createPadding(currentValue, '='));
+            System.out.print(StringUtils.createPadding(initialValue - currentValue, ' '));
+            System.out.print("" "" + currentValue);
+            System.out.println();
+        } else {
+            System.out.println();
+        }
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,fromString,Game,"int rows, int cols, int delay, String cellsRep, List<Pipe> pipes","{
+        Cell[][] cells = Deserializer.parseString(rows, cols, cellsRep);
+
+        return new Game(rows, cols, delay, cells, pipes);
+    }",,static,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,placePipe,boolean,"int row, char col","{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,skipPipe,void,,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,undoStep,boolean,,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,display,void,,"{
+        map.display();
+        System.out.println();
+        pipeQueue.display();
+        cellStack.display();
+        System.out.println();
+        delayBar.display();
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,updateState,void,,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,hasWon,boolean,,"{
+        // TODO
+        return false;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,hasLost,boolean,,"{
+        // TODO
+        return false;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\Game.java,,Game,getNumOfSteps,int,,"{
+        // TODO
+        return 0;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\MapElement.java,,MapElement,toSingleChar,char,,,,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\PipeQueue.java,,PipeQueue,peek,Pipe,,"{
+        // TODO
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\PipeQueue.java,,PipeQueue,consume,void,,"{
+        // TODO
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\PipeQueue.java,,PipeQueue,undo,void,Pipe pipe,"{
+        // TODO
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\PipeQueue.java,,PipeQueue,display,void,,"{
+        System.out.print(""Next Pipes:  "");
+        for (Pipe p : pipeQueue) {
+            System.out.print(p.toSingleChar() + ""    "");
+        }
+        System.out.println();
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\PipeQueue.java,,PipeQueue,generateNewPipe,Pipe,,"{
+        // TODO
+    }",,private static,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,fromString,Map,"int rows, int cols, String cellsRep","{
+        Cell[][] cells = Deserializer.parseString(rows, cols, cellsRep);
+
+        return new Map(rows, cols, cells);
+    }",,static,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,tryPlacePipe,boolean,"Coordinate coord, Pipe pipe","{
+        return tryPlacePipe(coord.row, coord.col, pipe);
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,tryPlacePipe,boolean,"int row, int col, Pipe p","{
+        // TODO
+    }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,display,void,,"{
+        final int padLength = Integer.valueOf(rows - 1).toString().length();
+
+        Runnable printColumns = () -> {
+            System.out.print(StringUtils.createPadding(padLength, ' '));
+            System.out.print(' ');
+            for (int i = 0; i < cols - 2; ++i) {
+                System.out.print((char) ('A' + i));
+            }
+            System.out.println();
+        };
+
+        printColumns.run();
+
+        for (int i = 0; i < rows; ++i) {
+            if (i != 0 && i != rows - 1) {
+                System.out.print(String.format(""%1$"" + padLength + ""s"", i));
+            } else {
+                System.out.print(StringUtils.createPadding(padLength, ' '));
+            }
+
+            Arrays.stream(cells[i]).forEachOrdered(elem -> System.out.print(elem.toSingleChar()));
+
+            if (i != 0 && i != rows - 1) {
+                System.out.print(i);
+            }
+
+            System.out.println();
+        }
+
+        printColumns.run();
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,undo,void,Coordinate coord,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,fillBeginTile,void,,"{
+        sourceCell.setFilled();
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,fillTiles,void,int distance,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,checkPath,boolean,,"{
+        // TODO
+        return false;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\Map.java,,Map,hasLost,boolean,,"{
+        // TODO
+        return false;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\cells\Cell.java,,Cell,fromChar,Cell,"char c, Coordinate coord, TerminationCell.Type terminationType","{
+        // TODO
+
+        return null;
+    }",,public static,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\cells\FillableCell.java,,FillableCell,getPipe,Optional<Pipe>,,"{
+        // TODO
+        return null;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\cells\FillableCell.java,,FillableCell,toSingleChar,char,,"{
+        // TODO
+        return '\0';
+    }",,@Override public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\cells\FillableCell.java,,FillableCell,setPipe,void,Pipe pipe,"{
+        this.pipe = pipe;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\cells\TerminationCell.java,,TerminationCell,setFilled,void,,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\cells\TerminationCell.java,,TerminationCell,toSingleChar,char,,"{
+        // TODO
+        return '\0';
+    }",,@Override public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\map\cells\Wall.java,,Wall,toSingleChar,char,,"{
+        // TODO
+        return '\0';
+    }",,@Override public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\pipes\Pipe.java,,Pipe,setFilled,void,,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\pipes\Pipe.java,,Pipe,getFilled,boolean,,"{
+        // TODO
+        return false;
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\pipes\Pipe.java,,Pipe,getConnections,Direction[],,"{
+        // TODO
+    }",,public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\pipes\Pipe.java,,Pipe,toSingleChar,char,,"{
+        // TODO
+    }",,@Override public,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\pipes\Pipe.java,,Pipe,fromString,Pipe,String rep,"{
+        // TODO
+    }",,public static,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\game\pipes\Pipe.java,,Pipe,getCharByState,char,boolean isFilled,"{
+            // TODO
+            return '\0';
+        }",,,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\io\Deserializer.java,,Deserializer,parseGame,Game,,"{
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
+            String line;
+
+            int rows = 0;
+            if ((line = getFirstNonEmptyLine(reader)) != null) {
+                rows = Integer.parseInt(line);
+            } else {
+                throw new EOFException();
+            }
+
+            int cols = 0;
+            if ((line = getFirstNonEmptyLine(reader)) != null) {
+                cols = Integer.parseInt(line);
+            } else {
+                throw new EOFException();
+            }
+
+            int delay = 0;
+            if ((line = getFirstNonEmptyLine(reader)) != null) {
+                delay = Integer.parseInt(line);
+            } else {
+                throw new EOFException();
+            }
+
+            final ArrayList<String> mapRep = new ArrayList<String>();
+            for (int r = 0; r < rows; ++r) {
+                line = getFirstNonEmptyLine(reader);
+                if (line == null) {
+                    throw new EOFException();
+                }
+
+                mapRep.add(line);
+            }
+            final Cell[][] cells = parseString(rows, cols, String.join(""\n"", mapRep));
+
+            List<Pipe> defaultPipes = null;
+            String s = getFirstNonEmptyLine(reader);
+            if (s != null) {
+                defaultPipes = Arrays.stream(s.split("",""))
+                        .map(Pipe::fromString)
+                        .collect(Collectors.toList());
+            }
+
+            return new Game(rows, cols, delay, cells, defaultPipes);
+        } catch (EOFException eofe) {
+            System.err.println(""Unexpected EOF"");
+            return null;
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
             return null;
         }
-        finally {
-        }
-        return result;
     }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,execAction,boolean,String qu,"{
-        try {
-            stmt = conn.createStatement();
-            stmt.execute(qu);
-            return true;
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\io\Deserializer.java,,Deserializer,parseString,Cell[][],"int rows, int cols, String cellsRep","{
+        Cell[][] cells = new Cell[rows][cols];
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+                Coordinate coord = new Coordinate(r, c);
+                char ch = cellsRep.lines().skip(r).findFirst().orElseThrow().charAt(c);
+
+                Cell cell;
+                if (r == 0 || r == rows - 1 || c == 0 || c == cols - 1) {
+                    cell = Cell.fromChar(ch, coord, TerminationCell.Type.SINK);
+                } else {
+                    cell = Cell.fromChar(ch, coord, TerminationCell.Type.SOURCE);
+                }
+
+                cells[r][c] = cell;
+            }
         }
-        catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ""Error:"" + ex.getMessage(), ""Error Occured"", JOptionPane.ERROR_MESSAGE);
-            System.out.println(""Exception at execQuery:dataHandler"" + ex.getLocalizedMessage());
+
+        return cells;
+    }",,public static,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\io\Deserializer.java,,Deserializer,getFirstNonEmptyLine,String,BufferedReader br,"{
+        do {
+
+            String s = br.readLine();
+
+            if (s == null) {
+                return null;
+            }
+            if (s.isBlank() || s.startsWith(""#"")) {
+                continue;
+            }
+
+            return s;
+        } while (true);
+    }",throws IOException,private,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\util\Coordinate.java,,Coordinate,equals,boolean,Object obj,"{
+        if (obj == null) {
             return false;
         }
-        finally {
+        if (!(obj instanceof Coordinate)) {
+            return false;
         }
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,deleteBook,boolean,Book book,"{
-        try {
-            String deleteStatement = ""DELETE FROM BOOK WHERE ID = ?"";
-            PreparedStatement stmt = conn.prepareStatement(deleteStatement);
-            stmt.setString(1, book.getId());
-            int res = stmt.executeUpdate();
-            if (res == 1) {
-                return true;
-            }
-        }
-        catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,isBookAlreadyIssued,boolean,Book book,"{
-        try {
-            String checkstmt = ""SELECT COUNT(*) FROM ISSUE WHERE bookid=?"";
-            PreparedStatement stmt = conn.prepareStatement(checkstmt);
-            stmt.setString(1, book.getId());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                System.out.println(count);
-                return (count > 0);
-            }
-        }
-        catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,deleteMember,boolean,MemberListController.Member member,"{
-        try {
-            String deleteStatement = ""DELETE FROM MEMBER WHERE id = ?"";
-            PreparedStatement stmt = conn.prepareStatement(deleteStatement);
-            stmt.setString(1, member.getId());
-            int res = stmt.executeUpdate();
-            if (res == 1) {
-                return true;
-            }
-        }
-        catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,isMemberHasAnyBooks,boolean,MemberListController.Member member,"{
-        try {
-            String checkstmt = ""SELECT COUNT(*) FROM ISSUE WHERE memberID=?"";
-            PreparedStatement stmt = conn.prepareStatement(checkstmt);
-            stmt.setString(1, member.getId());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                System.out.println(count);
-                return (count > 0);
-            }
-        }
-        catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,updateBook,boolean,Book book,"{
-        try {
-            String update = ""UPDATE BOOK SET TITLE=?, AUTHOR=?, PUBLISHER=? WHERE ID=?"";
-            PreparedStatement stmt = conn.prepareStatement(update);
-            stmt.setString(1, book.getTitle());
-            stmt.setString(2, book.getAuthor());
-            stmt.setString(3, book.getPublisher());
-            stmt.setString(4, book.getId());
-            int res = stmt.executeUpdate();
-            return (res > 0);
-        }
-        catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,updateMember,boolean,MemberListController.Member member,"{
-        try {
-            String update = ""UPDATE MEMBER SET NAME=?, EMAIL=?, MOBILE=? WHERE ID=?"";
-            PreparedStatement stmt = conn.prepareStatement(update);
-            stmt.setString(1, member.getName());
-            stmt.setString(2, member.getEmail());
-            stmt.setString(3, member.getMobile());
-            stmt.setString(4, member.getId());
-            int res = stmt.executeUpdate();
-            return (res > 0);
-        }
-        catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,main,void,String[] args,"{
-        DatabaseHandler.getInstance();
-    }",throws Exception,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,getBookGraphStatistics,ObservableList<PieChart.Data>,,"{
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-        try {
-            String qu1 = ""SELECT COUNT(*) FROM BOOK"";
-            String qu2 = ""SELECT COUNT(*) FROM ISSUE"";
-            ResultSet rs = execQuery(qu1);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data(""Total Books ("" + count + "")"", count));
-            }
-            rs = execQuery(qu2);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data(""Issued Books ("" + count + "")"", count));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,getMemberGraphStatistics,ObservableList<PieChart.Data>,,"{
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-        try {
-            String qu1 = ""SELECT COUNT(*) FROM MEMBER"";
-            String qu2 = ""SELECT COUNT(DISTINCT memberID) FROM ISSUE"";
-            ResultSet rs = execQuery(qu1);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data(""Total Members ("" + count + "")"", count));
-            }
-            rs = execQuery(qu2);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data(""Active ("" + count + "")"", count));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,createTables,void,List<String> tableData,"{
-        Statement statement = conn.createStatement();
-        statement.closeOnCompletion();
-        for (String command : tableData) {
-            System.out.println(command);
-            statement.addBatch(command);
-        }
-        statement.executeBatch();
-    }",throws SQLException,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DatabaseHandler.java,,DatabaseHandler,getConnection,Connection,,"{
-        return conn;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,insertNewBook,boolean,Book book,"{
-        try {
-            PreparedStatement statement = DatabaseHandler.getInstance().getConnection().prepareStatement(
-                    ""INSERT INTO BOOK(id,title,author,publisher,isAvail) VALUES(?,?,?,?,?)"");
-            statement.setString(1, book.getId());
-            statement.setString(2, book.getTitle());
-            statement.setString(3, book.getAuthor());
-            statement.setString(4, book.getPublisher());
-            statement.setBoolean(5, book.getAvailability());
-            return statement.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,insertNewMember,boolean,Member member,"{
-        try {
-            PreparedStatement statement = DatabaseHandler.getInstance().getConnection().prepareStatement(
-                    ""INSERT INTO MEMBER(id,name,mobile,email) VALUES(?,?,?,?)"");
-            statement.setString(1, member.getId());
-            statement.setString(2, member.getName());
-            statement.setString(3, member.getMobile());
-            statement.setString(4, member.getEmail());
-            return statement.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,isBookExists,boolean,String id,"{
-        try {
-            String checkstmt = ""SELECT COUNT(*) FROM BOOK WHERE id=?"";
-            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                System.out.println(count);
-                return (count > 0);
-            }
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,isMemberExists,boolean,String id,"{
-        try {
-            String checkstmt = ""SELECT COUNT(*) FROM MEMBER WHERE id=?"";
-            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                System.out.println(count);
-                return (count > 0);
-            }
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,getBookInfoWithIssueData,ResultSet,String id,"{
-        try {
-            String query = ""SELECT BOOK.title, BOOK.author, BOOK.isAvail, ISSUE.issueTime FROM BOOK LEFT JOIN ISSUE on BOOK.id = ISSUE.bookID where BOOK.id = ?"";
-            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(query);
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            return rs;
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return null;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,wipeTable,void,String tableName,"{
-        try {
-            Statement statement = DatabaseHandler.getInstance().getConnection().createStatement();
-            statement.execute(""DELETE FROM "" + tableName + "" WHERE TRUE"");
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,updateMailServerInfo,boolean,MailServerInfo mailServerInfo,"{
-        try {
-            wipeTable(""MAIL_SERVER_INFO"");
-            PreparedStatement statement = DatabaseHandler.getInstance().getConnection().prepareStatement(
-                    ""INSERT INTO MAIL_SERVER_INFO(server_name,server_port,user_email,user_password,ssl_enabled) VALUES(?,?,?,?,?)"");
-            statement.setString(1, mailServerInfo.getMailServer());
-            statement.setInt(2, mailServerInfo.getPort());
-            statement.setString(3, mailServerInfo.getEmailID());
-            statement.setString(4, mailServerInfo.getPassword());
-            statement.setBoolean(5, mailServerInfo.getSslEnabled());
-            return statement.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return false;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\DataHelper.java,,DataHelper,loadMailServerInfo,MailServerInfo,,"{
-        try {
-            String checkstmt = ""SELECT * FROM MAIL_SERVER_INFO"";
-            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                String mailServer = rs.getString(""server_name"");
-                Integer port = rs.getInt(""server_port"");
-                String emailID = rs.getString(""user_email"");
-                String userPassword = rs.getString(""user_password"");
-                Boolean sslEnabled = rs.getBoolean(""ssl_enabled"");
-                return new MailServerInfo(mailServer, port, emailID, userPassword, sslEnabled);
-            }
-        } catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-        return null;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\export\DatabaseExporter.java,,DatabaseExporter,call,Boolean,,"{
-        try {
-            createBackup();
-            return true;
-        } catch (Exception exp) {
-            AlertMaker.showErrorMessage(exp);
-        }
-        return false;
-    }",,@Override protected,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\database\export\DatabaseExporter.java,,DatabaseExporter,createBackup,void,,"{
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(""yyyy_MM_dd_hh_mm_ss"");
-        String backupdirectory = backupDirectory.getAbsolutePath() + File.separator + LocalDateTime.now().format(dateFormat);
-        try (CallableStatement cs = DatabaseHandler.getInstance().getConnection().prepareCall(""CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)"")) {
-            cs.setString(1, backupdirectory);
-            cs.execute();
-        }
-        File file = new File(backupdirectory);
-        LibraryAssistantUtil.openFileWithDesktop(file);
-    }",throws Exception,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\email\EmailUtil.java,,EmailUtil,sendTestMail,void,"MailServerInfo mailServerInfo, String recepient, GenericCallback callback","{
 
-        Runnable emailSendTask = () -> {
-            LOGGER.log(Level.INFO, ""Initiating email sending task. Sending to {}"", recepient);
-            Properties props = new Properties();
-            try {
-                MailSSLSocketFactory sf = new MailSSLSocketFactory();
-                sf.setTrustAllHosts(true);
-                props.put(""mail.imap.ssl.trust"", ""*"");
-                props.put(""mail.imap.ssl.socketFactory"", sf);
-                props.put(""mail.smtp.auth"", ""true"");
-                props.put(""mail.smtp.starttls.enable"", mailServerInfo.getSslEnabled() ? ""true"" : ""false"");
-                props.put(""mail.smtp.host"", mailServerInfo.getMailServer());
-                props.put(""mail.smtp.port"", mailServerInfo.getPort());
-
-                Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(mailServerInfo.getEmailID(), mailServerInfo.getPassword());
-                    }
-                });
-
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(mailServerInfo.getEmailID()));
-                message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(recepient));
-                message.setSubject(""Test mail from Library Assistant"");
-                message.setText(""Hi,""
-                        + ""\n\n This is a test mail from Library Assistant!"");
-
-                Transport.send(message);
-                LOGGER.log(Level.INFO, ""Everything seems fine"");
-                callback.taskCompleted(Boolean.TRUE);
-            } catch (Throwable exp) {
-                LOGGER.log(Level.INFO, ""Error occurred during sending email"", exp);
-                callback.taskCompleted(Boolean.FALSE);
-            }
-        };
-        Thread mailSender = new Thread(emailSendTask, ""EMAIL-SENDER"");
-        mailSender.start();
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\email\EmailUtil.java,,EmailUtil,getPasswordAuthentication,PasswordAuthentication,,"{
-                        return new PasswordAuthentication(mailServerInfo.getEmailID(), mailServerInfo.getPassword());
-                    }",,@Override protected,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\email\EmailUtil.java,,EmailUtil,sendMail,void,"MailServerInfo mailServerInfo, String recepient, String content, String title, GenericCallback callback","{
-
-        Runnable emailSendTask = () -> {
-            LOGGER.log(Level.INFO, ""Initiating email sending task. Sending to {}"", recepient);
-            Properties props = new Properties();
-            try {
-                MailSSLSocketFactory sf = new MailSSLSocketFactory();
-                sf.setTrustAllHosts(true);
-                props.put(""mail.imap.ssl.trust"", ""*"");
-                props.put(""mail.imap.ssl.socketFactory"", sf);
-                props.put(""mail.smtp.auth"", ""true"");
-                props.put(""mail.smtp.starttls.enable"", mailServerInfo.getSslEnabled() ? ""true"" : ""false"");
-                props.put(""mail.smtp.host"", mailServerInfo.getMailServer());
-                props.put(""mail.smtp.port"", mailServerInfo.getPort());
-
-                Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(mailServerInfo.getEmailID(), mailServerInfo.getPassword());
-                    }
-                });
-
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(mailServerInfo.getEmailID()));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recepient));
-                message.setSubject(title);
-                message.setContent(content, ""text/html"");
-
-                Transport.send(message);
-                LOGGER.log(Level.INFO, ""Everything seems fine"");
-                callback.taskCompleted(Boolean.TRUE);
-            } catch (Throwable exp) {
-                LOGGER.log(Level.INFO, ""Error occurred during sending email"", exp);
-                callback.taskCompleted(Boolean.FALSE);
-            }
-        };
-        Thread mailSender = new Thread(emailSendTask, ""EMAIL-SENDER"");
-        mailSender.start();
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\email\EmailUtil.java,,EmailUtil,getPasswordAuthentication,PasswordAuthentication,,"{
-                        return new PasswordAuthentication(mailServerInfo.getEmailID(), mailServerInfo.getPassword());
-                    }",,@Override protected,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\CipherSpec.java,,CipherSpec,getKey,byte[],,"{
-        return key;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\CipherSpec.java,,CipherSpec,getIV,byte[],,"{
-        return iv;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\CipherSpec.java,,CipherSpec,isValid,boolean,,"{
-        return key != null && iv != null;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\CipherSpec.java,,CipherSpec,toString,String,,"{
-        return ""CipherSpec{"" + ""key="" + key + "", iv="" + iv + '}';
+        return equals((Coordinate) obj);
     }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,encrypt,String,String plainText,"{
-        LOCK.tryLock();
-        try {
-            CipherSpec spec = getCipherSpec();
-            if (spec == null || !spec.isValid()) {
-                throw new RuntimeException(""Cant load encryption"");
-            }
-            return encrypt(spec.getKey(), spec.getIV(), plainText);
-        } catch (Exception ex) {
-            LOGGER.log(Level.ERROR, ""Encryption failure"", ex);
-        } finally {
-            LOCK.unlock();
-        }
-        return null;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,decrypt,String,String cipherText,"{
-        LOCK.lock();
-        try {
-            CipherSpec spec = getCipherSpec();
-            if (spec == null || !spec.isValid()) {
-                throw new RuntimeException(""Cant load encryption"");
-            }
-            return decrypt(spec.getKey(), spec.getIV(), cipherText);
-        } catch (Exception ex) {
-            LOGGER.log(Level.ERROR, ""Encryption failure"", ex);
-        } finally {
-            LOCK.unlock();
-        }
-        return null;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,encrypt,String,"byte[] key, byte[] initVector, String value","{
-        try {
-            IvParameterSpec iv = new IvParameterSpec(initVector);
-            SecretKeySpec skeySpec = new SecretKeySpec(key, SECRET_KEY_SPEC);
-            Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
-            byte[] encrypted = cipher.doFinal(value.getBytes());
-            return Base64.encodeBase64String(encrypted);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return null;
-    }",,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,decrypt,String,"byte[] key, byte[] initVector, String encrypted","{
-        try {
-            IvParameterSpec iv = new IvParameterSpec(initVector);
-            SecretKeySpec skeySpec = new SecretKeySpec(key, SECRET_KEY_SPEC);
-
-            Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
-
-            byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
-
-            return new String(original);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return null;
-    }",,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,init,void,,"{
-        CipherSpec spec = getCipherSpec();
-        if (spec == null || !spec.isValid()) {
-            LOGGER.log(Level.INFO, ""Preparing new cipher setup"");
-            byte[] key = generateSecureKey();
-            byte[] initVector = prepareIV();
-            spec = new CipherSpec(key, initVector);
-            writeKey(spec);
-        } else {
-            LOGGER.log(Level.INFO, ""Encryption params are loaded."");
-        }
-    }",throws Exception,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,generateSecureKey,byte[],,"{
-        KeyGenerator keyGen = KeyGenerator.getInstance(SECRET_KEY_SPEC);
-        keyGen.init(128);
-        SecretKey secretKey = keyGen.generateKey();
-        byte[] data = secretKey.getEncoded();
-        return data;
-    }",throws NoSuchAlgorithmException,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,prepareIV,byte[],,"{
-        MessageDigest digest = MessageDigest.getInstance(""SHA-512"");
-        String randomVal = String.valueOf(new Random(System.currentTimeMillis()).nextLong());
-        byte[] hash = digest.digest(randomVal.getBytes(StandardCharsets.UTF_8));
-        return Arrays.copyOfRange(hash, 0, 16);
-    }",throws NoSuchAlgorithmException,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,writeKey,void,CipherSpec spec,"{
-        KEY_STORE.mkdirs();
-        if (KEY_STORE.exists()) {
-            LOGGER.log(Level.INFO, ""Clearing existing encryption info"");
-            KEY_STORE.delete();
-        } else {
-            KEY_STORE.createNewFile();
-        }
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(KEY_STORE, false))) {
-            out.writeObject(spec);
-        }
-        if (KEY_STORE.exists()) {
-            LOGGER.log(Level.INFO, ""Added new encryption setup"");
-        }
-    }",throws Exception,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\encryption\EncryptionUtil.java,,EncryptionUtil,getCipherSpec,CipherSpec,,"{
-        if (KEY_STORE.exists()) {
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(KEY_STORE))) {
-                return (CipherSpec) in.readObject();
-            }
-        }
-        return null;
-    }",throws Exception,private static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\exceptions\DefaultExceptionHandler.java,,DefaultExceptionHandler,uncaughtException,void,"Thread thread, Throwable ex","{
-        LOGGER.log(Level.ERROR, ""Exception occurred {}"", ex);
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\exceptions\ExceptionUtil.java,,ExceptionUtil,init,void,,"{
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler());
-        System.setOut(createLoggingProxy(System.out));
-        System.setErr(createLoggingProxy(System.err));
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\exceptions\ExceptionUtil.java,,ExceptionUtil,createLoggingProxy,PrintStream,PrintStream realPrintStream,"{
-        return new PrintStream(realPrintStream) {
-            @Override
-            public void print(final String string) {
-                LOGGER.info(string);
-            }
-
-            @Override
-            public void println(final String string) {
-                LOGGER.info(string);
-            }
-        };
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\exceptions\ExceptionUtil.java,,ExceptionUtil,print,void,String string,"{
-                LOGGER.info(string);
-            }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\exceptions\ExceptionUtil.java,,ExceptionUtil,println,void,String string,"{
-                LOGGER.info(string);
-            }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\export\pdf\ListToPDF.java,,ListToPDF,doPrintToPdf,boolean,"List<List> list, File saveLoc, Orientation orientation","{
-        try {
-            if (saveLoc == null) {
-                return false;
-            }
-            if (!saveLoc.getName().endsWith("".pdf"")) {
-                saveLoc = new File(saveLoc.getAbsolutePath() + "".pdf"");
-            }
-            //Initialize Document
-            PDDocument doc = new PDDocument();
-            PDPage page = new PDPage();
-            //Create a landscape page
-            if (orientation == Orientation.LANDSCAPE) {
-                page.setMediaBox(new PDRectangle(PDRectangle.A4.getHeight(), PDRectangle.A4.getWidth()));
-            } else {
-                page.setMediaBox(new PDRectangle(PDRectangle.A4.getWidth(), PDRectangle.A4.getHeight()));
-            }
-
-            doc.addPage(page);
-            //Initialize table
-            float margin = 10;
-            float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
-            float yStartNewPage = page.getMediaBox().getHeight() - (2 * margin);
-            float yStart = yStartNewPage;
-            float bottomMargin = 0;
-
-            BaseTable dataTable = new BaseTable(yStart, yStartNewPage, bottomMargin, tableWidth, margin, doc, page, true,
-                    true);
-            DataTable t = new DataTable(dataTable, page);
-            t.addListToTable(list, DataTable.HASHEADER);
-            dataTable.draw();
-            doc.save(saveLoc);
-            doc.close();
-
-            return true;
-        } catch (IOException ex) {
-            AlertMaker.showErrorMessage(""Error occurred during PDF export"", ex.getMessage());
-        }
-        return false;
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\util\Coordinate.java,,Coordinate,equals,boolean,Coordinate other,"{
+        return this.row == other.row && this.col == other.col;
     }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\about\AboutController.java,,AboutController,initialize,void,"URL url, ResourceBundle rb","{
-        AlertMaker.showTrayMessage(String.format(""Hello %s!"", System.getProperty(""user.name"")), ""Thanks for trying out Library Assistant"");
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\util\Coordinate.java,,Coordinate,hashCode,int,,"{
+        return Objects.hash(row, col);
     }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\about\AboutController.java,,AboutController,loadWebpage,void,String url,"{
-        try {
-            Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException e1) {
-            e1.printStackTrace();
-            handleWebpageLoadException(url);
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\about\AboutController.java,,AboutController,handleWebpageLoadException,void,String url,"{
-        WebView browser = new WebView();
-        WebEngine webEngine = browser.getEngine();
-        webEngine.load(url);
-        Stage stage = new Stage();
-        Scene scene = new Scene(new StackPane(browser));
-        stage.setScene(scene);
-        stage.setTitle(""Genuine Coder"");
-        stage.show();
-        LibraryAssistantUtil.setStageIcon(stage);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\about\AboutController.java,,AboutController,loadYoutubeChannel,void,ActionEvent event,"{
-        loadWebpage(YOUTUBE);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\about\AboutController.java,,AboutController,loadBlog,void,ActionEvent event,"{
-        loadWebpage(WEBSITE);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\about\AboutController.java,,AboutController,loadLinkedIN,void,ActionEvent event,"{
-        loadWebpage(LINKED_IN);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\about\AboutController.java,,AboutController,loadFacebook,void,ActionEvent event,"{
-        loadWebpage(FACEBOOK);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\BookAddController.java,,BookAddController,initialize,void,"URL url, ResourceBundle rb","{
-        databaseHandler = DatabaseHandler.getInstance();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\BookAddController.java,,BookAddController,addBook,void,ActionEvent event,"{
-        String bookID = StringUtils.trimToEmpty(id.getText());
-        String bookAuthor = StringUtils.trimToEmpty(author.getText());
-        String bookName = StringUtils.trimToEmpty(title.getText());
-        String bookPublisher = StringUtils.trimToEmpty(publisher.getText());
-
-        if (bookID.isEmpty() || bookAuthor.isEmpty() || bookName.isEmpty()) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Insufficient Data"", ""Please enter data in all fields."");
-            return;
-        }
-
-        if (isInEditMode) {
-            handleEditOperation();
-            return;
-        }
-
-        if (DataHelper.isBookExists(bookID)) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Duplicate book id"", ""Book with same Book ID exists.\nPlease use new ID"");
-            return;
-        }
-
-        Book book = new Book(bookID, bookName, bookAuthor, bookPublisher, Boolean.TRUE);
-        boolean result = DataHelper.insertNewBook(book);
-        if (result) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""New book added"", bookName + "" has been added"");
-            clearEntries();
-        } else {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Failed to add new book"", ""Check all the entries and try again"");
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\BookAddController.java,,BookAddController,cancel,void,ActionEvent event,"{
-        Stage stage = (Stage) rootPane.getScene().getWindow();
-        stage.close();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\BookAddController.java,,BookAddController,checkData,void,,"{
-        String qu = ""SELECT title FROM BOOK"";
-        ResultSet rs = databaseHandler.execQuery(qu);
-        try {
-            while (rs.next()) {
-                String titlex = rs.getString(""title"");
-                System.out.println(titlex);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\BookAddController.java,,BookAddController,inflateUI,void,BookListController.Book book,"{
-        title.setText(book.getTitle());
-        id.setText(book.getId());
-        author.setText(book.getAuthor());
-        publisher.setText(book.getPublisher());
-        id.setEditable(false);
-        isInEditMode = Boolean.TRUE;
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\util\Coordinate.java,,Coordinate,add,Coordinate,Coordinate other,"{
+        return new Coordinate(this.row + other.row, this.col + other.col);
     }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\BookAddController.java,,BookAddController,clearEntries,void,,"{
-        title.clear();
-        id.clear();
-        author.clear();
-        publisher.clear();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\BookAddController.java,,BookAddController,handleEditOperation,void,,"{
-        BookListController.Book book = new BookListController.Book(title.getText(), id.getText(), author.getText(), publisher.getText(), true);
-        if (databaseHandler.updateBook(book)) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Success"", ""Update complete"");
-        } else {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Failed"", ""Could not update data"");
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\util\Direction.java,,,getOpposite,Direction,,"{
+        switch (this) {
+            case UP:
+                return DOWN;
+            case DOWN:
+                return UP;
+            case LEFT:
+                return RIGHT;
+            case RIGHT:
+                return LEFT;
+            default:
+                throw new IllegalStateException(""Unknown direction"");
         }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\LibraryAssistant.java,,LibraryAssistant,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""add_book.fxml""));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addbook\LibraryAssistant.java,,LibraryAssistant,main,void,String[] args,"{
-        launch(args);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddController.java,,MemberAddController,initialize,void,"URL url, ResourceBundle rb","{
-        handler = DatabaseHandler.getInstance();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddController.java,,MemberAddController,cancel,void,ActionEvent event,"{
-        Stage stage = (Stage) name.getScene().getWindow();
-        stage.close();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddController.java,,MemberAddController,addMember,void,ActionEvent event,"{
-        String mName = StringUtils.trimToEmpty(name.getText());
-        String mID = StringUtils.trimToEmpty(id.getText());
-        String mMobile = StringUtils.trimToEmpty(mobile.getText());
-        String mEmail = StringUtils.trimToEmpty(email.getText());
-
-        Boolean flag = mName.isEmpty() || mID.isEmpty() || mMobile.isEmpty() || mEmail.isEmpty();
-        if (flag) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Insufficient Data"", ""Please enter data in all fields."");
-            return;
-        }
-
-        if (isInEditMode) {
-            handleUpdateMember();
-            return;
-        }
-
-        if (DataHelper.isMemberExists(mID)) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Duplicate member id"", ""Member with same id exists.\nPlease use new ID"");
-            return;
-        }
-
-        Member member = new Member(mName, mID, mMobile, mEmail);
-        boolean result = DataHelper.insertNewMember(member);
-        if (result) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""New member added"", mName + "" has been added"");
-            clearEntries();
-        } else {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Failed to add new member"", ""Check you entries and try again."");
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddController.java,,MemberAddController,infalteUI,void,MemberListController.Member member,"{
-        name.setText(member.getName());
-        id.setText(member.getId());
-        id.setEditable(false);
-        mobile.setText(member.getMobile());
-        email.setText(member.getEmail());
-
-        isInEditMode = Boolean.TRUE;
     }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddController.java,,MemberAddController,clearEntries,void,,"{
-        name.clear();
-        id.clear();
-        mobile.clear();
-        email.clear();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddController.java,,MemberAddController,handleUpdateMember,void,,"{
-        Member member = new MemberListController.Member(name.getText(), id.getText(), mobile.getText(), email.getText());
-        if (DatabaseHandler.getInstance().updateMember(member)) {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Success"", ""Member data updated."");
-        } else {
-            AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), ""Failed"", ""Cant update member."");
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\util\Direction.java,,,getOffset,Coordinate,,"{
+        switch (this) {
+            case UP:
+                return new Coordinate(-1, 0);
+            case DOWN:
+                return new Coordinate(1, 0);
+            case LEFT:
+                return new Coordinate(0, -1);
+            case RIGHT:
+                return new Coordinate(0, 1);
+            default:
+                throw new IllegalStateException(""Unknown direction"");
         }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddLoader.java,,MemberAddLoader,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""member_add.fxml""));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\addmember\MemberAddLoader.java,,MemberAddLoader,main,void,String[] args,"{
-        launch(args);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\callback\BookReturnCallback.java,,BookReturnCallback,loadBookReturn,void,String bookID,,,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,initialize,void,"URL url, ResourceBundle rb","{
-        initCol();
-        loadData();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,initCol,void,,"{
-        idCol.setCellValueFactory(new PropertyValueFactory<>(""id""));
-        bookIDCol.setCellValueFactory(new PropertyValueFactory<>(""bookID""));
-        bookNameCol.setCellValueFactory(new PropertyValueFactory<>(""bookName""));
-        holderNameCol.setCellValueFactory(new PropertyValueFactory<>(""holderName""));
-        issueCol.setCellValueFactory(new PropertyValueFactory<>(""dateOfIssue""));
-        daysCol.setCellValueFactory(new PropertyValueFactory<>(""days""));
-        fineCol.setCellValueFactory(new PropertyValueFactory<>(""fine""));
-        tableView.setItems(list);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,setBookReturnCallback,void,BookReturnCallback callback,"{
-        this.callback = callback;
     }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,loadData,void,,"{
-        list.clear();
-        DatabaseHandler handler = DatabaseHandler.getInstance();
-        String qu = ""SELECT ISSUE.bookID, ISSUE.memberID, ISSUE.issueTime, MEMBER.name, BOOK.title FROM ISSUE\n""
-                + ""LEFT OUTER JOIN MEMBER\n""
-                + ""ON MEMBER.id = ISSUE.memberID\n""
-                + ""LEFT OUTER JOIN BOOK\n""
-                + ""ON BOOK.id = ISSUE.bookID"";
-        ResultSet rs = handler.execQuery(qu);
-        Preferences pref = Preferences.getPreferences();
-        try {
-            int counter = 0;
-            while (rs.next()) {
-                counter += 1;
-                String memberName = rs.getString(""name"");
-                String bookID = rs.getString(""bookID"");
-                String bookTitle = rs.getString(""title"");
-                Timestamp issueTime = rs.getTimestamp(""issueTime"");
-                System.out.println(""Issued on "" + issueTime);
-                Integer days = Math.toIntExact(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - issueTime.getTime())) + 1;
-                Float fine = LibraryAssistantUtil.getFineAmount(days);
-                IssueInfo issueInfo = new IssueInfo(counter, bookID, bookTitle, memberName, LibraryAssistantUtil.formatDateTimeString(new Date(issueTime.getTime())), days, fine);
-                list.add(issueInfo);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,handleRefresh,void,ActionEvent event,"{
-        loadData();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,exportAsPDF,void,ActionEvent event,"{
-        List<List> printData = new ArrayList<>();
-        String[] headers = {""SI"", ""BOOK ID"", ""      BOOK NAME       "", ""    HOLDER NAME     "", ""ISSUE DATE"", ""DAYS ELAPSED"", ""FINE""};
-        printData.add(Arrays.asList(headers));
-        for (IssueInfo info : list) {
-            List<String> row = new ArrayList<>();
-            row.add(String.valueOf(info.getId()));
-            row.add(info.getBookID());
-            row.add(info.getBookName());
-            row.add(info.getHolderName());
-            row.add(info.getDateOfIssue());
-            row.add(String.valueOf(info.getDays()));
-            row.add(String.valueOf(info.getFine()));
-            printData.add(row);
-        }
-        LibraryAssistantUtil.initPDFExprot(rootPane, contentPane, getStage(), printData);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,closeStage,void,ActionEvent event,"{
-        getStage().close();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,getStage,Stage,,"{
-        return (Stage) tableView.getScene().getWindow();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssuedListController,handleReturn,void,ActionEvent event,"{
-        IssueInfo issueInfo = tableView.getSelectionModel().getSelectedItem();
-        if (issueInfo != null) {
-            callback.loadBookReturn(issueInfo.getBookID());
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssueInfo,getId,Integer,,"{
-            return id.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssueInfo,getBookID,String,,"{
-            return bookID.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssueInfo,getBookName,String,,"{
-            return bookName.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssueInfo,getHolderName,String,,"{
-            return holderName.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssueInfo,getDateOfIssue,String,,"{
-            return dateOfIssue.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssueInfo,getDays,Integer,,"{
-            return nDays.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListController.java,,IssueInfo,getFine,Float,,"{
-            return fine.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListLoader.java,,IssuedListLoader,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""issued_list.fxml""));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\issuedlist\IssuedListLoader.java,,IssuedListLoader,main,void,String[] args,"{
-        launch(args);
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\main\java\util\StringUtils.java,,StringUtils,createPadding,String,"int count, char ch","{
+        return String.valueOf(ch).repeat(count);
     }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,initialize,void,"URL url, ResourceBundle rb","{
-        initCol();
-        loadData();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,getStage,Stage,,"{
-        return (Stage) tableView.getScene().getWindow();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,initCol,void,,"{
-        titleCol.setCellValueFactory(new PropertyValueFactory<>(""title""));
-        idCol.setCellValueFactory(new PropertyValueFactory<>(""id""));
-        authorCol.setCellValueFactory(new PropertyValueFactory<>(""author""));
-        publisherCol.setCellValueFactory(new PropertyValueFactory<>(""publisher""));
-        availabilityCol.setCellValueFactory(new PropertyValueFactory<>(""availabilty""));
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,loadData,void,,"{
-        list.clear();
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,setUp,void,,"{
+        stack = new CellStack();
+    }",,@BeforeEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,tearDown,void,,"{
+        stack = null;
+    }",,@AfterEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenEmptyStack_ifPop_returnNull,void,,"{
+        final var poppedCell = assertDoesNotThrow(() -> stack.pop());
 
-        DatabaseHandler handler = DatabaseHandler.getInstance();
-        String qu = ""SELECT * FROM BOOK"";
-        ResultSet rs = handler.execQuery(qu);
-        try {
-            while (rs.next()) {
-                String titlex = rs.getString(""title"");
-                String author = rs.getString(""author"");
-                String id = rs.getString(""id"");
-                String publisher = rs.getString(""publisher"");
-                Boolean avail = rs.getBoolean(""isAvail"");
-
-                list.add(new Book(titlex, id, author, publisher, avail));
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        tableView.setItems(list);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,handleBookDeleteOption,void,ActionEvent event,"{
-        //Fetch the selected row
-        Book selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
-        if (selectedForDeletion == null) {
-            AlertMaker.showErrorMessage(""No book selected"", ""Please select a book for deletion."");
-            return;
-        }
-        if (DatabaseHandler.getInstance().isBookAlreadyIssued(selectedForDeletion)) {
-            AlertMaker.showErrorMessage(""Cant be deleted"", ""This book is already issued and cant be deleted."");
-            return;
-        }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(""Deleting book"");
-        alert.setContentText(""Are you sure want to delete the book "" + selectedForDeletion.getTitle() + "" ?"");
-        Optional<ButtonType> answer = alert.showAndWait();
-        if (answer.get() == ButtonType.OK) {
-            Boolean result = DatabaseHandler.getInstance().deleteBook(selectedForDeletion);
-            if (result) {
-                AlertMaker.showSimpleAlert(""Book deleted"", selectedForDeletion.getTitle() + "" was deleted successfully."");
-                list.remove(selectedForDeletion);
-            } else {
-                AlertMaker.showSimpleAlert(""Failed"", selectedForDeletion.getTitle() + "" could not be deleted"");
-            }
-        } else {
-            AlertMaker.showSimpleAlert(""Deletion cancelled"", ""Deletion process cancelled"");
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,handleBookEditOption,void,ActionEvent event,"{
-        //Fetch the selected row
-        Book selectedForEdit = tableView.getSelectionModel().getSelectedItem();
-        if (selectedForEdit == null) {
-            AlertMaker.showErrorMessage(""No book selected"", ""Please select a book for edit."");
-            return;
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(""/library/assistant/ui/addbook/add_book.fxml""));
-            Parent parent = loader.load();
-
-            BookAddController controller = (BookAddController) loader.getController();
-            controller.inflateUI(selectedForEdit);
-
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle(""Edit Book"");
-            stage.setScene(new Scene(parent));
-            stage.show();
-            LibraryAssistantUtil.setStageIcon(stage);
-
-            stage.setOnHiding((e) -> {
-                handleRefresh(new ActionEvent());
-            });
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,handleRefresh,void,ActionEvent event,"{
-        loadData();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,exportAsPDF,void,ActionEvent event,"{
-        List<List> printData = new ArrayList<>();
-        String[] headers = {""   Title   "", ""ID"", ""  Author  "", ""  Publisher "", ""Avail""};
-        printData.add(Arrays.asList(headers));
-        for (Book book : list) {
-            List<String> row = new ArrayList<>();
-            row.add(book.getTitle());
-            row.add(book.getId());
-            row.add(book.getAuthor());
-            row.add(book.getPublisher());
-            row.add(book.getAvailabilty());
-            printData.add(row);
-        }
-        LibraryAssistantUtil.initPDFExprot(rootPane, contentPane, getStage(), printData);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,BookListController,closeStage,void,ActionEvent event,"{
-        getStage().close();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,Book,getTitle,String,,"{
-            return title.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,Book,getId,String,,"{
-            return id.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,Book,getAuthor,String,,"{
-            return author.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,Book,getPublisher,String,,"{
-            return publisher.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListController.java,,Book,getAvailabilty,String,,"{
-            return availabilty.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListLoader.java,,BookListLoader,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""book_list.fxml""));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listbook\BookListLoader.java,,BookListLoader,main,void,String[] args,"{
-        launch(args);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,initialize,void,"URL url, ResourceBundle rb","{
-        initCol();
-        loadData();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,initCol,void,,"{
-        nameCol.setCellValueFactory(new PropertyValueFactory<>(""name""));
-        idCol.setCellValueFactory(new PropertyValueFactory<>(""id""));
-        mobileCol.setCellValueFactory(new PropertyValueFactory<>(""mobile""));
-        emailCol.setCellValueFactory(new PropertyValueFactory<>(""email""));
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,getStage,Stage,,"{
-        return (Stage) tableView.getScene().getWindow();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,loadData,void,,"{
-        list.clear();
-
-        DatabaseHandler handler = DatabaseHandler.getInstance();
-        String qu = ""SELECT * FROM MEMBER"";
-        ResultSet rs = handler.execQuery(qu);
-        try {
-            while (rs.next()) {
-                String name = rs.getString(""name"");
-                String mobile = rs.getString(""mobile"");
-                String id = rs.getString(""id"");
-                String email = rs.getString(""email"");
-
-                list.add(new Member(name, id, mobile, email));
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        tableView.setItems(list);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,handleMemberDelete,void,ActionEvent event,"{
-        //Fetch the selected row
-        MemberListController.Member selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
-        if (selectedForDeletion == null) {
-            AlertMaker.showErrorMessage(""No member selected"", ""Please select a member for deletion."");
-            return;
-        }
-        if (DatabaseHandler.getInstance().isMemberHasAnyBooks(selectedForDeletion)) {
-            AlertMaker.showErrorMessage(""Cant be deleted"", ""This member has some books."");
-            return;
-        }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(""Deleting book"");
-        alert.setContentText(""Are you sure want to delete "" + selectedForDeletion.getName() + "" ?"");
-        Optional<ButtonType> answer = alert.showAndWait();
-        if (answer.get() == ButtonType.OK) {
-            Boolean result = DatabaseHandler.getInstance().deleteMember(selectedForDeletion);
-            if (result) {
-                AlertMaker.showSimpleAlert(""Book deleted"", selectedForDeletion.getName() + "" was deleted successfully."");
-                list.remove(selectedForDeletion);
-            } else {
-                AlertMaker.showSimpleAlert(""Failed"", selectedForDeletion.getName() + "" could not be deleted"");
-            }
-        } else {
-            AlertMaker.showSimpleAlert(""Deletion cancelled"", ""Deletion process cancelled"");
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,handleRefresh,void,ActionEvent event,"{
-        loadData();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,handleMemberEdit,void,ActionEvent event,"{
-        //Fetch the selected row
-        Member selectedForEdit = tableView.getSelectionModel().getSelectedItem();
-        if (selectedForEdit == null) {
-            AlertMaker.showErrorMessage(""No member selected"", ""Please select a member for edit."");
-            return;
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(""/library/assistant/ui/addmember/member_add.fxml""));
-            Parent parent = loader.load();
-
-            MemberAddController controller = (MemberAddController) loader.getController();
-            controller.infalteUI(selectedForEdit);
-
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle(""Edit Member"");
-            stage.setScene(new Scene(parent));
-            stage.show();
-            LibraryAssistantUtil.setStageIcon(stage);
-
-            stage.setOnHiding((e) -> {
-                handleRefresh(new ActionEvent());
-            });
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,exportAsPDF,void,ActionEvent event,"{
-        List<List> printData = new ArrayList<>();
-        String[] headers = {""   Name    "", ""ID"", ""Mobile"", ""    Email   ""};
-        printData.add(Arrays.asList(headers));
-        for (Member member : list) {
-            List<String> row = new ArrayList<>();
-            row.add(member.getName());
-            row.add(member.getId());
-            row.add(member.getMobile());
-            row.add(member.getEmail());
-            printData.add(row);
-        }
-        LibraryAssistantUtil.initPDFExprot(rootPane, contentPane, getStage(), printData);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,MemberListController,closeStage,void,ActionEvent event,"{
-        getStage().close();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,Member,getName,String,,"{
-            return name.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,Member,getId,String,,"{
-            return id.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,Member,getMobile,String,,"{
-            return mobile.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListController.java,,Member,getEmail,String,,"{
-            return email.get();
-        }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListLoader.java,,MemberListLoader,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""member_list.fxml""));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\listmember\MemberListLoader.java,,MemberListLoader,main,void,String[] args,"{
-        launch(args);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\login\LoginController.java,,LoginController,initialize,void,"URL url, ResourceBundle rb","{
-        preference = Preferences.getPreferences();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\login\LoginController.java,,LoginController,handleLoginButtonAction,void,ActionEvent event,"{
-        String uname = StringUtils.trimToEmpty(username.getText());
-        String pword = DigestUtils.shaHex(password.getText());
-
-        if (uname.equals(preference.getUsername()) && pword.equals(preference.getPassword())) {
-            closeStage();
-            loadMain();
-            LOGGER.log(Level.INFO, ""User successfully logged in {}"", uname);
-        }
-        else {
-            username.getStyleClass().add(""wrong-credentials"");
-            password.getStyleClass().add(""wrong-credentials"");
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\login\LoginController.java,,LoginController,handleCancelButtonAction,void,ActionEvent event,"{
-        System.exit(0);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\login\LoginController.java,,LoginController,closeStage,void,,"{
-        ((Stage) username.getScene().getWindow()).close();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\login\LoginController.java,,LoginController,loadMain,void,,"{
-        try {
-            Parent parent = FXMLLoader.load(getClass().getResource(""/library/assistant/ui/main/main.fxml""));
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle(""Library Assistant"");
-            stage.setScene(new Scene(parent));
-            stage.show();
-            LibraryAssistantUtil.setStageIcon(stage);
-        }
-        catch (IOException ex) {
-            LOGGER.log(Level.ERROR, ""{}"", ex);
-        }
-    }",,,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\mail\TestMailController.java,,TestMailController,initialize,void,"URL url, ResourceBundle rb","{
-        // TODO
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\mail\TestMailController.java,,TestMailController,setMailServerInfo,void,MailServerInfo mailServerInfo,"{
-        this.mailServerInfo = mailServerInfo;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\mail\TestMailController.java,,TestMailController,handleStartAction,void,ActionEvent event,"{
-        String toAddress = recepientAddressInput.getText();
-        if (LibraryAssistantUtil.validateEmailAddress(toAddress)) {
-            EmailUtil.sendTestMail(mailServerInfo, toAddress, this);
-            progressBar.setVisible(true);
-        } else {
-            AlertMaker.showErrorMessage(""Failed"", ""Invalid email address!"");
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\mail\TestMailController.java,,TestMailController,taskCompleted,Object,Object val,"{
-        LOGGER.log(Level.INFO, ""Callback received from Email Sender client {}"", val);
-        boolean result = (boolean) val;
-        Platform.runLater(() -> {
-            if (result) {
-                AlertMaker.showSimpleAlert(""Success"", ""Email successfully sent!"");
-            } else {
-                AlertMaker.showErrorMessage(""Failed"", ""Something went wrong!"");
-            }
-            progressBar.setVisible(false);
+        assertNull(poppedCell);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenEmptyStack_ifPush_noThrow,void,,"{
+        assertDoesNotThrow(() -> {
+            stack.push(new FillableCell(new Coordinate(0, 0)));
+            stack.push(new FillableCell(new Coordinate(0, 1)));
+            stack.push(new FillableCell(new Coordinate(0, 2)));
         });
-        return true;
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\Main.java,,Main,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""/library/assistant/ui/login/login.fxml""));
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenStack_whenPop_returnElement,void,,"{
+        final var coord = new Coordinate(0, 0);
+        final var pipe = new Pipe(Pipe.Shape.CROSS);
+        stack.push(new FillableCell(coord, pipe));
 
-        Scene scene = new Scene(root);
+        final var poppedCell = stack.pop();
+        assertNotNull(poppedCell);
+        assertEquals(coord.row, poppedCell.coord.row);
+        assertEquals(coord.col, poppedCell.coord.col);
+        assertEquals(pipe, poppedCell.getPipe().orElse(null));
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenEmptyStack_assertUndoCountEqualsZero,void,,"{
+        assertEquals(0, stack.getUndoCount());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenEmptyStack_whenPush_undoCountDoesNotChange,void,,"{
+        int originalCount = stack.getUndoCount();
 
-        stage.setScene(scene);
-        stage.show();
-        stage.setTitle(""Library Assistant Login"");
+        stack.push(new FillableCell(new Coordinate(0, 0)));
 
-        LibraryAssistantUtil.setStageIcon(stage);
+        assertEquals(originalCount, stack.getUndoCount());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenStack_whenPop_incUndoCount,void,,"{
+        int originalCount = stack.getUndoCount();
 
-        new Thread(() -> {
-            ExceptionUtil.init();
-            DatabaseHandler.getInstance();
-        }).start();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\Main.java,,Main,main,void,String[] args,"{
-        Long startTime = System.currentTimeMillis();
-        LOGGER.log(Level.INFO, ""Library Assistant launched on {}"", LibraryAssistantUtil.formatDateTimeString(startTime));
-        launch(args);
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                Long exitTime = System.currentTimeMillis();
-                LOGGER.log(Level.INFO, ""Library Assistant is closing on {}. Used for {} ms"", LibraryAssistantUtil.formatDateTimeString(startTime), exitTime);
-            }
+        stack.push(new FillableCell(new Coordinate(0, 0)));
+        stack.pop();
+
+        assertEquals(originalCount + 1, stack.getUndoCount());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenEmptyStack_whenPop_undoCountDoesNotChange,void,,"{
+        int originalCount = stack.getUndoCount();
+
+        assertNull(stack.pop());
+
+        assertEquals(originalCount, stack.getUndoCount());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\CellStackTest.java,,CellStackTest,givenEmptyStack_whenPushThenPop_assertLIFOBehavior,void,,"{
+        final var MAX_COUNT = Pipe.Shape.values().length;
+        final var list = new ArrayList<FillableCell>();
+
+        for (int i = 0; i < MAX_COUNT; ++i) {
+            var c = new Coordinate(i, i);
+            var p = new Pipe(Pipe.Shape.values()[i]);
+            var cell = new FillableCell(c, p);
+            stack.push(cell);
+            list.add(cell);
+        }
+
+        FillableCell c;
+        while ((c = stack.pop()) != null) {
+            final var expected = list.remove(list.size() - 1);
+            assertEquals(expected.coord.row, c.coord.row);
+            assertEquals(expected.coord.col, c.coord.col);
+            assertEquals(expected.getPipe(), c.getPipe());
+        }
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\GameTest.java,,GameTest,givenGame_ifPipeCanBePlaced_stepCountIncreases,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var initPipes = Collections.singletonList(new Pipe(Pipe.Shape.CROSS));
+        final var map = assertDoesNotThrow(() -> Game.fromString(4, 4, 0, cellRep, initPipes));
+
+        assertEquals(0, map.getNumOfSteps());
+        assertTrue(map.placePipe(1, 'A'));
+        assertEquals(1, map.getNumOfSteps());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\GameTest.java,,GameTest,givenGame_ifSkipPipe_stepCountIncreases,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var initPipes = Collections.singletonList(new Pipe(Pipe.Shape.CROSS));
+        final var map = assertDoesNotThrow(() -> Game.fromString(4, 4, 0, cellRep, initPipes));
+
+        assertEquals(0, map.getNumOfSteps());
+        map.skipPipe();
+        assertEquals(1, map.getNumOfSteps());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\GameTest.java,,GameTest,givenGame_ifUndoPipe_stepCountIncreases,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var initPipes = Collections.singletonList(new Pipe(Pipe.Shape.CROSS));
+        final var map = assertDoesNotThrow(() -> Game.fromString(4, 4, 0, cellRep, initPipes));
+
+        map.placePipe(1, 'A');
+        int preNumOfSteps = map.getNumOfSteps();
+
+        assertTrue(map.undoStep());
+        assertEquals(preNumOfSteps + 1, map.getNumOfSteps());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\GameTest.java,,GameTest,givenGame_ifPipeCannotBePlaced_stepCountDoesNotChange,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var initPipes = Collections.singletonList(new Pipe(Pipe.Shape.CROSS));
+        final var map = assertDoesNotThrow(() -> Game.fromString(4, 4, 0, cellRep, initPipes));
+
+        assertEquals(0, map.getNumOfSteps());
+        assertFalse(map.placePipe(1, 'B'));
+        assertEquals(0, map.getNumOfSteps());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\PipeQueueTest.java,,PipeQueueTest,setUp,void,,"{
+        queue = new PipeQueue(INIT_PIPES);
+    }",,@BeforeEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\PipeQueueTest.java,,PipeQueueTest,givenQueue_ifQueueContainsGivenPipes_thenSucceed,void,,"{
+        INIT_PIPES.forEach(pipe -> {
+            assertEquals(pipe, queue.peek());
+            queue.consume();
         });
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\Main.java,,Main,run,void,,"{
-                Long exitTime = System.currentTimeMillis();
-                LOGGER.log(Level.INFO, ""Library Assistant is closing on {}. Used for {} ms"", LibraryAssistantUtil.formatDateTimeString(startTime), exitTime);
-            }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,initialize,void,"URL url, ResourceBundle rb","{
-        databaseHandler = DatabaseHandler.getInstance();
-
-        initDrawer();
-        initGraphs();
-        initComponents();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,loadBookInfo,void,ActionEvent event,"{
-        clearBookCache();
-        enableDisableGraph(false);
-
-        String id = bookIDInput.getText();
-        ResultSet rs = DataHelper.getBookInfoWithIssueData(id);
-        Boolean flag = false;
-        try {
-            if (rs.next()) {
-                String bName = rs.getString(""title"");
-                String bAuthor = rs.getString(""author"");
-                Boolean bStatus = rs.getBoolean(""isAvail"");
-                Timestamp issuedOn = rs.getTimestamp(""issueTime"");
-
-                bookName.setText(bName);
-                bookAuthor.setText(bAuthor);
-                String status = (bStatus) ? BOOK_AVAILABLE : String.format(""Issued on %s"", LibraryAssistantUtil.getDateString(new Date(issuedOn.getTime())));
-                if (!bStatus) {
-                    bookStatus.getStyleClass().add(""not-available"");
-                } else {
-                    bookStatus.getStyleClass().remove(""not-available"");
-                }
-                bookStatus.setText(status);
-
-                flag = true;
-            }
-
-            if (!flag) {
-                bookName.setText(NO_SUCH_BOOK_AVAILABLE);
-            } else {
-                memberIDInput.requestFocus();
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,clearBookCache,void,,"{
-        bookName.setText("""");
-        bookAuthor.setText("""");
-        bookStatus.setText("""");
-    }",,,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,clearMemberCache,void,,"{
-        memberName.setText("""");
-        memberMobile.setText("""");
-    }",,,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,loadMemberInfo,void,ActionEvent event,"{
-        clearMemberCache();
-        enableDisableGraph(false);
-
-        String id = memberIDInput.getText();
-        String qu = ""SELECT * FROM MEMBER WHERE id = '"" + id + ""'"";
-        ResultSet rs = databaseHandler.execQuery(qu);
-        Boolean flag = false;
-        try {
-            while (rs.next()) {
-                String mName = rs.getString(""name"");
-                String mMobile = rs.getString(""mobile"");
-
-                memberName.setText(mName);
-                memberMobile.setText(mMobile);
-
-                flag = true;
-            }
-
-            if (!flag) {
-                memberName.setText(NO_SUCH_MEMBER_AVAILABLE);
-            } else {
-                btnIssue.requestFocus();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,loadIssueOperation,void,ActionEvent event,"{
-        if (checkForIssueValidity()) {
-            JFXButton btn = new JFXButton(""Okay!"");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Invalid Input"", null);
-            return;
-        }
-        if (bookStatus.getText().equals(BOOK_NOT_AVAILABLE)) {
-            JFXButton btn = new JFXButton(""Okay!"");
-            JFXButton viewDetails = new JFXButton(""View Details"");
-            viewDetails.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-                String bookToBeLoaded = bookIDInput.getText();
-                bookID.setText(bookToBeLoaded);
-                bookID.fireEvent(new ActionEvent());
-                mainTabPane.getSelectionModel().select(renewTab);
-            });
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn, viewDetails), ""Already issued book"", ""This book is already issued. Cant process issue request"");
-            return;
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\PipeQueueTest.java,,PipeQueueTest,givenQueue_afterGivenPipes_assertNewPipesAreGenerated,void,,"{
+        for (int i = 0; i < INIT_PIPES.size(); ++i) {
+            queue.consume();
         }
 
-        String memberID = memberIDInput.getText();
-        String bookID = bookIDInput.getText();
+        var pipe = assertDoesNotThrow(() -> queue.peek());
+        assertNotNull(pipe);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\PipeQueueTest.java,,PipeQueueTest,givenQueue_ifQueuePeekIsImmutable_thenSucceed,void,,"{
+        assertEquals(INIT_PIPES.get(0), queue.peek());
+        assertEquals(INIT_PIPES.get(0), queue.peek());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\PipeQueueTest.java,,PipeQueueTest,givenQueue_ifQueueConsumeIsMutable_thenSucceed,void,,"{
+        final var firstElement = queue.peek();
+        queue.consume();
 
-        JFXButton yesButton = new JFXButton(""YES"");
-        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
-            String str = ""INSERT INTO ISSUE(memberID,bookID) VALUES (""
-                    + ""'"" + memberID + ""',""
-                    + ""'"" + bookID + ""')"";
-            String str2 = ""UPDATE BOOK SET isAvail = false WHERE id = '"" + bookID + ""'"";
-            System.out.println(str + "" and "" + str2);
+        assertNotEquals(firstElement, queue.peek());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\PipeQueueTest.java,,PipeQueueTest,givenQueue_ifQueueUndoAddsElementAtFront_thenSucceed,void,,"{
+        final var elemToAdd = new Pipe(Pipe.Shape.BOTTOM_LEFT);
 
-            if (databaseHandler.execAction(str) && databaseHandler.execAction(str2)) {
-                JFXButton button = new JFXButton(""Done!"");
-                button.setOnAction((actionEvent) -> {
-                    bookIDInput.requestFocus();
-                });
-                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), ""Book Issue Complete"", null);
-                refreshGraphs();
-            } else {
-                JFXButton button = new JFXButton(""Okay.I'll Check"");
-                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), ""Issue Operation Failed"", null);
-            }
-            clearIssueEntries();
-        });
-        JFXButton noButton = new JFXButton(""NO"");
-        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
-            JFXButton button = new JFXButton(""That's Okay"");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), ""Issue Cancelled"", null);
-            clearIssueEntries();
-        });
-        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), ""Confirm Issue"",
-                String.format(""Are you sure want to issue the book '%s' to '%s' ?"", bookName.getText(), memberName.getText()));
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,loadBookInfo2,void,ActionEvent event,"{
-        clearEntries();
-        ObservableList<String> issueData = FXCollections.observableArrayList();
-        isReadyForSubmission = false;
+        queue.undo(elemToAdd);
 
-        try {
-            String id = bookID.getText();
-            String myQuery = ""SELECT ISSUE.bookID, ISSUE.memberID, ISSUE.issueTime, ISSUE.renew_count,\n""
-                    + ""MEMBER.name, MEMBER.mobile, MEMBER.email,\n""
-                    + ""BOOK.title, BOOK.author, BOOK.publisher\n""
-                    + ""FROM ISSUE\n""
-                    + ""LEFT JOIN MEMBER\n""
-                    + ""ON ISSUE.memberID=MEMBER.ID\n""
-                    + ""LEFT JOIN BOOK\n""
-                    + ""ON ISSUE.bookID=BOOK.ID\n""
-                    + ""WHERE ISSUE.bookID='"" + id + ""'"";
-            ResultSet rs = databaseHandler.execQuery(myQuery);
-            if (rs.next()) {
-                memberNameHolder.setText(rs.getString(""name""));
-                memberContactHolder.setText(rs.getString(""mobile""));
-                memberEmailHolder.setText(rs.getString(""email""));
+        assertEquals(elemToAdd, queue.peek());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\PipeQueueTest.java,,PipeQueueTest,tearDown,void,,"{
+        queue = null;
+    }",,@AfterEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\MapTest.java,,MapTest,givenFirstPipe_ifCanFillPipeFromCorrectDirection_thenSuccess,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var map = assertDoesNotThrow(() -> Map.fromString(4, 4, cellRep));
 
-                bookNameHolder.setText(rs.getString(""title""));
-                bookAuthorHolder.setText(rs.getString(""author""));
-                bookPublisherHolder.setText(rs.getString(""publisher""));
+        assertTrue(() -> map.tryPlacePipe(1, 1, new Pipe(Pipe.Shape.BOTTOM_RIGHT)));
 
-                Timestamp mIssueTime = rs.getTimestamp(""issueTime"");
-                Date dateOfIssue = new Date(mIssueTime.getTime());
-                issueDateHolder.setText(LibraryAssistantUtil.formatDateTimeString(dateOfIssue));
-                Long timeElapsed = System.currentTimeMillis() - mIssueTime.getTime();
-                Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
-                String daysElapsed = String.format(""Used %d days"", days);
-                numberDaysHolder.setText(daysElapsed);
-                Float fine = LibraryAssistantUtil.getFineAmount(days.intValue());
-                if (fine > 0) {
-                    fineInfoHolder.setText(String.format(""Fine : %.2f"", LibraryAssistantUtil.getFineAmount(days.intValue())));
-                } else {
-                    fineInfoHolder.setText("""");
-                }
+        map.fillTiles(2);
 
-                isReadyForSubmission = true;
-                disableEnableControls(true);
-                submissionDataContainer.setOpacity(1);
-            } else {
-                JFXButton button = new JFXButton(""Okay.I'll Check"");
-                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), ""No such Book Exists in Issue Database"", null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertTrue(() -> map.cells[1][1] instanceof FillableCell);
 
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,loadSubmissionOp,void,ActionEvent event,"{
-        if (!isReadyForSubmission) {
-            JFXButton btn = new JFXButton(""Okay!"");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Please select a book to submit"", ""Cant simply submit a null book :-)"");
-            return;
-        }
+        final var cell = (FillableCell) map.cells[1][1];
+        assertTrue(() -> cell.getPipe().isPresent() && cell.getPipe().get().getFilled());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\MapTest.java,,MapTest,givenFirstPipe_ifCanFillPipeFromIncorrectDirection_thenFail,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var map = assertDoesNotThrow(() -> Map.fromString(4, 4, cellRep));
 
-        JFXButton yesButton = new JFXButton(""YES, Please"");
-        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent ev) -> {
-            String id = bookID.getText();
-            String ac1 = ""DELETE FROM ISSUE WHERE BOOKID = '"" + id + ""'"";
-            String ac2 = ""UPDATE BOOK SET ISAVAIL = TRUE WHERE ID = '"" + id + ""'"";
+        assertTrue(() -> map.tryPlacePipe(1, 1, new Pipe(Pipe.Shape.VERTICAL)));
 
-            if (databaseHandler.execAction(ac1) && databaseHandler.execAction(ac2)) {
-                JFXButton btn = new JFXButton(""Done!"");
-                btn.setOnAction((actionEvent) -> {
-                    bookID.requestFocus();
-                });
-                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Book has been submitted"", null);
-                disableEnableControls(false);
-                submissionDataContainer.setOpacity(0);
-            } else {
-                JFXButton btn = new JFXButton(""Okay.I'll Check"");
-                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Submission Has Been Failed"", null);
-            }
-        });
-        JFXButton noButton = new JFXButton(""No, Cancel"");
-        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent ev) -> {
-            JFXButton btn = new JFXButton(""Okay!"");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Submission Operation cancelled"", null);
-        });
+        map.fillTiles(2);
 
-        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), ""Confirm Submission Operation"", ""Are you sure want to return the book ?"");
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,loadRenewOp,void,ActionEvent event,"{
-        if (!isReadyForSubmission) {
-            JFXButton btn = new JFXButton(""Okay!"");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Please select a book to renew"", null);
-            return;
-        }
-        JFXButton yesButton = new JFXButton(""YES, Please"");
-        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
-            String ac = ""UPDATE ISSUE SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count+1 WHERE BOOKID = '"" + bookID.getText() + ""'"";
-            System.out.println(ac);
-            if (databaseHandler.execAction(ac)) {
-                JFXButton btn = new JFXButton(""Alright!"");
-                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Book Has Been Renewed"", null);
-                disableEnableControls(false);
-                submissionDataContainer.setOpacity(0);
-            } else {
-                JFXButton btn = new JFXButton(""Okay!"");
-                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Renew Has Been Failed"", null);
-            }
-        });
-        JFXButton noButton = new JFXButton(""No, Don't!"");
-        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
-            JFXButton btn = new JFXButton(""Okay!"");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), ""Renew Operation cancelled"", null);
-        });
-        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), ""Confirm Renew Operation"", ""Are you sure want to renew the book ?"");
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,getStage,Stage,,"{
-        return (Stage) rootPane.getScene().getWindow();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuClose,void,ActionEvent event,"{
-        getStage().close();
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuAddBook,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/addbook/add_book.fxml""), ""Add New Book"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuAddMember,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/addmember/member_add.fxml""), ""Add New Member"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuViewBook,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/listbook/book_list.fxml""), ""Book List"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleAboutMenu,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/about/about.fxml""), ""About Me"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuSettings,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/settings/settings.fxml""), ""Settings"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuViewMemberList,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/listmember/member_list.fxml""), ""Member List"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleIssuedList,void,ActionEvent event,"{
-        Object controller = LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/issuedlist/issued_list.fxml""), ""Issued Book List"", null);
-        if (controller != null) {
-            IssuedListController cont = (IssuedListController) controller;
-            cont.setBookReturnCallback(this);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuFullScreen,void,ActionEvent event,"{
-        Stage stage = getStage();
-        stage.setFullScreen(!stage.isFullScreen());
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,initDrawer,void,,"{
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(""/library/assistant/ui/main/toolbar/toolbar.fxml""));
-            VBox toolbar = loader.load();
-            drawer.setSidePane(toolbar);
-            ToolbarController controller = loader.getController();
-            controller.setBookReturnCallback(this);
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-        task.setRate(-1);
-        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
-            drawer.toggle();
-        });
-        drawer.setOnDrawerOpening((event) -> {
-            task.setRate(task.getRate() * -1);
-            task.play();
-            drawer.toFront();
-        });
-        drawer.setOnDrawerClosed((event) -> {
-            drawer.toBack();
-            task.setRate(task.getRate() * -1);
-            task.play();
-        });
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,clearEntries,void,,"{
-        memberNameHolder.setText("""");
-        memberEmailHolder.setText("""");
-        memberContactHolder.setText("""");
+        assertTrue(() -> map.cells[1][1] instanceof FillableCell);
 
-        bookNameHolder.setText("""");
-        bookAuthorHolder.setText("""");
-        bookPublisherHolder.setText("""");
+        final var cell = (FillableCell) map.cells[1][1];
+        assertFalse(() -> cell.getPipe().isPresent() && cell.getPipe().get().getFilled());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\MapTest.java,,MapTest,givenSubsequentPipe_ifCanFillPipeFromCorrectDirection_thenSuccess,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var map = assertDoesNotThrow(() -> Map.fromString(4, 4, cellRep));
 
-        issueDateHolder.setText("""");
-        numberDaysHolder.setText("""");
-        fineInfoHolder.setText("""");
+        assertTrue(() -> map.tryPlacePipe(1, 1, new Pipe(Pipe.Shape.BOTTOM_RIGHT)));
+        assertTrue(() -> map.tryPlacePipe(2, 1, new Pipe(Pipe.Shape.TOP_RIGHT)));
 
-        disableEnableControls(false);
-        submissionDataContainer.setOpacity(0);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,disableEnableControls,void,Boolean enableFlag,"{
-        if (enableFlag) {
-            renewButton.setDisable(false);
-            submissionButton.setDisable(false);
-        } else {
-            renewButton.setDisable(true);
-            submissionButton.setDisable(true);
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,clearIssueEntries,void,,"{
-        bookIDInput.clear();
-        memberIDInput.clear();
-        bookName.setText("""");
-        bookAuthor.setText("""");
-        bookStatus.setText("""");
-        memberMobile.setText("""");
-        memberName.setText("""");
-        enableDisableGraph(true);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,initGraphs,void,,"{
-        bookChart = new PieChart(databaseHandler.getBookGraphStatistics());
-        memberChart = new PieChart(databaseHandler.getMemberGraphStatistics());
-        bookInfoContainer.getChildren().add(bookChart);
-        memberInfoContainer.getChildren().add(memberChart);
+        map.fillTiles(2);
 
-        bookIssueTab.setOnSelectionChanged((Event event) -> {
-            clearIssueEntries();
-            if (bookIssueTab.isSelected()) {
-                refreshGraphs();
-            }
-        });
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,refreshGraphs,void,,"{
-        bookChart.setData(databaseHandler.getBookGraphStatistics());
-        memberChart.setData(databaseHandler.getMemberGraphStatistics());
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,enableDisableGraph,void,Boolean status,"{
-        if (status) {
-            bookChart.setOpacity(1);
-            memberChart.setOpacity(1);
-        } else {
-            bookChart.setOpacity(0);
-            memberChart.setOpacity(0);
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,checkForIssueValidity,boolean,,"{
-        bookIDInput.fireEvent(new ActionEvent());
-        memberIDInput.fireEvent(new ActionEvent());
-        return bookIDInput.getText().isEmpty() || memberIDInput.getText().isEmpty()
-                || memberName.getText().isEmpty() || bookName.getText().isEmpty()
-                || bookName.getText().equals(NO_SUCH_BOOK_AVAILABLE) || memberName.getText().equals(NO_SUCH_MEMBER_AVAILABLE);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,loadBookReturn,void,String bookID,"{
-        this.bookID.setText(bookID);
-        mainTabPane.getSelectionModel().select(renewTab);
-        loadBookInfo2(null);
-        getStage().toFront();
-        if (drawer.isOpened()) {
-            drawer.close();
-        }
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleIssueButtonKeyPress,void,KeyEvent event,"{
-        if (event.getCode() == KeyCode.ENTER) {
-            loadIssueOperation(null);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,initComponents,void,,"{
-        mainTabPane.tabMinWidthProperty().bind(rootAnchorPane.widthProperty().divide(mainTabPane.getTabs().size()).subtract(15));
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\MainController.java,,MainController,handleMenuOverdueNotification,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/notifoverdue/overdue_notification.fxml""), ""Notify Users"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,setBookReturnCallback,void,BookReturnCallback callback,"{
-        this.callback = callback;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,initialize,void,"URL url, ResourceBundle rb","{
-        // TODO
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,loadAddMember,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/addmember/member_add.fxml""), ""Add New Member"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,loadAddBook,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/addbook/add_book.fxml""), ""Add New Book"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,loadMemberTable,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/listmember/member_list.fxml""), ""Member List"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,loadBookTable,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/listbook/book_list.fxml""), ""Book List"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,loadSettings,void,ActionEvent event,"{
-        LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/settings/settings.fxml""), ""Settings"", null);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\main\toolbar\ToolbarController.java,,ToolbarController,loadIssuedBookList,void,ActionEvent event,"{
-        Object controller = LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/issuedlist/issued_list.fxml""), ""Issued Book List"", null);
-        if (controller != null) {
-            IssuedListController cont = (IssuedListController) controller;
-            cont.setBookReturnCallback(callback);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getNotify,Boolean,,"{
-        return notify.get();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getMemberID,String,,"{
-        return memberID.get();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getMemberName,String,,"{
-        return memberName.get();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getMemberEmail,String,,"{
-        return memberEmail.get();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getBookName,String,,"{
-        return bookName.get();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getDayCount,Integer,,"{
-        return dayCount.get();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getFineAmount,String,,"{
-        return String.format(""$ %.2f"", fineAmount.get());
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,setNotify,void,Boolean val,"{
-        notify.set(val);
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\NotificationItem.java,,NotificationItem,getIssueDate,String,,"{
-        return issueDate.get();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationController.java,,OverdueNotificationController,initialize,void,"URL url, ResourceBundle rb","{
-        checkForMailServerConfig();
-        initialize();
-        loadData();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationController.java,,OverdueNotificationController,initialize,void,,"{
-        colNotify.setCellValueFactory(new NotificationControlCellValueFactory());
-        colMemID.setCellValueFactory(new PropertyValueFactory<>(""memberID""));
-        colMemberName.setCellValueFactory(new PropertyValueFactory<>(""memberName""));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>(""memberEmail""));
-        colBookName.setCellValueFactory(new PropertyValueFactory<>(""bookName""));
-        colDays.setCellValueFactory(new PropertyValueFactory<>(""dayCount""));
-        colFineAmount.setCellValueFactory(new PropertyValueFactory<>(""fineAmount""));
-        tableview.setItems(list);
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationController.java,,OverdueNotificationController,loadData,void,,"{
-        list.clear();
+        assertTrue(() -> map.cells[1][1] instanceof FillableCell);
+        final var firstCell = (FillableCell) map.cells[1][1];
+        assertTrue(() -> firstCell.getPipe().isPresent() && firstCell.getPipe().get().getFilled());
 
-        Preferences pref = Preferences.getPreferences();
-        Long overdueBegin = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(pref.getnDaysWithoutFine());
+        assertTrue(() -> map.cells[2][1] instanceof FillableCell);
+        final var secondCell = (FillableCell) map.cells[2][1];
+        assertTrue(() -> secondCell.getPipe().isPresent() && secondCell.getPipe().get().getFilled());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\MapTest.java,,MapTest,givenSubsequentPipe_ifCanFillPipeFromIncorrectDirection_thenFail,void,,"{
+        final var cellRep =
+                ""WWWW\n"" +
+                        ""W.<W\n"" +
+                        ""W..>\n"" +
+                        ""WWWW"";
+        final var map = assertDoesNotThrow(() -> Map.fromString(4, 4, cellRep));
 
-        DatabaseHandler handler = DatabaseHandler.getInstance();
-        String qu = ""SELECT ISSUE.bookID, ISSUE.memberID, ISSUE.issueTime, MEMBER.name, MEMBER.id, MEMBER.email, BOOK.title FROM ISSUE\n""
-                + ""LEFT OUTER JOIN MEMBER\n""
-                + ""ON MEMBER.id = ISSUE.memberID\n""
-                + ""LEFT OUTER JOIN BOOK\n""
-                + ""ON BOOK.id = ISSUE.bookID\n""
-                + ""WHERE ISSUE.issueTime < ?"";
-        try {
-            PreparedStatement statement = handler.getConnection().prepareStatement(qu);
-            statement.setTimestamp(1, new Timestamp(overdueBegin));
-            ResultSet rs = statement.executeQuery();
-            int counter = 0;
-            while (rs.next()) {
-                counter += 1;
-                String memberName = rs.getString(""name"");
-                String memberID = rs.getString(""id"");
-                String email = rs.getString(""email"");
-                String bookID = rs.getString(""bookID"");
-                String bookTitle = rs.getString(""title"");
-                Timestamp issueTime = rs.getTimestamp(""issueTime"");
-                System.out.println(""Issued on "" + issueTime);
-                Integer days = Math.toIntExact(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - issueTime.getTime())) + 1;
-                Float fine = LibraryAssistantUtil.getFineAmount(days);
+        assertTrue(() -> map.tryPlacePipe(1, 1, new Pipe(Pipe.Shape.BOTTOM_RIGHT)));
+        assertTrue(() -> map.tryPlacePipe(2, 1, new Pipe(Pipe.Shape.BOTTOM_RIGHT)));
 
-                NotificationItem item = new NotificationItem(true, memberID, memberName, email, bookTitle, LibraryAssistantUtil.getDateString(issueTime), days, fine);
-                list.add(item);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationController.java,,OverdueNotificationController,handleSendNotificationAction,void,ActionEvent event,"{
-        List<NotificationItem> selectedItems = list.stream().filter(item -> item.getNotify()).collect(Collectors.toList());
-        if (selectedItems.isEmpty()) {
-            AlertMaker.showErrorMessage(""Nothing Selected"", ""Nothing selected to notify"");
-            return;
-        }
-        Object controller = LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/notifoverdue/emailsender/email_sender.fxml""), ""Notify Overdue"", null);
-        if (controller != null) {
-            EmailSenderController cont = (EmailSenderController) controller;
-            cont.setNotifRequestData(selectedItems);
-            cont.start();
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationController.java,,OverdueNotificationController,checkForMailServerConfig,void,,"{
-        JFXButton button = new JFXButton(""Okay"");
-        button.setOnAction((ActionEvent event) -> {
-            ((Stage) rootPane.getScene().getWindow()).close();
-        });
-        MailServerInfo mailServerInfo = DataHelper.loadMailServerInfo();
-        System.out.println(mailServerInfo);
-        if (mailServerInfo == null || !mailServerInfo.validate()) {
-            System.out.println(""Mail server not configured"");
-            AlertMaker.showMaterialDialog(rootPane, contentPane, ImmutableList.of(button), ""Mail server is not configured"", ""Please configure mail server first.\nIt is available under Settings"");
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationController.java,,NotificationControlCellValueFactory,call,ObservableValue<JFXCheckBox>,"TableColumn.CellDataFeatures<NotificationItem, JFXCheckBox> param","{
-            NotificationItem item = param.getValue();
-            JFXCheckBox checkBox = new JFXCheckBox();
-            checkBox.selectedProperty().setValue(item.getNotify());
-            checkBox.selectedProperty().addListener((ov, old_val, new_val) -> {
-                item.setNotify(new_val);
-            });
-            return new SimpleObjectProperty<>(checkBox);
-        }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationLoader.java,,OverdueNotificationLoader,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""overdue_notification.fxml""));
+        map.fillTiles(2);
 
-        Scene scene = new Scene(root);
+        assertTrue(() -> map.cells[1][1] instanceof FillableCell);
+        final var firstCell = (FillableCell) map.cells[1][1];
+        assertTrue(() -> firstCell.getPipe().isPresent() && firstCell.getPipe().get().getFilled());
 
-        stage.setScene(scene);
-        stage.show();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\OverdueNotificationLoader.java,,OverdueNotificationLoader,main,void,String[] args,"{
-        launch(args);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\emailsender\EmailSenderController.java,,EmailSenderController,initialize,void,"URL url, ResourceBundle rb","{
-        try {
-            Scanner scanner = new Scanner(getClass().getResourceAsStream(LibraryAssistantUtil.MAIL_CONTENT_LOC));
-            while (scanner.hasNext()) {
-                emailText.append(scanner.nextLine()).append(""\n"");
-            }
-            System.out.println(emailText);
-        } catch (Exception ex) {
-            Logger.getLogger(EmailSenderController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\emailsender\EmailSenderController.java,,EmailSenderController,setNotifRequestData,void,List<NotificationItem> list,"{
-        this.list = list;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\emailsender\EmailSenderController.java,,EmailSenderController,getStage,Stage,,"{
-        return (Stage) progressBar.getScene().getWindow();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\emailsender\EmailSenderController.java,,EmailSenderController,start,void,,"{
-        if (emailText == null || emailText.toString().isEmpty()) {
-            AlertMaker.showErrorMessage(""Failed"", ""Failed to parse email format"");
-            getStage().close();
-        }
-        new EmailSenderHelper().start();
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\emailsender\EmailSenderController.java,,EmailSenderHelper,run,void,,"{
-            final int size = list.size();
-            int count = 0;
+        assertTrue(() -> map.cells[2][1] instanceof FillableCell);
+        final var secondCell = (FillableCell) map.cells[2][1];
+        assertFalse(() -> secondCell.getPipe().isPresent() && secondCell.getPipe().get().getFilled());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,givenUnknownCHar_whenCreateCellFromChar_assertNull,void,,"{
+        cell = Cell.fromChar('A', DEFAULT_COORDINATE, null);
 
-            Iterator iterator = list.iterator();
-            while (iterator.hasNext() && flag.get()) {
-                count++;
-                NotificationItem item = (NotificationItem) iterator.next();
-                String reportDate = LibraryAssistantUtil.getDateString(new Date());
-                String bookName = item.getBookName();
-                String issueDate = item.getIssueDate();
-                Integer daysUsed = item.getDayCount();
-                String finePerDay = String.valueOf(Preferences.getPreferences().getFinePerDay());
-                String amount = item.getFineAmount();
-                String emailContent = String.format(emailText.toString(), reportDate, bookName, issueDate, daysUsed, finePerDay, amount);
-                EmailUtil.sendMail(mailServerInfo, item.getMemberEmail(), emailContent, ""Library Assistant Overdue Notification"", this);
-                flag.set(false);
-                updateUI(size, count);
-            }
-            Platform.runLater(() -> {
-                text.setText(""Process Completed!"");
-                progressBar.setProgress(1);
-            });
-        }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\emailsender\EmailSenderController.java,,EmailSenderHelper,taskCompleted,Object,Object val,"{
-            flag.set(true);
-            return null;
-        }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\notifoverdue\emailsender\EmailSenderController.java,,EmailSenderHelper,updateUI,void,"int size, int count","{
-            Platform.runLater(() -> {
-                text.setText(String.format(""Notifying %d/%d"", count, size));
-                progressBar.setProgress((double) count / (double) size);
-            });
-        }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,getnDaysWithoutFine,int,,"{
-        return nDaysWithoutFine;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,setnDaysWithoutFine,void,int nDaysWithoutFine,"{
-        this.nDaysWithoutFine = nDaysWithoutFine;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,getFinePerDay,float,,"{
-        return finePerDay;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,setFinePerDay,void,float finePerDay,"{
-        this.finePerDay = finePerDay;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,getUsername,String,,"{
-        return username;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,setUsername,void,String username,"{
-        this.username = username;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,getPassword,String,,"{
-        return password;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,setPassword,void,String password,"{
-        if (password.length() < 16) {
-            this.password = DigestUtils.shaHex(password);
-        }else
-            this.password = password;
-    }",,public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,initConfig,void,,"{
-        Writer writer = null;
-        try {
-            Preferences preference = new Preferences();
-            Gson gson = new Gson();
-            writer = new FileWriter(CONFIG_FILE);
-            gson.toJson(preference, writer);
-        } catch (IOException ex) {
-            Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,getPreferences,Preferences,,"{
-        Gson gson = new Gson();
-        Preferences preferences = new Preferences();
-        try {
-            preferences = gson.fromJson(new FileReader(CONFIG_FILE), Preferences.class);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Preferences.class.getName()).info(""Config file is missing. Creating new one with default config"");
-            initConfig();
-        }
-        return preferences;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\Preferences.java,,Preferences,writePreferenceToFile,void,Preferences preference,"{
-        Writer writer = null;
-        try {
-            Gson gson = new Gson();
-            writer = new FileWriter(CONFIG_FILE);
-            gson.toJson(preference, writer);
+        assertNull(cell);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,givenWallChar_whenCreateCellFromChar_assertCorrectType,void,,"{
+        cell = Cell.fromChar('W', DEFAULT_COORDINATE, null);
 
-            AlertMaker.showSimpleAlert(""Success"", ""Settings updated"");
-        } catch (IOException ex) {
-            Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
-            AlertMaker.showErrorMessage(ex, ""Failed"", ""Cant save configuration file"");
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,initialize,void,"URL url, ResourceBundle rb","{
-        initDefaultValues();
-    }",,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,handleSaveButtonAction,void,ActionEvent event,"{
-        int ndays = Integer.parseInt(nDaysWithoutFine.getText());
-        float fine = Float.parseFloat(finePerDay.getText());
-        String uname = username.getText();
-        String pass = password.getText();
+        assertTrue(cell instanceof Wall);
+        assertEquals(DEFAULT_COORDINATE, cell.coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,givenWallChar_whenCreateCellFromCharWithTerminationType_assertCorrectType,void,,"{
+        cell = Cell.fromChar('W', DEFAULT_COORDINATE, TerminationCell.Type.SOURCE);
 
-        Preferences preferences = Preferences.getPreferences();
-        preferences.setnDaysWithoutFine(ndays);
-        preferences.setFinePerDay(fine);
-        preferences.setUsername(uname);
-        preferences.setPassword(pass);
+        assertTrue(cell instanceof Wall);
+        assertEquals(DEFAULT_COORDINATE, cell.coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,givenCellChar_whenCreateCellFromChar_assertCorrectType,void,,"{
+        cell = Cell.fromChar('.', DEFAULT_COORDINATE, null);
 
-        Preferences.writePreferenceToFile(preferences);
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,getStage,Stage,,"{
-        return ((Stage) nDaysWithoutFine.getScene().getWindow());
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,initDefaultValues,void,,"{
-        Preferences preferences = Preferences.getPreferences();
-        nDaysWithoutFine.setText(String.valueOf(preferences.getnDaysWithoutFine()));
-        finePerDay.setText(String.valueOf(preferences.getFinePerDay()));
-        username.setText(String.valueOf(preferences.getUsername()));
-        String passHash = String.valueOf(preferences.getPassword());
-        password.setText(passHash.substring(0, Math.min(passHash.length(), 10)));
-        loadMailServerConfigurations();
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,handleTestMailAction,void,ActionEvent event,"{
-        MailServerInfo mailServerInfo = readMailSererInfo();
-        if (mailServerInfo != null) {
-            TestMailController controller = (TestMailController) LibraryAssistantUtil.loadWindow(getClass().getResource(""/library/assistant/ui/mail/test_mail.fxml""), ""Test Email"", null);
-            controller.setMailServerInfo(mailServerInfo);
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,saveMailServerConfuration,void,ActionEvent event,"{
-        MailServerInfo mailServerInfo = readMailSererInfo();
-        if (mailServerInfo != null) {
-            if (DataHelper.updateMailServerInfo(mailServerInfo)) {
-                AlertMaker.showSimpleAlert(""Success"", ""Saved successfully!"");
-            } else {
-                AlertMaker.showErrorMessage(""Failed"", ""Something went wrong!"");
-            }
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,readMailSererInfo,MailServerInfo,,"{
-        try {
-            MailServerInfo mailServerInfo
-                    = new MailServerInfo(serverName.getText(), Integer.parseInt(smtpPort.getText()), emailAddress.getText(), emailPassword.getText(), sslCheckbox.isSelected());
-            if (!mailServerInfo.validate() || !LibraryAssistantUtil.validateEmailAddress(emailAddress.getText())) {
-                throw new InvalidParameterException();
-            }
-            return mailServerInfo;
-        } catch (Exception exp) {
-            AlertMaker.showErrorMessage(""Invalid Entries Found"", ""Correct input and try again"");
-            LOGGER.log(Level.WARN, exp);
-        }
-        return null;
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,loadMailServerConfigurations,void,,"{
-        MailServerInfo mailServerInfo = DataHelper.loadMailServerInfo();
-        if (mailServerInfo != null) {
-            LOGGER.log(Level.INFO, ""Mail server info loaded from DB"");
-            serverName.setText(mailServerInfo.getMailServer());
-            smtpPort.setText(String.valueOf(mailServerInfo.getPort()));
-            emailAddress.setText(mailServerInfo.getEmailID());
-            emailPassword.setText(mailServerInfo.getPassword());
-            sslCheckbox.setSelected(mailServerInfo.getSslEnabled());
-        }
-    }",,private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsController.java,,SettingsController,handleDatabaseExportAction,void,ActionEvent event,"{
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(""Select Location to Create Backup"");
-        File selectedDirectory = directoryChooser.showDialog(getStage());
-        if (selectedDirectory == null) {
-            AlertMaker.showErrorMessage(""Export cancelled"", ""No Valid Directory Found"");
-        } else {
-            DatabaseExporter databaseExporter = new DatabaseExporter(selectedDirectory);
-            progressSpinner.visibleProperty().bind(databaseExporter.runningProperty());
-            new Thread(databaseExporter).start();
-        }
-    }",,@FXML private,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsLoader.java,,SettingsLoader,start,void,Stage stage,"{
-        Parent root = FXMLLoader.load(getClass().getResource(""/library/assistant/ui/settings/settings.fxml""));
+        assertTrue(cell instanceof FillableCell);
+        assertEquals(DEFAULT_COORDINATE, cell.coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,givenCellChar_whenCreateCellFromCharWithTerminationType_assertCorrectType,void,,"{
+        cell = Cell.fromChar('.', DEFAULT_COORDINATE, TerminationCell.Type.SOURCE);
 
-        Scene scene = new Scene(root);
+        assertTrue(cell instanceof FillableCell);
+        assertEquals(DEFAULT_COORDINATE, cell.coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,givenTerminationCellChar_whenCreateCellFromCharWithParams_assertCorrectType,void,,"{
+        cell = Cell.fromChar('^', DEFAULT_COORDINATE, TerminationCell.Type.SOURCE);
 
-        stage.setScene(scene);
-        stage.show();
-        stage.setTitle(""Settings"");
+        assertTrue(cell instanceof TerminationCell);
+        assertEquals(DEFAULT_COORDINATE, cell.coord);
+        assertEquals(Direction.UP, ((TerminationCell) cell).pointingTo);
+        assertEquals(TerminationCell.Type.SOURCE, ((TerminationCell) cell).type);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,givenTerminationCellChar_whenCreateCellFromCharWithoutParams_assertNull,void,,"{
+        cell = Cell.fromChar('^', DEFAULT_COORDINATE, null);
 
-        new Thread(() -> {
-            DatabaseHandler.getInstance();
-        }).start();
-    }",throws Exception,@Override public,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\ui\settings\SettingsLoader.java,,SettingsLoader,main,void,String[] args,"{
-        launch(args);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,setStageIcon,void,Stage stage,"{
-        stage.getIcons().add(new Image(ICON_IMAGE_LOC));
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,loadWindow,Object,"URL loc, String title, Stage parentStage","{
-        Object controller = null;
-        try {
-            FXMLLoader loader = new FXMLLoader(loc);
-            Parent parent = loader.load();
-            controller = loader.getController();
-            Stage stage = null;
-            if (parentStage != null) {
-                stage = parentStage;
-            } else {
-                stage = new Stage(StageStyle.DECORATED);
-            }
-            stage.setTitle(title);
-            stage.setScene(new Scene(parent));
-            stage.show();
-            setStageIcon(stage);
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return controller;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,getFineAmount,Float,int totalDays,"{
-        Preferences pref = Preferences.getPreferences();
-        Integer fineDays = totalDays - pref.getnDaysWithoutFine();
-        Float fine = 0f;
-        if (fineDays > 0) {
-            fine = fineDays * pref.getFinePerDay();
-        }
-        return fine;
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,initPDFExprot,void,"StackPane rootPane, Node contentPane, Stage stage, List<List> data","{
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(""Save as PDF"");
-        FileChooser.ExtensionFilter extFilter
-                = new FileChooser.ExtensionFilter(""PDF files (*.pdf)"", ""*.pdf"");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File saveLoc = fileChooser.showSaveDialog(stage);
-        ListToPDF ltp = new ListToPDF();
-        boolean flag = ltp.doPrintToPdf(data, saveLoc, ListToPDF.Orientation.LANDSCAPE);
-        JFXButton okayBtn = new JFXButton(""Okay"");
-        JFXButton openBtn = new JFXButton(""View File"");
-        openBtn.setOnAction((ActionEvent event1) -> {
-            try {
-                Desktop.getDesktop().open(saveLoc);
-            } catch (Exception exp) {
-                AlertMaker.showErrorMessage(""Could not load file"", ""Cant load file"");
-            }
-        });
-        if (flag) {
-            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(okayBtn, openBtn), ""Completed"", ""Member data has been exported."");
-        }
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,formatDateTimeString,String,Date date,"{
-        return DATE_TIME_FORMAT.format(date);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,formatDateTimeString,String,Long time,"{
-        return DATE_TIME_FORMAT.format(new Date(time));
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,getDateString,String,Date date,"{
-        return DATE_FORMAT.format(date);
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,validateEmailAddress,boolean,String emailID,"{
-        String regex = ""^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@""
-                + ""[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"";
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(emailID).matches();
-    }",,public static,
-C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master\src\library\assistant\util\LibraryAssistantUtil.java,,LibraryAssistantUtil,openFileWithDesktop,void,File file,"{
-        try {
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(file);
-        } catch (IOException ex) {
-            Logger.getLogger(LibraryAssistantUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }",,public static,
+        assertNull(cell);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\CellTest.java,,CellTest,tearDown,void,,"{
+        cell = null;
+    }",,@AfterEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\FillableCellTest.java,,FillableCellTest,givenCell_assertCorrectCoordinates,void,,"{
+        cell = new FillableCell(DEFAULT_COORD);
+
+        assertEquals(DEFAULT_COORD, cell.coord);
+        assertTrue(cell.getPipe().isEmpty());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\FillableCellTest.java,,FillableCellTest,givenFilledCell_assertCorrectCoordinatesAndPipe,void,,"{
+        cell = new FillableCell(DEFAULT_COORD, DEFAULT_PIPE);
+
+        assertEquals(DEFAULT_COORD, cell.coord);
+        assertEquals(DEFAULT_PIPE, cell.getPipe().orElse(null));
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\FillableCellTest.java,,FillableCellTest,givenCell_assertSingleCharRepresentation,void,,"{
+        cell = new FillableCell(DEFAULT_COORD);
+
+        assertEquals('.', cell.toSingleChar());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\FillableCellTest.java,,FillableCellTest,givenFilledCell_assertSingleCharRepresentation,void,,"{
+        cell = new FillableCell(DEFAULT_COORD, DEFAULT_PIPE);
+
+        assertEquals(DEFAULT_PIPE.toSingleChar(), cell.toSingleChar());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\FillableCellTest.java,,FillableCellTest,tearDown,void,,"{
+        cell = null;
+    }",,@AfterEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\TerminationCellTest.java,,TerminationCellTest,givenCell_assertCorrectProperties,void,,"{
+        cell = new TerminationCell(DEFAULT_COORD, DEFAULT_DIR, DEFAULT_TYPE);
+
+        assertEquals(DEFAULT_COORD, cell.coord);
+        assertEquals(DEFAULT_DIR, cell.pointingTo);
+        assertEquals(DEFAULT_TYPE, cell.type);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\TerminationCellTest.java,,TerminationCellTest,givenCell_assertSingleCharRepresentation,void,,"{
+        cell = new TerminationCell(DEFAULT_COORD, DEFAULT_DIR, DEFAULT_TYPE);
+
+        assertEquals(PipePatterns.Unfilled.UP_ARROW, cell.toSingleChar());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\TerminationCellTest.java,,TerminationCellTest,givenFilledCell_assertSingleCharRepresentation,void,,"{
+        cell = new TerminationCell(DEFAULT_COORD, DEFAULT_DIR, DEFAULT_TYPE);
+        cell.setFilled();
+
+        assertEquals(PipePatterns.Filled.UP_ARROW, cell.toSingleChar());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\TerminationCellTest.java,,TerminationCellTest,tearDown,void,,"{
+        cell = null;
+    }",,@AfterEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\WallTest.java,,WallTest,setUp,void,,"{
+        wall = new Wall(DEFAULT_COORDINATE);
+    }",,@BeforeEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\WallTest.java,,WallTest,givenWall_assertCorrectCoordinates,void,,"{
+        assertEquals(DEFAULT_COORDINATE, wall.coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\WallTest.java,,WallTest,givenWall_assertCorrectSingleCharRepresentation,void,,"{
+        assertEquals(PipePatterns.WALL, wall.toSingleChar());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\game\map\cells\WallTest.java,,WallTest,tearDown,void,,"{
+        wall = null;
+    }",,@AfterEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,setUp,void,,"{
+        coord = new Coordinate(1, 2);
+    }",,@BeforeEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_ifRowAndColMatches_thenSucceed,void,,"{
+        assertEquals(1, coord.row);
+        assertEquals(2, coord.col);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenCompareSameCoords_assertEquals,void,,"{
+        final Coordinate expected = new Coordinate(1, 2);
+
+        assertTrue(coord.equals(expected));
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenCompareSameCoordsAsObject_assertEquals,void,,"{
+        final Coordinate expected = new Coordinate(1, 2);
+
+        assertEquals(coord, expected);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenCompareCoordsWithDifferentRow_assertNotEquals,void,,"{
+        final Coordinate unexpected = new Coordinate(2, 2);
+
+        assertNotEquals(unexpected, coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenCompareCoordsWithDifferentCol_assertNotEquals,void,,"{
+        final Coordinate unexpected = new Coordinate(1, 1);
+
+        assertNotEquals(unexpected, coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenCompareCoordsWithDifferentRowAndCol_assertNotEquals,void,,"{
+        final Coordinate unexpected = new Coordinate(2, 1);
+
+        assertNotEquals(unexpected, coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenCompareWithNull_assertNotEquals,void,,"{
+        assertNotEquals(null, coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenCompareWithNotCoord_assertNotEquals,void,,"{
+        assertNotEquals(new Object(), coord);
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenAddCoord_assertCorrect,void,,"{
+        final int diffRow = 1;
+        final int diffCol = 2;
+        final Coordinate expected = new Coordinate(coord.row + diffRow, coord.col + diffCol);
+
+        assertEquals(expected, coord.add(new Coordinate(diffRow, diffCol)));
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,givenCoord_whenAddNegativeCoord_assertCorrect,void,,"{
+        final int diffRow = -1;
+        final int diffCol = -2;
+        final Coordinate expected = new Coordinate(coord.row + diffRow, coord.col + diffCol);
+
+        assertEquals(expected, coord.add(new Coordinate(diffRow, diffCol)));
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\CoordinateTest.java,,CoordinateTest,tearDown,void,,"{
+        coord = null;
+    }",,@AfterEach,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\DirectionTest.java,,DirectionTest,givenDirections_ifCorrectOppositeDirection_thenSucceed,void,,"{
+        assertEquals(Direction.DOWN, Direction.UP.getOpposite());
+        assertEquals(Direction.UP, Direction.DOWN.getOpposite());
+        assertEquals(Direction.RIGHT, Direction.LEFT.getOpposite());
+        assertEquals(Direction.LEFT, Direction.RIGHT.getOpposite());
+    }",,@Test,
+C:\repos\Hybrid-Code-Gen\javarepoparser\temp\JavaBench\projects\PA19\src\test\java\util\DirectionTest.java,,DirectionTest,givenDirections_ifCorrectCoordOffset_thenSucceed,void,,"{
+        assertEquals(UP_OFFSET, Direction.UP.getOffset());
+        assertEquals(DOWN_OFFSET, Direction.DOWN.getOffset());
+        assertEquals(LEFT_OFFSET, Direction.LEFT.getOffset());
+        assertEquals(RIGHT_OFFSET, Direction.RIGHT.getOffset());
+    }",,@Test,

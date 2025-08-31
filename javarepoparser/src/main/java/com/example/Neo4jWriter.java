@@ -24,7 +24,7 @@ public class Neo4jWriter {
     private static final String logPrefix = "Neo4jWriter: ";
 
     public Neo4jWriter() {
-        driver = GraphDatabase.driver("bolt://4.187.169.27:7687", AuthTokens.basic("neo4j", "MyStrongPassword123"));
+        driver = GraphDatabase.driver("bolt://172.203.167.64:7687", AuthTokens.basic("neo4j", "C{&K1r.eZ9*4"));
     }
 
     public void createClassNode(ClassOrInterfaceDeclaration clazz) {
@@ -40,8 +40,43 @@ public class Neo4jWriter {
     public void createMethodNode(MethodDeclaration method) {
         String name = method.getNameAsString();
         logger.info(logPrefix + "Creating method node: " + name);
+
+        // Get the class name
+        String className = null;
+        Optional<Node> parent = method.getParentNode();
+        while (parent.isPresent()) {
+            Node node = parent.get();
+            if (node instanceof ClassOrInterfaceDeclaration) {
+                className = ((ClassOrInterfaceDeclaration) node).getNameAsString();
+                break;
+            }
+            parent = node.getParentNode();
+        }
+
+        // Get return type
+        String returnType = method.getType().toString();
+
+        // Get parameters
+        String parameters = method.getParameters().stream()
+                .map(p -> p.getType().toString() + " " + p.getNameAsString())
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("");
+
         try (Session session = driver.session()) {
-            session.run("MERGE (m:Method {name: $name})", Map.of("name", name));
+            Map<String, Object> props = new HashMap<>();
+            props.put("name", name);
+            props.put("className", className != null ? className : "");
+            props.put("returnType", returnType);
+            props.put("parameters", parameters);
+
+            session.run("MERGE (m:Method {name: $name}) " +
+                    "SET m.className = $className, " +
+                    "m.returnType = $returnType, " +
+                    "m.parameters = $parameters", props);
+
+            logger.info(logPrefix + "Created method node: " + name +
+                    " (class: " + className + ", returns: " + returnType +
+                    ", params: " + parameters + ")");
         } catch (Exception e) {
             logger.severe(logPrefix + "Exception in createMethodNode: " + e.getMessage());
         }
@@ -222,23 +257,33 @@ public class Neo4jWriter {
     }
 
     public void createCallRelation(MethodCallExpr call) {
-        try {
-            ResolvedMethodDeclaration decl = call.resolve();
-            logger.info("Processing declaration: " + decl.getName());
-            String caller = call.findAncestor(MethodDeclaration.class)
-                    .map(MethodDeclaration::getNameAsString).orElse("unknown");
-            String callee = decl.getName();
-            try (Session session = driver.session()) {
-                session.run("MERGE (caller:Method {name: $caller}) " +
-                        "MERGE (callee:Method {name: $callee}) " +
-                        "MERGE (caller)-[:CALLS]->(callee)", Map.of("caller", caller, "callee", callee));
+        String caller = call.findAncestor(MethodDeclaration.class)
+                .map(MethodDeclaration::getNameAsString)
+                .orElse("unknown");
+        String callee = null;
 
-                logger.info(logPrefix + "Created call relation from '" + caller + "' to '" + callee + "'");
-            } catch (Exception e) {
-                logger.severe(logPrefix + "Exception in createCallRelation (inner): " + e.getMessage());
-            }
+        try {
+            // Try to resolve the method declaration
+            ResolvedMethodDeclaration decl = call.resolve();
+            callee = decl.getName();
+            logger.info(logPrefix + "Successfully resolved method: " + callee);
         } catch (Exception e) {
-            logger.severe(logPrefix + "Exception in createCallRelation (resolve): " + e.getMessage());
+            // If resolution fails, use the method name from the AST
+            callee = call.getNameAsString();
+            logger.warning(logPrefix + "Could not resolve method '" + callee + "', using AST name instead. Reason: "
+                    + e.getMessage());
+        }
+
+        // Create the relationship regardless of whether resolution succeeded
+        try (Session session = driver.session()) {
+            session.run("MERGE (caller:Method {name: $caller}) " +
+                    "MERGE (callee:Method {name: $callee}) " +
+                    "MERGE (caller)-[:CALLS]->(callee)",
+                    Map.of("caller", caller, "callee", callee));
+
+            logger.info(logPrefix + "Created call relation from '" + caller + "' to '" + callee + "'");
+        } catch (Exception e) {
+            logger.severe(logPrefix + "Exception creating call relation in Neo4j: " + e.getMessage());
         }
     }
 
@@ -268,15 +313,44 @@ public class Neo4jWriter {
     public void createFieldNode(FieldDeclaration field) {
         String name = field.getVariables().get(0).getNameAsString();
         logger.info(logPrefix + "Creating field node: " + name);
-        String className = ((ClassOrInterfaceDeclaration) field.getParentNode().get()).getNameAsString();
-        logger.info(logPrefix + "Linking field '" + name + "' to class '" + className + "'");
+
+        // Get parent name - could be either a class or enum
+        String parentName = null;
+        String parentType = null;
+
+        Optional<Node> parent = field.getParentNode();
+        if (parent.isPresent()) {
+            Node parentNode = parent.get();
+            if (parentNode instanceof ClassOrInterfaceDeclaration) {
+                parentName = ((ClassOrInterfaceDeclaration) parentNode).getNameAsString();
+                parentType = "Class";
+            } else if (parentNode instanceof EnumDeclaration) {
+                parentName = ((EnumDeclaration) parentNode).getNameAsString();
+                parentType = "Enum";
+            }
+        }
+
+        if (parentName == null) {
+            logger.warning(logPrefix + "Cannot create field node: no parent found for field '" + name + "'");
+            return;
+        }
+
+        logger.info(
+                logPrefix + "Linking field '" + name + "' to " + parentType.toLowerCase() + " '" + parentName + "'");
 
         try (Session session = driver.session()) {
             session.run("MERGE (f:Field {name: $name})", Map.of("name", name));
-            session.run("MATCH (c:Class {name: $className}), (f:Field {name: $name}) " +
-                    "MERGE (c)-[:HAS_FIELD]->(f)", Map.of("className", className, "name", name));
 
-            logger.info(logPrefix + "Field '" + name + "' linked to class '" + className + "'");
+            if ("Class".equals(parentType)) {
+                session.run("MATCH (c:Class {name: $parentName}), (f:Field {name: $name}) " +
+                        "MERGE (c)-[:HAS_FIELD]->(f)", Map.of("parentName", parentName, "name", name));
+            } else if ("Enum".equals(parentType)) {
+                session.run("MATCH (e:Enum {name: $parentName}), (f:Field {name: $name}) " +
+                        "MERGE (e)-[:HAS_FIELD]->(f)", Map.of("parentName", parentName, "name", name));
+            }
+
+            logger.info(
+                    logPrefix + "Field '" + name + "' linked to " + parentType.toLowerCase() + " '" + parentName + "'");
         } catch (Exception e) {
             logger.severe(logPrefix + "Exception in createFieldNode: " + e.getMessage());
         }
