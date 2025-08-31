@@ -79,6 +79,7 @@ def get_modifiers(node):
     return " ".join(modifiers)
 
 def process_directory(directory_path, method_infos):
+    print(f"Processing directory: {directory_path}")
     for root, _, files in os.walk(directory_path):
         for file in files:
             if file.endswith(".java"):
@@ -87,6 +88,10 @@ def process_directory(directory_path, method_infos):
                 parse_java_code(file_path, method_infos)
 
 def write_to_csv(output_file, method_infos):
+    # delete existing file
+    if os.path.exists(output_file):
+        os.remove(output_file)
+
     with open(output_file, 'w', newline='', encoding='utf-8') as csv_file:
         fieldnames = ["FilePath", "Package", "Class", "Method Name", "Return Type",
                       "Parameters", "Function Body", "Throws", "Modifiers", "Generics"]
@@ -95,12 +100,12 @@ def write_to_csv(output_file, method_infos):
         for info in method_infos:
             writer.writerow(info)
 
-if __name__ == "__main__":
-    directory_path = r"C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master"  # Replace with Java code dir
-    output_file = "java_parsed.csv"
-    method_infos = []
+# if __name__ == "__main__":
+#     directory_path = r"C:\Users\divchauhan\Downloads\Library-Assistant-master\Library-Assistant-master"  # Replace with Java code dir
+#     output_file = "java_parsed.csv"
+#     method_infos = []
 
-    process_directory(directory_path, method_infos)
-    write_to_csv(output_file, method_infos)
+#     process_directory(directory_path, method_infos)
+#     write_to_csv(output_file, method_infos)
 
-    print(f"Output written to {output_file}")
+#     print(f"Output written to {output_file}")

@@ -10,15 +10,19 @@ services:
       - neo4j
 
   neo4j:
-    image: neo4j:5
+    image: neo4j:latest
     container_name: neo4j-db
+    restart: always
     ports:
       - "7474:7474"
       - "7687:7687"
     environment:
-      NEO4J_AUTH: "neo4j/~n?Ven2GphBV"
+      - NEO4J_AUTH=neo4j/5@5,?g)$+ZW'
     volumes:
-      - neo4j-data:/data
+      - ./data:/data
+      - ./logs:/logs
+      - ./import:/import
+      - ./plugins:/plugins
 
 volumes:
   neo4j-data:

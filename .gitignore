@@ -16,11 +16,12 @@ target/
 # === Dev Container ===
 .devcontainer/**/.cache/
 .devcontainer/**/.python-version
+javarepoparser/.devcontainer/data/
 
 # === Neo4j Data ===
 neo4j/data/
 !neo4j/data/.keep  # Optional: keep dir structure if needed
-
+/data/
 # === OS Generated ===
 .DS_Store
 Thumbs.db

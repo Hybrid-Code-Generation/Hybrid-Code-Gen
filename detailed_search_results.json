@@ -1,0 +1,275 @@
+[
+  {
+    "method_info": {
+      "Class": "PipeQueue",
+      "Method Name": "generateNewPipe",
+      "Return Type": "Pipe",
+      "Parameters": NaN
+    },
+    "context": {
+      "method_name": "generateNewPipe",
+      "depth": 3,
+      "level": 0,
+      "CALLS": [
+        {
+          "method_name": "generateNewPipe",
+          "class_name": "PipeQueue",
+          "parameters": "nan",
+          "return_type": "Pipe",
+          "depth": 1,
+          "parent": null,
+          "level": 1
+        }
+      ],
+      "CALLED_BY": [
+        {
+          "method_name": "generateNewPipe",
+          "class_name": "PipeQueue",
+          "parameters": "nan",
+          "return_type": "Pipe",
+          "depth": 1,
+          "parent": null,
+          "level": 1
+        }
+      ],
+      "BELONGS_TO": {
+        "class_name": "PipeQueue",
+        "depth": 4,
+        "parent": "generateNewPipe",
+        "level": 1
+      },
+      "USES": []
+    },
+    "detailed_method_info": null
+  },
+  {
+    "method_info": {
+      "method_name": "generateNewPipe",
+      "class_name": "PipeQueue",
+      "parameters": "nan",
+      "return_type": "Pipe",
+      "depth": 1,
+      "parent": null,
+      "level": 1
+    },
+    "context": {},
+    "detailed_method_info": null
+  },
+  {
+    "method_info": {
+      "method_name": "generateNewPipe",
+      "class_name": "PipeQueue",
+      "parameters": "nan",
+      "return_type": "Pipe",
+      "depth": 1,
+      "parent": null,
+      "level": 1
+    },
+    "context": {},
+    "detailed_method_info": null
+  },
+  {
+    "method_info": {
+      "Class": "FillableCell",
+      "Method Name": "setPipe",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe"
+    },
+    "context": {
+      "method_name": "setPipe",
+      "depth": 3,
+      "level": 0,
+      "CALLS": [
+        {
+          "method_name": "setPipe",
+          "class_name": "FillableCell",
+          "parameters": "Pipe pipe",
+          "return_type": "void",
+          "depth": 1,
+          "parent": null,
+          "level": 1
+        }
+      ],
+      "CALLED_BY": [
+        {
+          "method_name": "setPipe",
+          "class_name": "FillableCell",
+          "parameters": "Pipe pipe",
+          "return_type": "void",
+          "depth": 1,
+          "parent": null,
+          "level": 1
+        }
+      ],
+      "BELONGS_TO": {
+        "class_name": "FillableCell",
+        "depth": 3,
+        "parent": "setPipe",
+        "level": 1
+      },
+      "USES": []
+    },
+    "detailed_method_info": {
+      "FilePath": "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\JavaBench\\projects\\PA19\\src\\main\\java\\game\\map\\cells\\FillableCell.java",
+      "Package": NaN,
+      "Class": "FillableCell",
+      "Method Name": "setPipe",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe",
+      "Function Body": "{\n        this.pipe = pipe;\n    }",
+      "Throws": NaN,
+      "Modifiers": "public",
+      "Generics": NaN
+    }
+  },
+  {
+    "method_info": {
+      "method_name": "setPipe",
+      "class_name": "FillableCell",
+      "parameters": "Pipe pipe",
+      "return_type": "void",
+      "depth": 1,
+      "parent": null,
+      "level": 1
+    },
+    "context": {},
+    "detailed_method_info": {
+      "FilePath": "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\JavaBench\\projects\\PA19\\src\\main\\java\\game\\map\\cells\\FillableCell.java",
+      "Package": NaN,
+      "Class": "FillableCell",
+      "Method Name": "setPipe",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe",
+      "Function Body": "{\n        this.pipe = pipe;\n    }",
+      "Throws": NaN,
+      "Modifiers": "public",
+      "Generics": NaN
+    }
+  },
+  {
+    "method_info": {
+      "method_name": "setPipe",
+      "class_name": "FillableCell",
+      "parameters": "Pipe pipe",
+      "return_type": "void",
+      "depth": 1,
+      "parent": null,
+      "level": 1
+    },
+    "context": {},
+    "detailed_method_info": {
+      "FilePath": "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\JavaBench\\projects\\PA19\\src\\main\\java\\game\\map\\cells\\FillableCell.java",
+      "Package": NaN,
+      "Class": "FillableCell",
+      "Method Name": "setPipe",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe",
+      "Function Body": "{\n        this.pipe = pipe;\n    }",
+      "Throws": NaN,
+      "Modifiers": "public",
+      "Generics": NaN
+    }
+  },
+  {
+    "method_info": {
+      "Class": "PipeQueue",
+      "Method Name": "undo",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe"
+    },
+    "context": {
+      "method_name": "undo",
+      "depth": 3,
+      "level": 0,
+      "CALLS": [
+        {
+          "method_name": "undo",
+          "class_name": "PipeQueue",
+          "parameters": "Pipe pipe",
+          "return_type": "void",
+          "depth": 1,
+          "parent": null,
+          "level": 1
+        }
+      ],
+      "CALLED_BY": [
+        {
+          "method_name": "undo",
+          "class_name": "PipeQueue",
+          "parameters": "Pipe pipe",
+          "return_type": "void",
+          "depth": 1,
+          "parent": null,
+          "level": 1
+        }
+      ],
+      "BELONGS_TO": {
+        "class_name": "Map",
+        "depth": 4,
+        "parent": "undo",
+        "level": 1
+      },
+      "USES": []
+    },
+    "detailed_method_info": {
+      "FilePath": "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\JavaBench\\projects\\PA19\\src\\main\\java\\game\\PipeQueue.java",
+      "Package": NaN,
+      "Class": "PipeQueue",
+      "Method Name": "undo",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe",
+      "Function Body": "{\n        // TODO\n    }",
+      "Throws": NaN,
+      "Modifiers": NaN,
+      "Generics": NaN
+    }
+  },
+  {
+    "method_info": {
+      "method_name": "undo",
+      "class_name": "PipeQueue",
+      "parameters": "Pipe pipe",
+      "return_type": "void",
+      "depth": 1,
+      "parent": null,
+      "level": 1
+    },
+    "context": {},
+    "detailed_method_info": {
+      "FilePath": "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\JavaBench\\projects\\PA19\\src\\main\\java\\game\\PipeQueue.java",
+      "Package": NaN,
+      "Class": "PipeQueue",
+      "Method Name": "undo",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe",
+      "Function Body": "{\n        // TODO\n    }",
+      "Throws": NaN,
+      "Modifiers": NaN,
+      "Generics": NaN
+    }
+  },
+  {
+    "method_info": {
+      "method_name": "undo",
+      "class_name": "PipeQueue",
+      "parameters": "Pipe pipe",
+      "return_type": "void",
+      "depth": 1,
+      "parent": null,
+      "level": 1
+    },
+    "context": {},
+    "detailed_method_info": {
+      "FilePath": "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\JavaBench\\projects\\PA19\\src\\main\\java\\game\\PipeQueue.java",
+      "Package": NaN,
+      "Class": "PipeQueue",
+      "Method Name": "undo",
+      "Return Type": "void",
+      "Parameters": "Pipe pipe",
+      "Function Body": "{\n        // TODO\n    }",
+      "Throws": NaN,
+      "Modifiers": NaN,
+      "Generics": NaN
+    }
+  }
+]
