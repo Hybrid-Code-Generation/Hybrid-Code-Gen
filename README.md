@@ -77,3 +77,25 @@ This will:
 ## 4. Java Code Repo KG Builder
 
 To get all the information about Java code repo parser, [Read here](javarepoparser/README.md)
+
+
+
+
+## 5. Running JavaBench 
+
+# Running workflow file to save Samples.jsonl
+python run_kgworkflow_javabench.py \
+  --data datasets/selective-context/data-PA19.jsonl \
+  --output output/result-PA19/kgworkflow/samples.jsonl \
+  --limit 5
+
+# Class-wise evaluation (one class replacement)
+python evaluation.py class-wise \
+  --output output/result-PA19/kgworkflow/single_class.json \
+  output/result-PA19/kgworkflow/samples.jsonl
+
+# Test-wise evaluation (multiple classes relevant to test cases)
+python evaluation.py test-wise \
+  --output output/result-PA19/kgworkflow/result-full.json \
+  --test datasets/testcase/test-PA19.jsonl \
+  output/result-PA19/kgworkflow/samples.jsonl
