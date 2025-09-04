@@ -75,14 +75,119 @@ def extract_classes(file_path, node, class_infos, package=None):
         extract_classes(file_path, child, class_infos, package)
 
 def get_class_body_text(node):
-    """Extract the body of a class or interface"""
+    """Extract the body of a class or interface with method declarations only (no method bodies)"""
     body_node = node.child_by_field_name('body')
-    if body_node:
-        return get_node_text(body_node)
-    return ""
+    if not body_node:
+        return ""
+    
+    # Build the class body with method signatures but not method bodies
+    class_content = []
+    class_content.append("{")
+    
+    # Extract fields, method declarations, constructors, etc.
+    for child in body_node.children:
+        if child.type == 'field_declaration':
+            # Include full field declarations
+            class_content.append("    " + get_node_text(child).strip())
+        elif child.type == 'method_declaration':
+            # Include only method signature, not body
+            method_signature = get_method_signature(child)
+            class_content.append("    " + method_signature)
+        elif child.type == 'constructor_declaration':
+            # Include only constructor signature, not body
+            constructor_signature = get_constructor_signature(child)
+            class_content.append("    " + constructor_signature)
+        elif child.type == 'class_declaration' or child.type == 'interface_declaration':
+            # Include nested classes/interfaces (you might want to handle these differently)
+            nested_name = get_node_text(child.child_by_field_name('name'))
+            class_content.append(f"    // Nested class: {nested_name}")
+        elif child.type == 'enum_declaration':
+            # Include enum declarations
+            enum_name = get_node_text(child.child_by_field_name('name'))
+            class_content.append(f"    enum {enum_name} {{ /* enum body */ }}")
+    
+    class_content.append("}")
+    return "\n".join(class_content)
 
 def get_node_text(node):
     return node.text.decode('utf-8') if node else ""
+
+def get_method_signature(method_node):
+    """Extract method signature without body"""
+    modifiers = get_modifiers(method_node)
+    generics = ""
+    
+    # Get generics if present
+    type_params = get_child_of_type(method_node, 'type_parameters')
+    if type_params:
+        generics = get_node_text(type_params)
+    
+    # Get return type
+    return_type = get_node_text(method_node.child_by_field_name('type'))
+    
+    # Get method name
+    method_name = get_node_text(method_node.child_by_field_name('name'))
+    
+    # Get parameters
+    param_node = method_node.child_by_field_name('parameters')
+    parameters = extract_parameters(param_node)
+    
+    # Get throws clause
+    throws_clause = ""
+    for child in method_node.children:
+        if child.type == 'throws':
+            throws_clause = get_node_text(child)
+            break
+    
+    # Build signature
+    signature_parts = []
+    if modifiers:
+        signature_parts.append(modifiers)
+    if generics:
+        signature_parts.append(generics)
+    if return_type:
+        signature_parts.append(return_type)
+    if method_name:
+        signature_parts.append(method_name)
+    
+    signature = " ".join(signature_parts) + f"({parameters})"
+    if throws_clause:
+        signature += " " + throws_clause
+    signature += ";"
+    
+    return signature
+
+def get_constructor_signature(ctor_node):
+    """Extract constructor signature without body"""
+    modifiers = get_modifiers(ctor_node)
+    
+    # Get constructor name
+    ctor_name = get_node_text(ctor_node.child_by_field_name('name'))
+    
+    # Get parameters
+    param_node = ctor_node.child_by_field_name('parameters')
+    parameters = extract_parameters(param_node)
+    
+    # Get throws clause
+    throws_clause = ""
+    for child in ctor_node.children:
+        if child.type == 'throws':
+            throws_clause = get_node_text(child)
+            break
+    
+    # Build signature
+    signature_parts = []
+    if modifiers:
+        signature_parts.append(modifiers)
+    if ctor_name:
+        signature_parts.append(ctor_name)
+    
+    signature = " ".join(signature_parts) + f"({parameters})"
+    if throws_clause:
+        signature += " " + throws_clause
+    signature += ";"
+    
+    return signature
 
 def get_child_of_type(node, type_name):
     for child in node.children:
