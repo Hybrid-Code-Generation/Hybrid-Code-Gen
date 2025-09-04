@@ -96,6 +96,8 @@ for item in results:
         if not inner_detailed_info:
             continue
         similarity = inner_detailed_info.get('similarity_score', None)
+        print(f"Similarity score: {similarity}\n")
+        
         detailed_results.append({
             'method_info': inner_method_info,
             'context': {},
@@ -106,15 +108,24 @@ for item in results:
         # Add this related method to our collection for type extraction
         if inner_detailed_info:
             all_methods_for_type_extraction.append(inner_detailed_info)
-
-# Extract non-primitive types from ALL discovered methods AFTER KG traversal
-        print(f"Similarity score: {similarity}\n")
+        
         # print(f"Java Method String: {}\n")
         inner_method_str = convert_json_to_java_method_str(inner_detailed_info)
         final_prompt_to_llm += f"\n{inner_method_str}\n"
 
-final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}"
+# Extract non-primitive types from ALL discovered methods AFTER KG traversal
+print(f"\n🔍 About to extract types from {len(all_methods_for_type_extraction)} methods...")
+for i, method in enumerate(all_methods_for_type_extraction[:3]):  # Debug: show first 3 methods
+    print(f"Method {i+1}: {method.get('Class', 'Unknown')}.{method.get('Method Name', 'Unknown')}")
+    print(f"  Has Function Body: {'Function Body' in method and method['Function Body'] is not None}")
+    if 'Function Body' in method:
+        body_preview = str(method['Function Body'])[:100] if method['Function Body'] else 'None/Empty'
+        print(f"  Body preview: {body_preview}...")
+
 unique_non_primitive_types = searcher.extract_types_from_all_methods(all_methods_for_type_extraction)
+
+# Complete the final prompt construction
+final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}"
 
 # Store the unique types in the searcher's memory for later access
 print(f"\n💾 Storing {sum(len(v) for v in unique_non_primitive_types.values())} unique types in searcher memory...")

@@ -102,9 +102,10 @@ class CodeSearcher:
         if method_info.get('Parameters'):
             self._parse_parameters(method_info['Parameters'], non_primitive_types)
         
-        # Extract from method body
-        if method_info.get('Function Body'):
-            self._parse_method_body(method_info['Function Body'], non_primitive_types)
+        # Extract from method body - handle NaN and empty cases
+        function_body = method_info.get('Function Body')
+        if function_body and str(function_body).strip() not in ['', 'nan', 'None'] and not (isinstance(function_body, float) and str(function_body) == 'nan'):
+            self._parse_method_body(str(function_body), non_primitive_types)
         
         # Update global discovered types
         for category, types in non_primitive_types.items():
@@ -275,8 +276,12 @@ class CodeSearcher:
         
         print(f"\n🔍 Extracting non-primitive types from {len(all_methods_list)} methods after KG traversal...")
         
-        for method_detail in all_methods_list:
+        methods_with_bodies = 0
+        methods_without_bodies = 0
+        
+        for i, method_detail in enumerate(all_methods_list):
             if not method_detail:
+                print(f"  ⚠️ Method {i+1}: None/Empty method detail")
                 continue
                 
             # Create a method_info dict in the format expected by extract_non_primitive_types
@@ -288,12 +293,28 @@ class CodeSearcher:
                 'Function Body': method_detail.get('Function Body', '')
             }
             
+            # Debug: Check if method has body
+            has_body = method_for_extraction['Function Body'] and str(method_for_extraction['Function Body']).strip() not in ['', 'nan', 'None']
+            if has_body:
+                methods_with_bodies += 1
+                print(f"  ✅ Method {i+1}: {method_for_extraction['Class']}.{method_for_extraction['Method Name']} (has body)")
+            else:
+                methods_without_bodies += 1
+                print(f"  ❌ Method {i+1}: {method_for_extraction['Class']}.{method_for_extraction['Method Name']} (no body)")
+            
             # Extract types from this method
             extracted_types = self.extract_non_primitive_types(method_for_extraction)
+            
+            # Debug: Show what was extracted
+            total_extracted = sum(len(v) for v in extracted_types.values())
+            if total_extracted > 0:
+                print(f"    🎯 Extracted {total_extracted} types: {extracted_types}")
             
             # Add to our unique collection
             for category, types in extracted_types.items():
                 unique_non_primitive_types[category].update(types)
+        
+        print(f"\n📊 Summary: {methods_with_bodies} methods with bodies, {methods_without_bodies} without bodies")
         
         # Convert sets to lists for JSON serialization
         unique_types_summary = {k: sorted(list(v)) for k, v in unique_non_primitive_types.items()}
