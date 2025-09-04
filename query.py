@@ -38,15 +38,27 @@ for i, method_info in enumerate(top_matches, 1):
         'method_info': method_info,
         'context': result
     })
-    print(f"{i}. {method_info['Class']}.{method_info['Method Name']} -> Context: {result}\n")
+    # print(f"{i}. {method_info['Class']}.{method_info['Method Name']} -> Context: {result}\n")
 
 # Now we will get the information for each method returned by the KG search
 from search_method import search_method as search_method_csv
 from search_method import search_method_csv_weighted  # Import the missing function
 
+final_prompt_to_llm = ""
+
+def convert_json_to_java_method_str(m):
+            if not m:
+                return ""
+            body = m.get('Function Body', '')
+            # Check if body is NaN (float) or empty
+            if isinstance(body, float) or not body or str(body).lower() == 'nan':
+                return f"{m['Return Type']} {m['Method Name']}({m['Parameters']})"
+            return f"{m['Return Type']} {m['Method Name']}({m['Parameters']}) {body}"
+
 detailed_results = []
 all_methods_for_type_extraction = []  # Collect all methods for type extraction
 
+i = 1
 for item in results:
     method_info = item['method_info']
     context = item['context']
@@ -68,8 +80,12 @@ for item in results:
     if detailed_method_info:
         all_methods_for_type_extraction.append(detailed_method_info)
 
+    method_str = convert_json_to_java_method_str(detailed_method_info)
+    # print(f"Java Method String: {method_str}\n")
+    final_prompt_to_llm += f"This is the {i} relevant method for the user query.\n{method_str}\n\nAnd these are the methods it calls or is called by:\n"
+    i += 1
+
     for inner_method_info in context.get('CALLS', []) + context.get('CALLED_BY', []):
-        print(f"Fetching detailed info for related method: {inner_method_info['class_name']}.{inner_method_info['method_name']}.{inner_method_info['parameters']}.{inner_method_info['return_type']}" )
         inner_detailed_info = search_method_csv_weighted(
             user_query,
             method_name=inner_method_info['method_name'],
@@ -77,9 +93,9 @@ for item in results:
             parameters=inner_method_info['parameters'],
             return_type=inner_method_info['return_type']
         )
+        if not inner_detailed_info:
+            continue
         similarity = inner_detailed_info.get('similarity_score', None)
-        print(f"Detailed Info for {inner_method_info['class_name']}.{inner_method_info['method_name']}: {json.dumps(inner_detailed_info, indent=2)}")
-        print(f"Similarity score: {similarity}\n")
         detailed_results.append({
             'method_info': inner_method_info,
             'context': {},
@@ -92,6 +108,12 @@ for item in results:
             all_methods_for_type_extraction.append(inner_detailed_info)
 
 # Extract non-primitive types from ALL discovered methods AFTER KG traversal
+        print(f"Similarity score: {similarity}\n")
+        # print(f"Java Method String: {}\n")
+        inner_method_str = convert_json_to_java_method_str(inner_detailed_info)
+        final_prompt_to_llm += f"\n{inner_method_str}\n"
+
+final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}"
 unique_non_primitive_types = searcher.extract_types_from_all_methods(all_methods_for_type_extraction)
 
 # Store the unique types in the searcher's memory for later access
@@ -101,6 +123,7 @@ print(f"\n💾 Storing {sum(len(v) for v in unique_non_primitive_types.values())
 print(f"\n📚 Classes discovered: {len(unique_non_primitive_types['classes'])} - {unique_non_primitive_types['classes'][:10] if len(unique_non_primitive_types['classes']) > 10 else unique_non_primitive_types['classes']}")
 print(f"🗂️ Collections discovered: {len(unique_non_primitive_types['collections'])} - {unique_non_primitive_types['collections']}")
 print(f"🏷️ Annotations discovered: {len(unique_non_primitive_types['annotations'])} - {unique_non_primitive_types['annotations']}")
+        
 
 # Save the detailed results to a JSON file for further use
 with open('detailed_search_results.json', 'w') as f:
@@ -118,3 +141,6 @@ print(f"🧠 Non-primitive types are now stored in searcher memory and can be ac
 print(f"   - searcher.get_discovered_types()")
 print(f"   - searcher.get_discovered_types('classes')")
 print(f"   - Or from the JSON file: detailed_search_results.json")
+
+with open('prompt_to_llm.txt', 'w') as f:
+    f.write(final_prompt_to_llm)
