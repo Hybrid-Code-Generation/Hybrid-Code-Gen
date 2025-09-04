@@ -7,6 +7,15 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 
 class CodeSearcher:
+    def get_code_embedding(self, code_text: str) -> np.ndarray:
+        """
+        Generate an embedding for a code snippet or method body using Azure OpenAI.
+        """
+        response = self.client.embeddings.create(
+            model=self.deployment,
+            input=[code_text]
+        )
+        return np.array(response.data[0].embedding, dtype=np.float32).reshape(1, -1)
     def __init__(self):
         self.client = None
         self.df = None

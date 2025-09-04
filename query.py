@@ -40,6 +40,7 @@ for i, method_info in enumerate(top_matches, 1):
 
 # Now we will get the information for each method returned by the KG search
 from search_method import search_method as search_method_csv
+from search_method import search_method_csv_weighted  # Import the missing function
 
 detailed_results = []
 for item in results:
@@ -60,18 +61,22 @@ for item in results:
     })
 
     for inner_method_info in context.get('CALLS', []) + context.get('CALLED_BY', []):
-        print(f"Fetching detailed info for related method: {inner_method_info['class_name']}.{inner_method_info['method_name']}.{inner_method_info['parameters']}.{inner_method_info['return_type']}")
-        inner_detailed_info = search_method_csv(
+        print(f"Fetching detailed info for related method: {inner_method_info['class_name']}.{inner_method_info['method_name']}.{inner_method_info['parameters']}.{inner_method_info['return_type']}" )
+        inner_detailed_info = search_method_csv_weighted(
+            user_query,
             method_name=inner_method_info['method_name'],
             class_name=inner_method_info['class_name'],
             parameters=inner_method_info['parameters'],
             return_type=inner_method_info['return_type']
         )
-        print(f"Detailed Info for {inner_method_info['class_name']}.{inner_method_info['method_name']}: {json.dumps(inner_detailed_info, indent=2)}\n")
+        similarity = inner_detailed_info.get('similarity_score', None)
+        print(f"Detailed Info for {inner_method_info['class_name']}.{inner_method_info['method_name']}: {json.dumps(inner_detailed_info, indent=2)}")
+        print(f"Similarity score: {similarity}\n")
         detailed_results.append({
             'method_info': inner_method_info,
             'context': {},
-            'detailed_method_info': inner_detailed_info
+            'detailed_method_info': inner_detailed_info,
+            'similarity_score': similarity
         })
 
 # Save the detailed results to a JSON file for further use
