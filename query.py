@@ -7,6 +7,8 @@ from query_search_OpenAI import CodeSearcher
 
 searcher = CodeSearcher()
 searcher.initialize()
+# Clear any previously discovered types to start fresh
+searcher.clear_discovered_types()
 K = 3
 
 user_query = input("Enter your code search query: ")
@@ -43,6 +45,8 @@ from search_method import search_method as search_method_csv
 from search_method import search_method_csv_weighted  # Import the missing function
 
 detailed_results = []
+all_methods_for_type_extraction = []  # Collect all methods for type extraction
+
 for item in results:
     method_info = item['method_info']
     context = item['context']
@@ -59,6 +63,10 @@ for item in results:
         'context': context,
         'detailed_method_info': detailed_method_info
     })
+    
+    # Add this method to our collection for type extraction
+    if detailed_method_info:
+        all_methods_for_type_extraction.append(detailed_method_info)
 
     for inner_method_info in context.get('CALLS', []) + context.get('CALLED_BY', []):
         print(f"Fetching detailed info for related method: {inner_method_info['class_name']}.{inner_method_info['method_name']}.{inner_method_info['parameters']}.{inner_method_info['return_type']}" )
@@ -78,7 +86,35 @@ for item in results:
             'detailed_method_info': inner_detailed_info,
             'similarity_score': similarity
         })
+        
+        # Add this related method to our collection for type extraction
+        if inner_detailed_info:
+            all_methods_for_type_extraction.append(inner_detailed_info)
+
+# Extract non-primitive types from ALL discovered methods AFTER KG traversal
+unique_non_primitive_types = searcher.extract_types_from_all_methods(all_methods_for_type_extraction)
+
+# Store the unique types in the searcher's memory for later access
+print(f"\n💾 Storing {sum(len(v) for v in unique_non_primitive_types.values())} unique types in searcher memory...")
+
+# Get specific categories for analysis
+print(f"\n📚 Classes discovered: {len(unique_non_primitive_types['classes'])} - {unique_non_primitive_types['classes'][:10] if len(unique_non_primitive_types['classes']) > 10 else unique_non_primitive_types['classes']}")
+print(f"🗂️ Collections discovered: {len(unique_non_primitive_types['collections'])} - {unique_non_primitive_types['collections']}")
+print(f"🏷️ Annotations discovered: {len(unique_non_primitive_types['annotations'])} - {unique_non_primitive_types['annotations']}")
 
 # Save the detailed results to a JSON file for further use
 with open('detailed_search_results.json', 'w') as f:
-    json.dump(detailed_results, f, indent=2)
+    # Add the unique types summary to the results
+    final_results = {
+        'query': user_query,
+        'unique_non_primitive_types': unique_non_primitive_types,
+        'total_methods_analyzed': len(all_methods_for_type_extraction),
+        'detailed_results': detailed_results
+    }
+    json.dump(final_results, f, indent=2)
+
+print(f"\n💾 Results saved to 'detailed_search_results.json' with {len(all_methods_for_type_extraction)} methods analyzed")
+print(f"🧠 Non-primitive types are now stored in searcher memory and can be accessed via:")
+print(f"   - searcher.get_discovered_types()")
+print(f"   - searcher.get_discovered_types('classes')")
+print(f"   - Or from the JSON file: detailed_search_results.json")

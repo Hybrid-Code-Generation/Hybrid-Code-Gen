@@ -256,6 +256,60 @@ class CodeSearcher:
             else:
                 print(f"  {category.capitalize()}: None found")
     
+    def extract_types_from_all_methods(self, all_methods_list):
+        """
+        Extract non-primitive types from a list of methods after KG traversal
+        Args:
+            all_methods_list: List of method dictionaries with full details
+        Returns:
+            Dictionary of unique non-primitive types found across all methods
+        """
+        unique_non_primitive_types = {
+            'classes': set(),
+            'interfaces': set(),
+            'collections': set(),
+            'generics': set(),
+            'annotations': set(),
+            'enums': set()
+        }
+        
+        print(f"\n🔍 Extracting non-primitive types from {len(all_methods_list)} methods after KG traversal...")
+        
+        for method_detail in all_methods_list:
+            if not method_detail:
+                continue
+                
+            # Create a method_info dict in the format expected by extract_non_primitive_types
+            method_for_extraction = {
+                'Class': method_detail.get('Class', ''),
+                'Method Name': method_detail.get('Method Name', ''),
+                'Return Type': method_detail.get('Return Type', ''),
+                'Parameters': method_detail.get('Parameters', ''),
+                'Function Body': method_detail.get('Function Body', '')
+            }
+            
+            # Extract types from this method
+            extracted_types = self.extract_non_primitive_types(method_for_extraction)
+            
+            # Add to our unique collection
+            for category, types in extracted_types.items():
+                unique_non_primitive_types[category].update(types)
+        
+        # Convert sets to lists for JSON serialization
+        unique_types_summary = {k: sorted(list(v)) for k, v in unique_non_primitive_types.items()}
+        
+        # Print summary
+        print("\n🎯 UNIQUE Non-Primitive Types Found Across ALL Methods:")
+        for category, types in unique_types_summary.items():
+            if types:
+                print(f"  {category.capitalize()}: {types}")
+            else:
+                print(f"  {category.capitalize()}: None found")
+        
+        print(f"\n📊 Total unique types found: {sum(len(v) for v in unique_types_summary.values())}")
+        
+        return unique_types_summary
+    
     def search_top_k(self, query: str, k: int = 3):
         cleaned_query = self.clean_query_advanced(query)
         query_embedding = self.get_query_embedding(cleaned_query)
@@ -270,15 +324,10 @@ class CodeSearcher:
                 'Class': self.df.iloc[idx]['Class'],
                 'Method Name': self.df.iloc[idx]['Method Name'],
                 'Return Type': self.df.iloc[idx]['Return Type'],
-                'Parameters': self.df.iloc[idx]['Parameters'],
-                'Function Body': self.df.iloc[idx]['Function Body']
+                'Parameters': self.df.iloc[idx]['Parameters']
+                # Removed Function Body and type extraction from here
             }
             results.append(method_info)
-        
-        # Extract and store non-primitive data types
-        for method in results:
-            non_primitive_types = self.extract_non_primitive_types(method)
-            method['Non_Primitive_Types'] = non_primitive_types
         
         return results
     
