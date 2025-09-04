@@ -127,10 +127,19 @@ def write_to_csv(output_file, method_infos):
     with open(output_file, 'w', newline='', encoding='utf-8') as csv_file:
         fieldnames = ["FilePath", "Package", "Class", "Method Name", "Return Type",
                       "Parameters", "Function Body", "Throws", "Modifiers", "Generics"]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
         writer.writeheader()
         for info in method_infos:
-            writer.writerow(info)
+            # Clean the data to avoid CSV issues
+            cleaned_info = {}
+            for key, value in info.items():
+                if value is None:
+                    cleaned_info[key] = ""
+                else:
+                    # Replace problematic characters
+                    cleaned_value = str(value).replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n')
+                    cleaned_info[key] = cleaned_value
+            writer.writerow(cleaned_info)
 
 def write_classes_to_csv(output_file, class_infos):
     """Write class information to CSV file"""
@@ -140,10 +149,19 @@ def write_classes_to_csv(output_file, class_infos):
 
     with open(output_file, 'w', newline='', encoding='utf-8') as csv_file:
         fieldnames = ["FilePath", "Package", "Class", "ClassBody"]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
         writer.writeheader()
         for info in class_infos:
-            writer.writerow(info)
+            # Clean the data to avoid CSV issues
+            cleaned_info = {}
+            for key, value in info.items():
+                if value is None:
+                    cleaned_info[key] = ""
+                else:
+                    # Replace problematic characters
+                    cleaned_value = str(value).replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n')
+                    cleaned_info[key] = cleaned_value
+            writer.writerow(cleaned_info)
 
 def extract_classes_only(directory_path, output_file="Class.csv"):
     """Convenience function to extract only class information"""
