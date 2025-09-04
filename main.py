@@ -5,9 +5,9 @@ from AST.java_parser_working import process_directory, write_to_csv, write_class
 
 method_infos = []
 class_infos = []
-directory_path = "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\JavaBench\\projects\\PA19"
+directory_path = "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\spring-petclinic-rest"
 output_file = "methods.csv"
-class_output_file = "Class.csv"
+class_output_file = "class.csv"
 
 process_directory(directory_path, method_infos, class_infos)
 write_to_csv(output_file, method_infos)
