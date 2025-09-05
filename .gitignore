@@ -21,7 +21,6 @@ javarepoparser/.devcontainer/data/
 # === Neo4j Data ===
 neo4j/data/
 !neo4j/data/.keep  # Optional: keep dir structure if needed
-/data/
 # === OS Generated ===
 .DS_Store
 Thumbs.db
@@ -54,3 +53,5 @@ temp/Library-Management-System-JAVA/.git/
 **/generated-sources/
 javarepoparser/neo4j/*
 
+__pycache__/
+*.pyc

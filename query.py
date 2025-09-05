@@ -2,10 +2,9 @@
 
 # We have a ready made function availble for generating embeddings and getting top K similar methods.
 
-import json
 import pandas as pd
 import re
-from query_search_OpenAI import CodeSearcher
+from processor.query_search_OpenAI import CodeSearcher
 
 searcher = CodeSearcher()
 searcher.initialize()
@@ -15,7 +14,7 @@ K = 3
 def load_class_names():
     """Load class names from class.csv file"""
     try:
-        class_df = pd.read_csv('class.csv')
+        class_df = pd.read_csv('./data/class.csv')
         # Extract unique class names from the 'Class' column
         class_names = set(class_df['Class'].dropna().unique())
         print(f"✅ Loaded {len(class_names)} unique class names from class.csv")
@@ -79,7 +78,7 @@ def get_class_bodies_for_matched_classes(matched_classes):
         return class_bodies
     
     try:
-        class_df = pd.read_csv('class.csv')
+        class_df = pd.read_csv('./data/class.csv')
         
         # Filter for the matched classes
         for class_name in matched_classes:
@@ -121,7 +120,7 @@ top_matches = searcher.search_top_k(user_query, k=K)
 print(f"\nTop {K} matching methods:")
 
 # Now we need to get the methods which are being called by these methods and its parent methods etc. to create a prompt for code generation.
-from search_neo4j import search_method
+from processor.search_neo4j import search_method
 
 results = []
 for i, method_info in enumerate(top_matches, 1):
@@ -144,8 +143,8 @@ for i, method_info in enumerate(top_matches, 1):
     # print(f"{i}. {method_info['Class']}.{method_info['Method Name']} -> Context: {result}\n")
 
 # Now we will get the information for each method returned by the KG search
-from search_method import search_method as search_method_csv
-from search_method import search_method_csv_weighted  # Import the missing function
+from processor.search_method import search_method as search_method_csv
+from processor.search_method import search_method_csv_weighted  # Import the missing function
 
 final_prompt_to_llm = ""
 
@@ -259,5 +258,5 @@ print(f"🧠 Final prompt saved to 'prompt_to_llm.txt'")
 print(f"📚 {len(unique_matched_classes)} unique class matches saved to JSON")
 print(f"📋 {len(matched_class_bodies)} class bodies extracted and saved")
 
-with open('prompt_to_llm.txt', 'w') as f:
+with open('./data/prompt_to_llm.txt', 'w') as f:
     f.write(final_prompt_to_llm)
