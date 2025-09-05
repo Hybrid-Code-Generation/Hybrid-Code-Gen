@@ -92,22 +92,4 @@ class CodeSearcher:
             results.append(method_info)
         
         return results
-    
-def main():
-    """Main function for standalone execution"""
-    searcher = CodeSearcher()
-    searcher.initialize()
-    
-    user_query = input("Enter your code search query: ")
-    top_matches = searcher.search_top_k(user_query, k=3)
-    
-    print("\nTop 3 matching methods:")
-    for i, method in enumerate(top_matches, 1):
-        print(f"\n{i}. Class: {method['Class']}")
-        print(f"   Method: {method['Method Name']}")
-        print(f"   Return Type: {method['Return Type']}")
-        print(f"   Parameters: {method['Parameters']}")
 
-# Usage example:
-# if __name__ == "__main__":
-#     main()

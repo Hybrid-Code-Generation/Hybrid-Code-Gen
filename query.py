@@ -253,19 +253,6 @@ else:
 
 # Complete the final prompt construction with class information
 final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}{class_info_section}"
-        
-
-# Save the detailed results to a JSON file for further use
-with open('detailed_search_results.json', 'w') as f:
-    final_results = {
-        'query': user_query,
-        'unique_matched_classes': sorted(list(unique_matched_classes)),
-        'total_matched_classes': len(unique_matched_classes),
-        'matched_class_bodies': {k: v for k, v in matched_class_bodies.items()},
-        'total_class_bodies_found': len(matched_class_bodies),
-        'detailed_results': detailed_results
-    }
-    json.dump(final_results, f, indent=2)
 
 print(f"\n💾 Results saved to 'detailed_search_results.json'")
 print(f"🧠 Final prompt saved to 'prompt_to_llm.txt'")

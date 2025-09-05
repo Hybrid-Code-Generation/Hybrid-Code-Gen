@@ -17,6 +17,6 @@ print(f"Method information written to {output_file}")
 print(f"Class information written to {class_output_file}")
 
 # Code for generating embeddings and saving it in pickle file
-from code_embedding_clean_openai import generate_embeddings_and_save
+from code_embedding_create import generate_embeddings_and_save
 
 generate_embeddings_and_save(csv_path=output_file, batch_size=20)
