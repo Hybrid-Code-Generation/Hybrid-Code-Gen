@@ -97,6 +97,11 @@ for item in results:
             continue
         similarity = inner_detailed_info.get('similarity_score', None)
         print(f"Similarity score: {similarity}\n")
+
+        ## This is important line to filter out low similarity methods
+        if not (similarity is not None and similarity >= 0.2):
+             print(f"Skipping due to low similarity with name {inner_method_info['method_name']}\n")
+             continue
         
         detailed_results.append({
             'method_info': inner_method_info,

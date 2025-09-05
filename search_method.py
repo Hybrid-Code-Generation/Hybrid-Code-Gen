@@ -98,10 +98,13 @@ def search_method_csv_weighted(
     q_emb = query_embedding.flatten()
     m_emb = method_embedding.flatten()
     if np.linalg.norm(q_emb) == 0 or np.linalg.norm(m_emb) == 0:
-        similarity = 0.0
+        dynamic_similarity = 0.0
     else:
-        similarity = float(np.dot(q_emb, m_emb) / (np.linalg.norm(q_emb) * np.linalg.norm(m_emb)))
-    print(f"Similarity of query to method {row['Class']}.{row['Method Name']}({row['Parameters']}): {similarity:.4f}")
+        dynamic_similarity = float(np.dot(q_emb, m_emb) / (np.linalg.norm(q_emb) * np.linalg.norm(m_emb)))
+
+    static_weight = filtered_df['Static Weight'] if 'Static Weight' in filtered_df else 0.0
+
     result = row.to_dict()
-    result['similarity_score'] = similarity
+    result['similarity_score'] = dynamic_similarity * 0.7 + static_weight * 0.3
+    print(f"Similarity of query to method {row['Class']}.{row['Method Name']}({row['Parameters']}): {result['similarity_score']}. With static weight: {static_weight}, dynamic similarity: {dynamic_similarity}")
     return result
