@@ -99,7 +99,7 @@ for item in results:
         print(f"Similarity score: {similarity}\n")
 
         ## This is important line to filter out low similarity methods
-        if not (similarity is not None and similarity >= 0.2):
+        if similarity is None or (hasattr(similarity, 'item') and similarity.item() < 0.2) or (not hasattr(similarity, 'item') and similarity < 0.2):
              print(f"Skipping due to low similarity with name {inner_method_info['method_name']}\n")
              continue
         
