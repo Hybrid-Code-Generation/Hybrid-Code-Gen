@@ -65,6 +65,51 @@ def find_exact_class_matches(method_info, class_names):
     
     return matched_classes
 
+def get_class_bodies_for_matched_classes(matched_classes):
+    """
+    Get class bodies from class.csv for the matched class names
+    Args:
+        matched_classes: Set of matched class names
+    Returns:
+        Dictionary mapping class names to their class bodies
+    """
+    class_bodies = {}
+    
+    if not matched_classes:
+        return class_bodies
+    
+    try:
+        class_df = pd.read_csv('class.csv')
+        
+        # Filter for the matched classes
+        for class_name in matched_classes:
+            class_row = class_df[class_df['Class'] == class_name]
+            if not class_row.empty:
+                class_body = class_row.iloc[0]['ClassBody']
+                class_bodies[class_name] = class_body
+                print(f"📋 Found class body for: {class_name}")
+            else:
+                print(f"⚠️ Class body not found for: {class_name}")
+        
+    except Exception as e:
+        print(f"❌ Error loading class bodies: {e}")
+    
+    return class_bodies
+
+def convert_class_to_java_str(class_name, class_body):
+    """
+    Convert class information to Java class string format
+    Args:
+        class_name: Name of the class
+        class_body: Body of the class
+    Returns:
+        Formatted Java class string
+    """
+    if not class_body or str(class_body).lower() == 'nan':
+        return f"class {class_name} {{ /* Class body not available */ }}"
+    
+    return f"class {class_name} {class_body}"
+
 # Load class names once at the beginning
 available_class_names = load_class_names()
 unique_matched_classes = set()  # Global set to store all unique matched classes
@@ -182,9 +227,6 @@ for item in results:
         inner_method_str = convert_json_to_java_method_str(inner_detailed_info)
         final_prompt_to_llm += f"\n{inner_method_str}\n"
 
-# Complete the final prompt construction
-final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}"
-
 # Print summary of matched classes
 print(f"\n📚 UNIQUE CLASS MATCHES FOUND:")
 if unique_matched_classes:
@@ -193,6 +235,24 @@ if unique_matched_classes:
         print(f"   - {class_name}")
 else:
     print("   No class matches found in any method")
+
+# Get class bodies for all matched classes
+print(f"\n� Extracting class bodies for matched classes...")
+matched_class_bodies = get_class_bodies_for_matched_classes(unique_matched_classes)
+
+# Add class information to the final prompt
+class_info_section = ""
+if matched_class_bodies:
+    class_info_section = "\n\nRelevant Java Classes referenced in the methods:\n\n"
+    for class_name in sorted(matched_class_bodies.keys()):
+        class_str = convert_class_to_java_str(class_name, matched_class_bodies[class_name])
+        class_info_section += f"{class_str}\n\n"
+    print(f"✅ Added {len(matched_class_bodies)} class definitions to prompt")
+else:
+    print("ℹ️ No class bodies found to add to prompt")
+
+# Complete the final prompt construction with class information
+final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}{class_info_section}"
         
 
 # Save the detailed results to a JSON file for further use
@@ -201,6 +261,8 @@ with open('detailed_search_results.json', 'w') as f:
         'query': user_query,
         'unique_matched_classes': sorted(list(unique_matched_classes)),
         'total_matched_classes': len(unique_matched_classes),
+        'matched_class_bodies': {k: v for k, v in matched_class_bodies.items()},
+        'total_class_bodies_found': len(matched_class_bodies),
         'detailed_results': detailed_results
     }
     json.dump(final_results, f, indent=2)
@@ -208,6 +270,7 @@ with open('detailed_search_results.json', 'w') as f:
 print(f"\n💾 Results saved to 'detailed_search_results.json'")
 print(f"🧠 Final prompt saved to 'prompt_to_llm.txt'")
 print(f"📚 {len(unique_matched_classes)} unique class matches saved to JSON")
+print(f"📋 {len(matched_class_bodies)} class bodies extracted and saved")
 
 with open('prompt_to_llm.txt', 'w') as f:
     f.write(final_prompt_to_llm)
