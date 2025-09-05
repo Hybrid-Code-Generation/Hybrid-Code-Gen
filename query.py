@@ -7,8 +7,6 @@ from query_search_OpenAI import CodeSearcher
 
 searcher = CodeSearcher()
 searcher.initialize()
-# Clear any previously discovered types to start fresh
-searcher.clear_discovered_types()
 K = 3
 
 user_query = input("Enter your code search query: ")
@@ -56,7 +54,6 @@ def convert_json_to_java_method_str(m):
             return f"{m['Return Type']} {m['Method Name']}({m['Parameters']}) {body}"
 
 detailed_results = []
-all_methods_for_type_extraction = []  # Collect all methods for type extraction
 
 i = 1
 for item in results:
@@ -75,10 +72,6 @@ for item in results:
         'context': context,
         'detailed_method_info': detailed_method_info
     })
-    
-    # Add this method to our collection for type extraction
-    if detailed_method_info:
-        all_methods_for_type_extraction.append(detailed_method_info)
 
     method_str = convert_json_to_java_method_str(detailed_method_info)
     # print(f"Java Method String: {method_str}\n")
@@ -110,53 +103,24 @@ for item in results:
             'similarity_score': similarity
         })
         
-        # Add this related method to our collection for type extraction
-        if inner_detailed_info:
-            all_methods_for_type_extraction.append(inner_detailed_info)
-        
         # print(f"Java Method String: {}\n")
         inner_method_str = convert_json_to_java_method_str(inner_detailed_info)
         final_prompt_to_llm += f"\n{inner_method_str}\n"
 
-# Extract non-primitive types from ALL discovered methods AFTER KG traversal
-print(f"\n🔍 About to extract types from {len(all_methods_for_type_extraction)} methods...")
-for i, method in enumerate(all_methods_for_type_extraction[:3]):  # Debug: show first 3 methods
-    print(f"Method {i+1}: {method.get('Class', 'Unknown')}.{method.get('Method Name', 'Unknown')}")
-    print(f"  Has Function Body: {'Function Body' in method and method['Function Body'] is not None}")
-    if 'Function Body' in method:
-        body_preview = str(method['Function Body'])[:100] if method['Function Body'] else 'None/Empty'
-        print(f"  Body preview: {body_preview}...")
-
-unique_non_primitive_types = searcher.extract_types_from_all_methods(all_methods_for_type_extraction)
-
 # Complete the final prompt construction
 final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}"
-
-# Store the unique types in the searcher's memory for later access
-print(f"\n💾 Storing {sum(len(v) for v in unique_non_primitive_types.values())} unique types in searcher memory...")
-
-# Get specific categories for analysis
-print(f"\n📚 Classes discovered: {len(unique_non_primitive_types['classes'])} - {unique_non_primitive_types['classes'][:10] if len(unique_non_primitive_types['classes']) > 10 else unique_non_primitive_types['classes']}")
-print(f"🗂️ Collections discovered: {len(unique_non_primitive_types['collections'])} - {unique_non_primitive_types['collections']}")
-print(f"🏷️ Annotations discovered: {len(unique_non_primitive_types['annotations'])} - {unique_non_primitive_types['annotations']}")
         
 
 # Save the detailed results to a JSON file for further use
 with open('detailed_search_results.json', 'w') as f:
-    # Add the unique types summary to the results
     final_results = {
         'query': user_query,
-        'unique_non_primitive_types': unique_non_primitive_types,
-        'total_methods_analyzed': len(all_methods_for_type_extraction),
         'detailed_results': detailed_results
     }
     json.dump(final_results, f, indent=2)
 
-print(f"\n💾 Results saved to 'detailed_search_results.json' with {len(all_methods_for_type_extraction)} methods analyzed")
-print(f"🧠 Non-primitive types are now stored in searcher memory and can be accessed via:")
-print(f"   - searcher.get_discovered_types()")
-print(f"   - searcher.get_discovered_types('classes')")
-print(f"   - Or from the JSON file: detailed_search_results.json")
+print(f"\n💾 Results saved to 'detailed_search_results.json'")
+print(f"🧠 Final prompt saved to 'prompt_to_llm.txt'")
 
 with open('prompt_to_llm.txt', 'w') as f:
     f.write(final_prompt_to_llm)
