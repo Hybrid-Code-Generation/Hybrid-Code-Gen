@@ -5,7 +5,7 @@ from AST.java_parser_working import process_directory, write_to_csv, write_class
 
 method_infos = []
 class_infos = []
-directory_path = "C:\\repos\\Hybrid-Code-Gen\\javarepoparser\\temp\\spring-petclinic-rest"
+directory_path = "./javarepoparser/temp/spring-petclinic-rest"
 output_file = "./data/methods.csv"
 class_output_file = "./data/class.csv"
 
