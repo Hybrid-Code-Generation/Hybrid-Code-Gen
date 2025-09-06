@@ -1,0 +1,1399 @@
+{
+  "prompt_to_llm_K1_sim0.1.md": {
+    "file_name": "prompt_to_llm_K1_sim0.1.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5833333333333334,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": []
+    },
+    "similarity_score": 0.92,
+    "summary": {
+      "functional_score": 0.5833333333333334,
+      "similarity_score": 0.92,
+      "issues_count": 0,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K1_sim0.2.md": {
+    "file_name": "prompt_to_llm_K1_sim0.2.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5833333333333334,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": []
+    },
+    "similarity_score": 0.92,
+    "summary": {
+      "functional_score": 0.5833333333333334,
+      "similarity_score": 0.92,
+      "issues_count": 0,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K1_sim0.3.md": {
+    "file_name": "prompt_to_llm_K1_sim0.3.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = owners.stream().map(owner -> {\n        OwnerDto dto = new OwnerDto();\n        dto.setId(owner.getId());\n        dto.setFirstName(owner.getFirstName());\n        dto.setLastName(owner.getLastName());\n        dto.setAddress(owner.getAddress());\n        dto.setCity(owner.getCity());\n        dto.setTelephone(owner.getTelephone());\n        // You may need to map pets if needed\n        return dto;\n    }).collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5333333333333333,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": " new OwnerDto()",
+          "return_type": "new",
+          "method_name": "OwnerDto",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "collect",
+            "toList",
+            "setAddress",
+            "if",
+            "setId",
+            "setTelephone",
+            "setCity",
+            "isEmpty",
+            "getId",
+            "setLastName",
+            "getAddress",
+            "map",
+            "setFirstName",
+            "getTelephone",
+            "stream",
+            "OwnerDto",
+            "getFirstName",
+            "getCity",
+            "getLastName",
+            "listOwners",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ],
+            [
+              "OwnerDto",
+              "dto"
+            ],
+            [
+              "return",
+              "dto"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": [
+        "Missing method calls: ['toOwnerDtoCollection']"
+      ]
+    },
+    "similarity_score": 0.84,
+    "summary": {
+      "functional_score": 0.5333333333333333,
+      "similarity_score": 0.84,
+      "issues_count": 1,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K1_sim0.4.md": {
+    "file_name": "prompt_to_llm_K1_sim0.4.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    List<OwnerDto> ownerDtos = new ArrayList<>();\n    Collection<Owner> owners;\n\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n\n    for (Owner owner : owners) {\n        OwnerDto dto = new OwnerDto()\n            .firstName(owner.getFirstName())\n            .lastName(owner.getLastName())\n            .address(owner.getAddress())\n            .city(owner.getCity())\n            .telephone(owner.getTelephone());\n        // Map pets if needed\n        ownerDtos.add(dto);\n    }\n\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5333333333333333,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": " new OwnerDto()",
+          "return_type": "new",
+          "method_name": "OwnerDto",
+          "parameters": [],
+          "method_calls": [
+            "telephone",
+            "findOwnerByLastName",
+            "add",
+            "lastName",
+            "address",
+            "if",
+            "city",
+            "isEmpty",
+            "for",
+            "getAddress",
+            "getTelephone",
+            "firstName",
+            "OwnerDto",
+            "getFirstName",
+            "trim",
+            "getCity",
+            "getLastName",
+            "listOwners",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "if",
+            "return",
+            "for",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement",
+            "for_loop"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ],
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "OwnerDto",
+              "dto"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": [
+        "Missing method calls: ['toOwnerDtoCollection']"
+      ]
+    },
+    "similarity_score": 0.84,
+    "summary": {
+      "functional_score": 0.5333333333333333,
+      "similarity_score": 0.84,
+      "issues_count": 1,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K2_sim0.1.md": {
+    "file_name": "prompt_to_llm_K2_sim0.1.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5833333333333334,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "trim",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": []
+    },
+    "similarity_score": 0.92,
+    "summary": {
+      "functional_score": 0.5833333333333334,
+      "similarity_score": 0.92,
+      "issues_count": 0,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K2_sim0.2.md": {
+    "file_name": "prompt_to_llm_K2_sim0.2.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5833333333333334,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "trim",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": []
+    },
+    "similarity_score": 0.92,
+    "summary": {
+      "functional_score": 0.5833333333333334,
+      "similarity_score": 0.92,
+      "issues_count": 0,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K2_sim0.3.md": {
+    "file_name": "prompt_to_llm_K2_sim0.3.md",
+    "extracted_code": "// In OwnerRestController.java\n\n@Autowired\nprivate ClinicService clinicService;\n\n// Helper method to convert Owner to OwnerDto\nprivate OwnerDto convertToDto(Owner owner) {\n    OwnerDto dto = new OwnerDto();\n    dto.setId(owner.getId());\n    dto.setFirstName(owner.getFirstName());\n    dto.setLastName(owner.getLastName());\n    dto.setAddress(owner.getAddress());\n    dto.setCity(owner.getCity());\n    dto.setTelephone(owner.getTelephone());\n    // Assuming you have a way to convert pets to PetDto\n    List<PetDto> petDtos = owner.getPets().stream()\n            .map(this::convertPetToDto) // You need to implement convertPetToDto\n            .collect(Collectors.toList());\n    dto.setPets(petDtos);\n    return dto;\n}\n\n@ResponseBody\npublic ResponseEntity<List<OwnerDto>> listOwners(@RequestParam(value = \"lastName\", required = false) String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtoList = owners.stream()\n            .map(this::convertToDto)\n            .collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtoList, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 1.0,
+      "overall_functional_score": 0.55,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "private OwnerDto convertToDto(Owner owner)",
+          "return_type": "OwnerDto",
+          "method_name": "convertToDto",
+          "parameters": [
+            "Owner owner"
+          ],
+          "method_calls": [
+            "findOwnerByLastName",
+            "collect",
+            "convertToDto",
+            "toList",
+            "setAddress",
+            "if",
+            "setPets",
+            "setId",
+            "setTelephone",
+            "setCity",
+            "isEmpty",
+            "getId",
+            "setLastName",
+            "getAddress",
+            "map",
+            "setFirstName",
+            "getTelephone",
+            "stream",
+            "OwnerDto",
+            "getFirstName",
+            "trim",
+            "RequestParam",
+            "getCity",
+            "getPets",
+            "getLastName",
+            "listOwners",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "false",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [
+            "lastName"
+          ],
+          "variable_declarations": [
+            [
+              "ClinicService",
+              "clinicService"
+            ],
+            [
+              "OwnerDto",
+              "dto"
+            ],
+            [
+              "List<PetDto>",
+              "petDtos"
+            ],
+            [
+              "return",
+              "dto"
+            ],
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtoList"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": [
+        "Missing method calls: ['toOwnerDtoCollection']"
+      ]
+    },
+    "similarity_score": 0.88,
+    "summary": {
+      "functional_score": 0.55,
+      "similarity_score": 0.88,
+      "issues_count": 1,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K2_sim0.4.md": {
+    "file_name": "prompt_to_llm_K2_sim0.4.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    List<OwnerDto> result = new ArrayList<>();\n    Collection<Owner> owners;\n\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n\n    for (Owner owner : owners) {\n        OwnerDto dto = new OwnerDto()\n            .firstName(owner.getFirstName())\n            .lastName(owner.getLastName())\n            .address(owner.getAddress())\n            .city(owner.getCity())\n            .telephone(owner.getTelephone())\n            .id(owner.getId());\n        if (owner.getPets() != null) {\n            dto.setPets(\n                owner.getPets().stream()\n                    .map(pet -> {\n                        PetDto petDto = new PetDto();\n                        petDto.setId(pet.getId());\n                        petDto.setName(pet.getName());\n                        petDto.setOwnerId(pet.getOwnerId());\n                        petDto.setTypeId(pet.getType() != null ? pet.getType().getId() : null);\n                        petDto.setTypeName(pet.getType() != null ? pet.getType().getName() : null);\n                        petDto.setBirthDate(pet.getBirthDate());\n                        petDto.setVisits(\n                            pet.getVisits().stream()\n                                .map(visit -> {\n                                    VisitDto visitDto = new VisitDto();\n                                    visitDto.setId(visit.getId());\n                                    visitDto.setPetId(visit.getPetId());\n                                    visitDto.setDescription(visit.getDescription());\n                                    visitDto.setDate(visit.getDate());\n                                    return visitDto;\n                                })\n                                .collect(Collectors.toList())\n                        );\n                        return petDto;\n                    })\n                    .collect(Collectors.toList())\n            );\n        }\n        result.add(dto);\n    }\n\n    return new ResponseEntity<>(result, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5333333333333333,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": " new OwnerDto()",
+          "return_type": "new",
+          "method_name": "OwnerDto",
+          "parameters": [],
+          "method_calls": [
+            "telephone",
+            "findOwnerByLastName",
+            "setName",
+            "collect",
+            "add",
+            "lastName",
+            "setDescription",
+            "toList",
+            "address",
+            "setTypeName",
+            "setBirthDate",
+            "getBirthDate",
+            "getName",
+            "if",
+            "id",
+            "setPets",
+            "city",
+            "setId",
+            "PetDto",
+            "isEmpty",
+            "getId",
+            "setPetId",
+            "for",
+            "getAddress",
+            "map",
+            "getDate",
+            "getOwnerId",
+            "getTelephone",
+            "firstName",
+            "stream",
+            "setDate",
+            "VisitDto",
+            "OwnerDto",
+            "getVisits",
+            "getDescription",
+            "getType",
+            "getFirstName",
+            "getPetId",
+            "trim",
+            "setVisits",
+            "setTypeId",
+            "getCity",
+            "getPets",
+            "getLastName",
+            "listOwners",
+            "setOwnerId",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "if",
+            "return",
+            "for",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement",
+            "for_loop"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "List<OwnerDto>",
+              "result"
+            ],
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "OwnerDto",
+              "dto"
+            ],
+            [
+              "PetDto",
+              "petDto"
+            ],
+            [
+              "VisitDto",
+              "visitDto"
+            ],
+            [
+              "return",
+              "visitDto"
+            ],
+            [
+              "return",
+              "petDto"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": [
+        "Missing method calls: ['toOwnerDtoCollection']"
+      ]
+    },
+    "similarity_score": 0.84,
+    "summary": {
+      "functional_score": 0.5333333333333333,
+      "similarity_score": 0.84,
+      "issues_count": 1,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K3_sim0.1.md": {
+    "file_name": "prompt_to_llm_K3_sim0.1.md",
+    "extracted_code": "@Autowired\nprivate ClinicService clinicService;\n\n@Autowired\nprivate OwnerMapper ownerMapper;\n\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5833333333333334,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "trim",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "ClinicService",
+              "clinicService"
+            ],
+            [
+              "OwnerMapper",
+              "ownerMapper"
+            ],
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": []
+    },
+    "similarity_score": 0.92,
+    "summary": {
+      "functional_score": 0.5833333333333334,
+      "similarity_score": 0.92,
+      "issues_count": 0,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K3_sim0.2.md": {
+    "file_name": "prompt_to_llm_K3_sim0.2.md",
+    "extracted_code": "// In OwnerRestController.java\n\n@Autowired\nprivate ClinicService clinicService;\n\n@Autowired\nprivate OwnerMapper ownerMapper;\n\n@ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        // Assuming there's a method findAllOwners in ClinicServiceImpl exposed in ClinicService\n        owners = ((ClinicServiceImpl)clinicService).findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5833333333333334,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "trim",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "ClinicService",
+              "clinicService"
+            ],
+            [
+              "OwnerMapper",
+              "ownerMapper"
+            ],
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "ClinicService",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": []
+    },
+    "similarity_score": 0.88,
+    "summary": {
+      "functional_score": 0.5833333333333334,
+      "similarity_score": 0.88,
+      "issues_count": 0,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 1.0,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K3_sim0.3.md": {
+    "file_name": "prompt_to_llm_K3_sim0.3.md",
+    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = owners.stream().map(owner -> {\n        OwnerDto dto = new OwnerDto();\n        dto.setFirstName(owner.getFirstName());\n        dto.setLastName(owner.getLastName());\n        dto.setAddress(owner.getAddress());\n        dto.setCity(owner.getCity());\n        dto.setTelephone(owner.getTelephone());\n        dto.setId(owner.getId());\n        // Map pets if needed, or leave empty as per your DTO logic\n        return dto;\n    }).collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 0.8333333333333334,
+      "overall_functional_score": 0.5333333333333333,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": " new OwnerDto()",
+          "return_type": "new",
+          "method_name": "OwnerDto",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "collect",
+            "toList",
+            "setAddress",
+            "if",
+            "setId",
+            "setTelephone",
+            "setCity",
+            "isEmpty",
+            "getId",
+            "setLastName",
+            "getAddress",
+            "map",
+            "setFirstName",
+            "getTelephone",
+            "stream",
+            "OwnerDto",
+            "getFirstName",
+            "trim",
+            "getCity",
+            "getLastName",
+            "listOwners",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ],
+            [
+              "OwnerDto",
+              "dto"
+            ],
+            [
+              "return",
+              "dto"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": [
+        "Missing method calls: ['toOwnerDtoCollection']"
+      ]
+    },
+    "similarity_score": 0.84,
+    "summary": {
+      "functional_score": 0.5333333333333333,
+      "similarity_score": 0.84,
+      "issues_count": 1,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 0.8333333333333334,
+      "control_structure_coverage": 1.0
+    }
+  },
+  "prompt_to_llm_K3_sim0.4.md": {
+    "file_name": "prompt_to_llm_K3_sim0.4.md",
+    "extracted_code": "// In OwnerRestController.java\n\n@Autowired\nprivate ClinicService clinicService;\n\n// Assuming you have this DTO converter method somewhere in your application\nprivate OwnerDto convertToDto(Owner owner) {\n    OwnerDto dto = new OwnerDto();\n    dto.setFirstName(owner.getFirstName());\n    dto.setLastName(owner.getLastName());\n    dto.setAddress(owner.getAddress());\n    dto.setCity(owner.getCity());\n    dto.setTelephone(owner.getTelephone());\n    dto.setId(owner.getId());\n    // Convert pets as needed if required\n    // dto.setPets(...);\n    return dto;\n}\n\n@ResponseBody\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findOwnerByLastName(\"\"); // Returns all owners if lastName is empty\n    }\n    List<OwnerDto> ownerDtos = owners.stream()\n            .map(this::convertToDto)\n            .collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "functional_analysis": {
+      "method_signature_match": false,
+      "return_type_match": false,
+      "method_name_match": false,
+      "parameter_match": false,
+      "method_calls_coverage": 0.6666666666666666,
+      "control_structure_coverage": 1.0,
+      "keyword_coverage": 1.0,
+      "overall_functional_score": 0.5,
+      "detailed_analysis": {
+        "llm_components": {
+          "method_signature": "private OwnerDto convertToDto(Owner owner)",
+          "return_type": "OwnerDto",
+          "method_name": "convertToDto",
+          "parameters": [
+            "Owner owner"
+          ],
+          "method_calls": [
+            "findOwnerByLastName",
+            "collect",
+            "convertToDto",
+            "toList",
+            "setAddress",
+            "if",
+            "setPets",
+            "setId",
+            "setTelephone",
+            "setCity",
+            "isEmpty",
+            "getId",
+            "setLastName",
+            "getAddress",
+            "map",
+            "setFirstName",
+            "getTelephone",
+            "stream",
+            "OwnerDto",
+            "getFirstName",
+            "trim",
+            "getCity",
+            "getLastName",
+            "listOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [
+            ""
+          ],
+          "variable_declarations": [
+            [
+              "ClinicService",
+              "clinicService"
+            ],
+            [
+              "OwnerDto",
+              "dto"
+            ],
+            [
+              "return",
+              "dto"
+            ],
+            [
+              "Collection<Owner>",
+              "owners"
+            ],
+            [
+              "List<OwnerDto>",
+              "ownerDtos"
+            ]
+          ]
+        },
+        "correct_components": {
+          "method_signature": "",
+          "return_type": "",
+          "method_name": "",
+          "parameters": [],
+          "method_calls": [
+            "findOwnerByLastName",
+            "if",
+            "listOwners",
+            "isEmpty",
+            "toOwnerDtoCollection",
+            "findAllOwners"
+          ],
+          "keywords": [
+            "return",
+            "if",
+            "null",
+            "new",
+            "else",
+            "this"
+          ],
+          "control_structures": [
+            "if_statement",
+            "else_statement"
+          ],
+          "string_literals": [],
+          "variable_declarations": [
+            [
+              "Collection<Owner>",
+              "owners"
+            ]
+          ]
+        }
+      },
+      "issues_found": [
+        "Missing method calls: ['toOwnerDtoCollection', 'findAllOwners']"
+      ]
+    },
+    "similarity_score": 0.84,
+    "summary": {
+      "functional_score": 0.5,
+      "similarity_score": 0.84,
+      "issues_count": 1,
+      "is_functionally_correct": false,
+      "method_signature_match": false,
+      "method_calls_coverage": 0.6666666666666666,
+      "control_structure_coverage": 1.0
+    }
+  }
+}

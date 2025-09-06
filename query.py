@@ -8,7 +8,20 @@ from processor.query_search_OpenAI import CodeSearcher
 
 searcher = CodeSearcher()
 searcher.initialize()
-K = 3
+# K = 3
+sim = 0.2
+
+# delete all .txt files in data folder
+import os
+for file in os.listdir('./data/'):
+    if file.endswith('.txt'):
+        os.remove(os.path.join('./data/', file))
+
+# delete all .md files in data/llm_responses folder
+if os.path.exists('./data/llm_responses'):
+    for file in os.listdir('./data/llm_responses'):
+        if file.endswith('.md'):
+            os.remove(os.path.join('./data/llm_responses', file))
 
 # Load class names from class.csv for exact matching
 def load_class_names():
@@ -115,56 +128,46 @@ unique_matched_classes = set()  # Global set to store all unique matched classes
 
 user_query = input("Enter your code search query: ")
 
-# Vector embedding search
-top_matches = searcher.search_top_k(user_query, k=K)
-print(f"\nTop {K} matching methods:")
+# Pre-fetch all data with maximum K value (3)
+print("🔍 Pre-fetching all data with K=3...")
+MAX_K = 3
+top_matches = searcher.search_top_k(user_query, k=MAX_K)
 
-# Now we need to get the methods which are being called by these methods and its parent methods etc. to create a prompt for code generation.
+# Import required functions
 from processor.search_neo4j import search_method
+from processor.search_method import search_method as search_method_csv
+from processor.search_method import search_method_csv_weighted
 
-results = []
+def convert_json_to_java_method_str(m):
+    if not m:
+        return ""
+    body = m.get('Function Body', '')
+    # Check if body is NaN (float) or empty
+    if isinstance(body, float) or not body or str(body).lower() == 'nan':
+        return f"{m['Return Type']} {m['Method Name']}({m['Parameters']})"
+    return f"{m['Return Type']} {m['Method Name']}({m['Parameters']}) {body}"
+
+# Pre-fetch all KG search results and detailed method information
+print("📊 Fetching KG context and detailed method information...")
+all_results = []
+all_related_methods = []  # Store all related methods with their similarities
+
 for i, method_info in enumerate(top_matches, 1):
+    print(f"Processing method {i}/{MAX_K}: {method_info['Class']}.{method_info['Method Name']}")
+    
     # KG search
-    print(f"Current Method: {method_info['Class']}.{method_info['Method Name']}")
     result = search_method(
         method_name=method_info['Method Name'],
         class_name=method_info['Class'],
         parameters=method_info['Parameters'],
         return_type=method_info['Return Type'],
-        calls=3,
+        calls=MAX_K-i+1,
         called_by=1,
         belongs_to=True,
         uses=True
     )
-    results.append({
-        'method_info': method_info,
-        'context': result
-    })
-    # print(f"{i}. {method_info['Class']}.{method_info['Method Name']} -> Context: {result}\n")
-
-# Now we will get the information for each method returned by the KG search
-from processor.search_method import search_method as search_method_csv
-from processor.search_method import search_method_csv_weighted  # Import the missing function
-
-final_prompt_to_llm = ""
-
-def convert_json_to_java_method_str(m):
-            if not m:
-                return ""
-            body = m.get('Function Body', '')
-            # Check if body is NaN (float) or empty
-            if isinstance(body, float) or not body or str(body).lower() == 'nan':
-                return f"{m['Return Type']} {m['Method Name']}({m['Parameters']})"
-            return f"{m['Return Type']} {m['Method Name']}({m['Parameters']}) {body}"
-
-detailed_results = []
-
-i = 1
-for item in results:
-    method_info = item['method_info']
-    context = item['context']
-
-    # Search back in AST extracted CSV to get full method details
+    
+    # Get detailed method info
     detailed_method_info = search_method_csv(
         method_name=method_info['Method Name'],
         class_name=method_info['Class'],
@@ -172,25 +175,15 @@ for item in results:
         return_type=method_info['Return Type']
     )
     
-    # Find exact class name matches in this method
-    if detailed_method_info and available_class_names:
-        matched_classes = find_exact_class_matches(detailed_method_info, available_class_names)
-        if matched_classes:
-            unique_matched_classes.update(matched_classes)
-            print(f"🎯 Found class matches in {method_info['Class']}.{method_info['Method Name']}: {matched_classes}")
-    
-    detailed_results.append({
+    all_results.append({
         'method_info': method_info,
-        'context': context,
-        'detailed_method_info': detailed_method_info
+        'context': result,
+        'detailed_method_info': detailed_method_info,
+        'index': i  # Store original index for priority
     })
-
-    method_str = convert_json_to_java_method_str(detailed_method_info)
-    # print(f"Java Method String: {method_str}\n")
-    final_prompt_to_llm += f"This is the {i} relevant method for the user query.\n{method_str}\n\nAnd these are the methods it calls or is called by:\n"
-    i += 1
-
-    for inner_method_info in context.get('CALLS', []) + context.get('CALLED_BY', []):
+    
+    # Process related methods and get their detailed info with similarity scores
+    for inner_method_info in result.get('CALLS', []) + result.get('CALLED_BY', []):
         inner_detailed_info = search_method_csv_weighted(
             user_query,
             method_name=inner_method_info['method_name'],
@@ -198,65 +191,108 @@ for item in results:
             parameters=inner_method_info['parameters'],
             return_type=inner_method_info['return_type']
         )
-        if not inner_detailed_info:
-            continue
-        similarity = inner_detailed_info.get('similarity_score', None)
-        print(f"Similarity score: {similarity}\n")
+        if inner_detailed_info:
+            similarity = inner_detailed_info.get('similarity_score', 0)
+            all_related_methods.append({
+                'method_info': inner_method_info,
+                'detailed_method_info': inner_detailed_info,
+                'similarity_score': similarity,
+                'parent_index': i  # Which main method this is related to
+            })
 
-        ## This is important line to filter out low similarity methods
-        if similarity is None or (hasattr(similarity, 'item') and similarity.item() < 0.2) or (not hasattr(similarity, 'item') and similarity < 0.2):
-             print(f"Skipping due to low similarity with name {inner_method_info['method_name']}\n")
-             continue
+print(f"✅ Pre-fetched {len(all_results)} main methods and {len(all_related_methods)} related methods")
+
+# Now iterate through different K and sim values using the pre-fetched data
+for K in range(1, 4, 1):
+    for sim in [0.1, 0.2, 0.3, 0.4]:
+        print(f"\n{'='*60}")
+        print(f"Processing K={K}, similarity threshold={sim}")
+        print(f"{'='*60}")
         
-        detailed_results.append({
-            'method_info': inner_method_info,
-            'context': {},
-            'detailed_method_info': inner_detailed_info,
-            'similarity_score': similarity
-        })
+        # Filter main methods based on current K
+        current_main_methods = [result for result in all_results if result['index'] <= K]
         
-        # Find exact class name matches in this related method
-        if inner_detailed_info and available_class_names:
-            matched_classes = find_exact_class_matches(inner_detailed_info, available_class_names)
-            if matched_classes:
-                unique_matched_classes.update(matched_classes)
-                print(f"🎯 Found class matches in related method {inner_method_info['class_name']}.{inner_method_info['method_name']}: {matched_classes}")
+        # Filter related methods based on similarity threshold and parent method inclusion
+        current_related_methods = [
+            method for method in all_related_methods 
+            if (method['similarity_score'] is not None and 
+                ((hasattr(method['similarity_score'], 'item') and method['similarity_score'].item() >= sim) or 
+                 (not hasattr(method['similarity_score'], 'item') and method['similarity_score'] >= sim)) and
+                method['parent_index'] <= K)
+        ]
         
-        # print(f"Java Method String: {}\n")
-        inner_method_str = convert_json_to_java_method_str(inner_detailed_info)
-        final_prompt_to_llm += f"\n{inner_method_str}\n"
+        print(f"📊 Using {len(current_main_methods)} main methods and {len(current_related_methods)} related methods")
+        
+        # Build the prompt for current K and sim values
+        final_prompt_to_llm = ""
+        unique_matched_classes_per_run = set()
+        
+        # Process main methods
+        for i, item in enumerate(current_main_methods, 1):
+            method_info = item['method_info']
+            detailed_method_info = item['detailed_method_info']
+            
+            # Find exact class name matches in this method
+            if detailed_method_info and available_class_names:
+                matched_classes = find_exact_class_matches(detailed_method_info, available_class_names)
+                if matched_classes:
+                    unique_matched_classes.update(matched_classes)
+                    unique_matched_classes_per_run.update(matched_classes)
+                    print(f"🎯 Found class matches in {method_info['Class']}.{method_info['Method Name']}: {matched_classes}")
+            
+            method_str = convert_json_to_java_method_str(detailed_method_info)
+            final_prompt_to_llm += f"This is the {i} relevant method for the user query.\n\nFile name: {detailed_method_info['FilePath']}\n\nMethod: {method_str}\n\nAnd these are the methods it calls or is called by:\n"
+        
+        # Process related methods
+        for method in current_related_methods:
+            detailed_method_info = method['detailed_method_info']
+            similarity = method['similarity_score']
+            
+            print(f"Including related method with similarity score: {similarity}")
+            
+            # Find exact class name matches in this related method
+            if detailed_method_info and available_class_names:
+                matched_classes = find_exact_class_matches(detailed_method_info, available_class_names)
+                if matched_classes:
+                    unique_matched_classes.update(matched_classes)
+                    unique_matched_classes_per_run.update(matched_classes)
+                    print(f"🎯 Found class matches in related method {method['method_info']['class_name']}.{method['method_info']['method_name']}: {matched_classes}")
+            
+            inner_method_str = convert_json_to_java_method_str(detailed_method_info)
+            final_prompt_to_llm += f"File name: {detailed_method_info['FilePath']}\nMethod: {inner_method_str}\n"
 
-# Print summary of matched classes
-print(f"\n📚 UNIQUE CLASS MATCHES FOUND:")
-if unique_matched_classes:
-    print(f"   Total unique classes found: {len(unique_matched_classes)}")
-    for class_name in sorted(unique_matched_classes):
-        print(f"   - {class_name}")
-else:
-    print("   No class matches found in any method")
+        # Print summary of matched classes for this run
+        print(f"\n📚 UNIQUE CLASS MATCHES FOUND (K={K}, sim={sim}):")
+        if unique_matched_classes_per_run:
+            print(f"   Total unique classes found: {len(unique_matched_classes_per_run)}")
+            for class_name in sorted(unique_matched_classes_per_run):
+                print(f"   - {class_name}")
+        else:
+            print("   No class matches found in any method")
 
-# Get class bodies for all matched classes
-print(f"\n� Extracting class bodies for matched classes...")
-matched_class_bodies = get_class_bodies_for_matched_classes(unique_matched_classes)
+        # Get class bodies for all matched classes
+        print(f"\n📦 Extracting class bodies for matched classes...")
+        matched_class_bodies = get_class_bodies_for_matched_classes(unique_matched_classes_per_run)
 
-# Add class information to the final prompt
-class_info_section = ""
-if matched_class_bodies:
-    class_info_section = "\n\nRelevant Java Classes referenced in the methods:\n\n"
-    for class_name in sorted(matched_class_bodies.keys()):
-        class_str = convert_class_to_java_str(class_name, matched_class_bodies[class_name])
-        class_info_section += f"{class_str}\n\n"
-    print(f"✅ Added {len(matched_class_bodies)} class definitions to prompt")
-else:
-    print("ℹ️ No class bodies found to add to prompt")
+        # Add class information to the final prompt
+        class_info_section = ""
+        if matched_class_bodies:
+            class_info_section = "\n\nRelevant Java Classes referenced in the methods:\n\n"
+            for class_name in sorted(matched_class_bodies.keys()):
+                class_str = convert_class_to_java_str(class_name, matched_class_bodies[class_name])
+                class_info_section += f"{class_str}\n\n"
+            print(f"✅ Added {len(matched_class_bodies)} class definitions to prompt")
+        else:
+            print("ℹ️ No class bodies found to add to prompt")
 
-# Complete the final prompt construction with class information
-final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}{class_info_section}"
+        # Complete the final prompt construction with class information
+        final_prompt_to_llm = f"The following are Java methods relevant to the user's query: '{user_query}'. \n\nUse these methods to assist in code generation.\n\n\n{final_prompt_to_llm}{class_info_section}"
 
-print(f"\n💾 Results saved to 'detailed_search_results.json'")
-print(f"🧠 Final prompt saved to 'prompt_to_llm.txt'")
-print(f"📚 {len(unique_matched_classes)} unique class matches saved to JSON")
-print(f"📋 {len(matched_class_bodies)} class bodies extracted and saved")
-
-with open('./data/prompt_to_llm.txt', 'w') as f:
-    f.write(final_prompt_to_llm)
+        # Save to separate files with K and sim values
+        filename = f'./data/prompt_to_llm_K{K}_sim{sim}.txt'
+        with open(filename, 'w') as f:
+            f.write(final_prompt_to_llm)
+        
+        print(f"🧠 Final prompt saved to '{filename}'")
+        print(f"📚 {len(unique_matched_classes_per_run)} unique class matches for this run")
+        print(f"📋 {len(matched_class_bodies)} class bodies extracted and saved")

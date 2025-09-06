@@ -1,5 +1,3 @@
-import os
-import csv
 from tree_sitter import Language, Parser
 from tree_sitter_languages import get_language
 import os

@@ -1,0 +1,7 @@
+pandas
+numpy
+faiss
+openai
+nltk
+tree_sitter
+tree_sitter_languages
