@@ -15,6 +15,7 @@
 # The tool will generate:
 # - comparison_results.json: Detailed analysis for each file
 # - Console output: Summary statistics and detailed JSON dump
+from openai import AzureOpenAI
 
 correct_method = """
     public ResponseEntity<List<OwnerDto>> listOwners(String lastName) {
@@ -35,197 +36,32 @@ import os
 import logging
 import json
 import re
+from datetime import datetime
 from typing import Dict, List, Any
+from key import key
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 data_dir = "./data/llm_responses"
 
-def extract_java_code(content: str) -> str:
-    """Extract Java code from markdown content."""
-    # Look for code blocks with java language specification
-    java_code_pattern = r'```(?:java)?\n(.*?)```'
-    matches = re.findall(java_code_pattern, content, re.DOTALL)
-    
-    if matches:
-        # Return the first Java code block found
-        return matches[0].strip()
-    
-    # If no code blocks found, return the content as is (might be plain Java)
-    return content.strip()
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-def extract_method_components(code: str) -> Dict[str, Any]:
-    """Extract key components from a method for comparison."""
-    components = {
-        "method_signature": "",
-        "return_type": "",
-        "method_name": "",
-        "parameters": [],
-        "method_calls": [],
-        "keywords": [],
-        "control_structures": [],
-        "string_literals": [],
-        "variable_declarations": []
-    }
-    
-    # Clean code for analysis
-    clean_code = re.sub(r'\s+', ' ', code.strip())
-    
-    # Extract method signature
-    method_pattern = r'(public|private|protected)?\s*(\w+(?:<[^>]+>)?)\s+(\w+)\s*\(([^)]*)\)'
-    method_match = re.search(method_pattern, clean_code)
-    if method_match:
-        components["method_signature"] = method_match.group(0)
-        components["return_type"] = method_match.group(2) if method_match.group(2) else ""
-        components["method_name"] = method_match.group(3)
-        
-        # Extract parameters
-        params = method_match.group(4)
-        if params.strip():
-            param_list = [p.strip() for p in params.split(',')]
-            components["parameters"] = param_list
-    
-    # Extract method calls (words followed by parentheses)
-    method_calls = re.findall(r'(\w+)\s*\(', clean_code)
-    components["method_calls"] = list(set(method_calls))
-    
-    # Extract keywords and identifiers
-    keywords = re.findall(r'\b(if|else|while|for|try|catch|return|new|this|null|true|false)\b', clean_code)
-    components["keywords"] = list(set(keywords))
-    
-    # Extract control structures
-    control_patterns = [
-        (r'if\s*\([^)]+\)', 'if_statement'),
-        (r'else', 'else_statement'),
-        (r'while\s*\([^)]+\)', 'while_loop'),
-        (r'for\s*\([^)]+\)', 'for_loop'),
-        (r'try\s*\{', 'try_block'),
-        (r'catch\s*\([^)]+\)', 'catch_block')
-    ]
-    for pattern, structure_type in control_patterns:
-        if re.search(pattern, clean_code):
-            components["control_structures"].append(structure_type)
-    
-    # Extract string literals
-    string_literals = re.findall(r'"([^"]*)"', clean_code)
-    components["string_literals"] = string_literals
-    
-    # Extract variable declarations (simple pattern)
-    var_declarations = re.findall(r'(\w+(?:<[^>]+>)?)\s+(\w+)\s*[=;]', clean_code)
-    components["variable_declarations"] = var_declarations
-    
-    return components
+endpoint = "https://azure-ai-hackthon.openai.azure.com/"
+model_name = "gpt-4.1"
+deployment = "gpt-4.1"
 
-def analyze_functional_correctness(llm_code: str, correct_code: str) -> Dict[str, Any]:
-    """Generic functional correctness analysis based on code structure comparison."""
-    
-    results = {
-        "method_signature_match": False,
-        "return_type_match": False,
-        "method_name_match": False,
-        "parameter_match": False,
-        "method_calls_coverage": 0.0,
-        "control_structure_coverage": 0.0,
-        "keyword_coverage": 0.0,
-        "overall_functional_score": 0.0,
-        "detailed_analysis": {},
-        "issues_found": []
-    }
-    
-    # Extract components from both code snippets
-    llm_components = extract_method_components(llm_code)
-    correct_components = extract_method_components(correct_code)
-    
-    # Store detailed analysis
-    results["detailed_analysis"] = {
-        "llm_components": llm_components,
-        "correct_components": correct_components
-    }
-    
-    # 1. Method signature comparison
-    if llm_components["method_signature"] and correct_components["method_signature"]:
-        # Normalize signatures for comparison
-        llm_sig = re.sub(r'\s+', ' ', llm_components["method_signature"]).strip()
-        correct_sig = re.sub(r'\s+', ' ', correct_components["method_signature"]).strip()
-        
-        # Check similarity (allowing for minor differences in modifiers/formatting)
-        llm_sig_parts = llm_sig.split()
-        correct_sig_parts = correct_sig.split()
-        
-        if len(llm_sig_parts) >= 2 and len(correct_sig_parts) >= 2:
-            # Compare return type and method name
-            results["return_type_match"] = llm_components["return_type"] == correct_components["return_type"]
-            results["method_name_match"] = llm_components["method_name"] == correct_components["method_name"]
-            results["parameter_match"] = llm_components["parameters"] == correct_components["parameters"]
-            
-            if results["return_type_match"] and results["method_name_match"] and results["parameter_match"]:
-                results["method_signature_match"] = True
-            else:
-                if not results["return_type_match"]:
-                    results["issues_found"].append(f"Return type mismatch: expected '{correct_components['return_type']}', got '{llm_components['return_type']}'")
-                if not results["method_name_match"]:
-                    results["issues_found"].append(f"Method name mismatch: expected '{correct_components['method_name']}', got '{llm_components['method_name']}'")
-                if not results["parameter_match"]:
-                    results["issues_found"].append(f"Parameter mismatch: expected {correct_components['parameters']}, got {llm_components['parameters']}")
-    
-    # 2. Method calls coverage
-    if correct_components["method_calls"]:
-        llm_calls = set(llm_components["method_calls"])
-        correct_calls = set(correct_components["method_calls"])
-        
-        found_calls = llm_calls.intersection(correct_calls)
-        results["method_calls_coverage"] = len(found_calls) / len(correct_calls)
-        
-        missing_calls = correct_calls - llm_calls
-        if missing_calls:
-            results["issues_found"].append(f"Missing method calls: {list(missing_calls)}")
-    
-    # 3. Control structure coverage
-    if correct_components["control_structures"]:
-        llm_structures = set(llm_components["control_structures"])
-        correct_structures = set(correct_components["control_structures"])
-        
-        found_structures = llm_structures.intersection(correct_structures)
-        results["control_structure_coverage"] = len(found_structures) / len(correct_structures)
-        
-        missing_structures = correct_structures - llm_structures
-        if missing_structures:
-            results["issues_found"].append(f"Missing control structures: {list(missing_structures)}")
-    
-    # 4. Keyword coverage
-    if correct_components["keywords"]:
-        llm_keywords = set(llm_components["keywords"])
-        correct_keywords = set(correct_components["keywords"])
-        
-        found_keywords = llm_keywords.intersection(correct_keywords)
-        results["keyword_coverage"] = len(found_keywords) / len(correct_keywords)
-    
-    # Calculate overall functional score
-    scores = [
-        results["method_signature_match"],
-        results["method_calls_coverage"],
-        results["control_structure_coverage"],
-        results["keyword_coverage"]
-    ]
-    
-    # Weight the scores (method signature and calls are more important)
-    weights = [0.4, 0.3, 0.2, 0.1]
-    weighted_score = sum(score * weight for score, weight in zip(scores, weights))
-    
-    results["overall_functional_score"] = weighted_score
-    
-    return results
+subscription_key = key
+api_version = "2024-12-01-preview"
 
-def compare_with_similarity(llm_code: str, correct_code: str) -> float:
-    """Calculate basic text similarity score."""
-    llm_words = set(re.findall(r'\w+', llm_code.lower()))
-    correct_words = set(re.findall(r'\w+', correct_code.lower()))
-    
-    if not correct_words:
-        return 0.0
-    
-    intersection = llm_words.intersection(correct_words)
-    return len(intersection) / len(correct_words)
+logger.info("Initializing Azure OpenAI client")
+client = AzureOpenAI(
+    api_version=api_version,
+    azure_endpoint=endpoint,
+    api_key=subscription_key,
+)
+
+
 
 # Main comparison logic
 md_files = [f for f in os.listdir(data_dir) if f.endswith('.md') and os.path.isfile(os.path.join(data_dir, f))]
@@ -234,39 +70,197 @@ logger.info(f"Found {len(md_files)} md files to compare")
 
 comparison_results = {}
 
+llm_prompt = """
+You are an expert AI code reviewer named *CodeJudge*. Your task is to meticulously compare a {{GENERATED_METHOD}} against a {{CORRECT_METHOD}} and provide a functional similarity score out of 10.
+
+You must adhere strictly to the *Objective Scoring Rubric* defined below. For each criterion, award points only if the {{GENERATED_METHOD}} fully and correctly implements the feature as seen in the {{CORRECT_METHOD}}. There is no partial credit for a criterion.
+
+-----
+
+## *Objective Scoring Rubric (10 points total)*
+
+*1. Method Signature (2 Points)*
+
+  * *(1 pt) - Interface Match:* The method name, parameter types, and return type are identical to the {{CORRECT_METHOD}}.
+  * *(1 pt) - Declaration Match:* The access modifier (e.g., public) and any essential annotations (e.g., @Override) are identical to the {{CORRECT_METHOD}}.
+
+*2. Core Functional Logic (3 Points)*
+
+  * *(3 pts) - "Happy Path" Equivalence:* The primary logic, including conditional branches (if/else structures) and service/method calls for the main success scenario, functions identically to the {{CORRECT_METHOD}}. The generated method must produce the same successful outcome when given a standard, non-edge-case input.
+
+*3. Critical Edge Case Handling (3 Points)*
+
+  * *(3 pts) - Robustness Match:* The method correctly implements the specific edge case handling shown in the {{CORRECT_METHOD}}. This is most commonly a check for null inputs or an empty result set that triggers a different return path (e.g., returning a 404 NOT FOUND status instead of a 200 OK). If the {{GENERATED_METHOD}} fails to replicate this specific behavior, it gets 0 points for this criterion.
+
+*4. Architectural Compliance (2 Points)*
+
+  * *(2 pts) - Abstraction and Tooling:* The method correctly uses the same helper classes, mappers, services, or other abstractions that are used in the {{CORRECT_METHOD}} (e.g., using a dedicated ownerMapper instead of re-implementing the mapping logic inline). It must not bypass the intended architecture.
+
+-----
+
+## *Input Methods*
+
+{correct_method}
+
+java
+// Paste the correct method here
+
+
+{generated_method}
+
+java
+// Paste the generated method to be evaluated here
+
+
+-----
+
+## *Required Output Format*
+
+Provide your response in the following format:
+
+*Similarity Score:* X / 10
+
+*Verdict:* A brief, one-sentence summary of the evaluation (e.g., "Functionally close but critically flawed," or "Architecturally divergent and functionally incorrect.")
+
+### *Reasoning*
+
+  * *Method Signature:* (Score) - Justification.
+  * *Core Functional Logic:* (Score) - Justification.
+  * *Critical Edge Case Handling:* (Score) - Justification.
+  * *Architectural Compliance:* (Score) - Justification.
+"""
+
 for md_file in md_files:
     file_path = os.path.join(data_dir, md_file)
-    logger.info(f"Comparing file: {md_file}")
+    logger.info(f"Processing file: {md_file}")
     
-    with open(file_path, 'r', encoding='utf-8') as file:
-        content = file.read()
+    try:
+        # Read the MD file content
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Extract Java code from the MD file (assuming it's in code blocks)
+        java_code_pattern = r'```java\s*(.*?)\s*```'
+        java_matches = re.findall(java_code_pattern, content, re.DOTALL)
+        
+        if not java_matches:
+            # Try without language specification
+            code_pattern = r'```\s*(.*?)\s*```'
+            code_matches = re.findall(code_pattern, content, re.DOTALL)
+            generated_method = code_matches[0].strip() if code_matches else content.strip()
+        else:
+            generated_method = java_matches[0].strip()
+        
+        # Format the prompt with both methods
+        formatted_prompt = llm_prompt.format(
+            correct_method=correct_method.strip(),
+            generated_method=generated_method
+        )
+        
+        logger.info(f"Sending request to Azure OpenAI for {md_file}")
+        
+        # Send request to Azure OpenAI
+        response = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an expert Java code evaluator named CodeJudge. Follow the evaluation format exactly as specified in the prompt."
+                },
+                {
+                    "role": "user",
+                    "content": formatted_prompt
+                }
+            ],
+            max_completion_tokens=2000,
+            temperature=0.1,  # Lower temperature for more consistent JSON output
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            model=deployment
+        )
+        
+        logger.info(f"Response received for {md_file}")
+        response_content = response.choices[0].message.content
+        
+        # Parse the text-based response and extract structured data
+        try:
+            # Extract similarity score
+            score_pattern = r'\*?Similarity Score:\*?\s*(\d+(?:\.\d+)?)\s*/\s*10'
+            score_match = re.search(score_pattern, response_content, re.IGNORECASE)
+            similarity_score = float(score_match.group(1)) if score_match else None
+            
+            # Extract verdict
+            verdict_pattern = r'\*?Verdict:\*?\s*(.+?)(?=\n|$)'
+            verdict_match = re.search(verdict_pattern, response_content, re.IGNORECASE)
+            verdict = verdict_match.group(1).strip() if verdict_match else None
+            
+            # Extract individual criterion scores
+            method_sig_pattern = r'\*?Method Signature:\*?\s*(\d+(?:\.\d+)?)\s*-\s*(.+?)(?=\n|\*|$)'
+            core_logic_pattern = r'\*?Core Functional Logic:\*?\s*(\d+(?:\.\d+)?)\s*-\s*(.+?)(?=\n|\*|$)'
+            edge_case_pattern = r'\*?Critical Edge Case Handling:\*?\s*(\d+(?:\.\d+)?)\s*-\s*(.+?)(?=\n|\*|$)'
+            arch_pattern = r'\*?Architectural Compliance:\*?\s*(\d+(?:\.\d+)?)\s*-\s*(.+?)(?=\n|\*|$)'
+            
+            method_sig_match = re.search(method_sig_pattern, response_content, re.IGNORECASE | re.DOTALL)
+            core_logic_match = re.search(core_logic_pattern, response_content, re.IGNORECASE | re.DOTALL)
+            edge_case_match = re.search(edge_case_pattern, response_content, re.IGNORECASE | re.DOTALL)
+            arch_match = re.search(arch_pattern, response_content, re.IGNORECASE | re.DOTALL)
+            
+            # Create structured evaluation result
+            evaluation_result = {
+                "similarity_score": similarity_score,
+                "verdict": verdict,
+                "detailed_scores": {
+                    "method_signature": {
+                        "score": float(method_sig_match.group(1)) if method_sig_match else None,
+                        "justification": method_sig_match.group(2).strip() if method_sig_match else None
+                    },
+                    "core_functional_logic": {
+                        "score": float(core_logic_match.group(1)) if core_logic_match else None,
+                        "justification": core_logic_match.group(2).strip() if core_logic_match else None
+                    },
+                    "critical_edge_case_handling": {
+                        "score": float(edge_case_match.group(1)) if edge_case_match else None,
+                        "justification": edge_case_match.group(2).strip() if edge_case_match else None
+                    },
+                    "architectural_compliance": {
+                        "score": float(arch_match.group(1)) if arch_match else None,
+                        "justification": arch_match.group(2).strip() if arch_match else None
+                    }
+                }
+            }
+            
+            # Store the result
+            comparison_results[md_file] = {
+                "file_name": md_file,
+                "generated_method": generated_method,
+                "evaluation": evaluation_result,
+                "raw_response": response_content,
+                "timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"Successfully processed {md_file} - Score: {similarity_score}/10")
+            
+        except Exception as e:
+            logger.error(f"Failed to parse response for {md_file}: {e}")
+            comparison_results[md_file] = {
+                "file_name": md_file,
+                "generated_method": generated_method,
+                "evaluation": None,
+                "raw_response": response_content,
+                "error": f"Parsing error: {str(e)}",
+                "timestamp": datetime.now().isoformat()
+            }
     
-    # Extract Java code from the markdown content
-    llm_code = extract_java_code(content)
-    
-    # Perform functional correctness analysis
-    functional_analysis = analyze_functional_correctness(llm_code, correct_method)
-    
-    # Calculate similarity score
-    similarity_score = compare_with_similarity(llm_code, correct_method)
-      # Store results
-    comparison_results[md_file] = {
-        "file_name": md_file,
-        "extracted_code": llm_code,
-        "functional_analysis": functional_analysis,
-        "similarity_score": similarity_score,
-        "summary": {
-            "functional_score": functional_analysis["overall_functional_score"],
-            "similarity_score": similarity_score,
-            "issues_count": len(functional_analysis["issues_found"]),
-            "is_functionally_correct": functional_analysis["overall_functional_score"] >= 0.7,
-            "method_signature_match": functional_analysis["method_signature_match"],
-            "method_calls_coverage": functional_analysis["method_calls_coverage"],
-            "control_structure_coverage": functional_analysis["control_structure_coverage"]
+    except Exception as e:
+        logger.error(f"Error processing {md_file}: {str(e)}")
+        comparison_results[md_file] = {
+            "file_name": md_file,
+            "generated_method": None,
+            "evaluation": None,
+            "raw_response": None,
+            "error": f"Processing error: {str(e)}",
+            "timestamp": datetime.now().isoformat()
         }
-    }
-    
-    logger.info(f"Functional score: {functional_analysis['overall_functional_score']:.2f}, Similarity: {similarity_score:.2f}")
 
 # Save results to JSON file
 output_file = "comparison_results.json"
@@ -279,7 +273,33 @@ logger.info(f"Results saved to {output_file}")
 print("\nCOMPARISON RESULTS SUMMARY:")
 print("-" * 50)
 
+successful_evaluations = 0
+failed_evaluations = 0
+
 for file_name, result in comparison_results.items():
-    summary = result["summary"]
-    status = "PASS" if summary["is_functionally_correct"] else "FAIL"
-    print(f"{file_name}: {status} (Score: {summary['functional_score']:.2f})")
+    if "error" in result:
+        print(f"{file_name}: ERROR - {result['error']}")
+        failed_evaluations += 1
+    elif result.get("evaluation") is None:
+        print(f"{file_name}: FAILED - No evaluation result")
+        failed_evaluations += 1
+    else:
+        evaluation = result["evaluation"]
+        if evaluation.get("similarity_score") is not None:
+            similarity_score = evaluation["similarity_score"]
+            verdict = evaluation.get("verdict", "No verdict provided")
+            print(f"{file_name}: SUCCESS (Score: {similarity_score}/10) - {verdict}")
+            successful_evaluations += 1
+        else:
+            print(f"{file_name}: PARTIAL - Evaluation completed but missing similarity score")
+            successful_evaluations += 1
+
+print(f"\nSUMMARY: {successful_evaluations} successful, {failed_evaluations} failed out of {len(comparison_results)} total files")
+
+# Print detailed JSON results
+print(f"\nDetailed results saved to {output_file}")
+print("\nSample result structure:")
+if comparison_results:
+    sample_key = next(iter(comparison_results))
+    sample_result = comparison_results[sample_key]
+    print(json.dumps({sample_key: sample_result}, indent=2)[:500] + "..." if len(str(sample_result)) > 500 else json.dumps({sample_key: sample_result}, indent=2))

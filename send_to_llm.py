@@ -3,6 +3,8 @@ import logging
 from datetime import datetime
 from openai import AzureOpenAI
 
+from key import key
+
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -11,7 +13,7 @@ endpoint = "https://azure-ai-hackthon.openai.azure.com/"
 model_name = "gpt-4.1"
 deployment = "gpt-4.1"
 
-subscription_key = ""
+subscription_key = key
 api_version = "2024-12-01-preview"
 
 logger.info("Initializing Azure OpenAI client")

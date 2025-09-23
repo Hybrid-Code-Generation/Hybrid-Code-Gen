@@ -1,0 +1,41 @@
+The following are Java methods relevant to the user's query: 'There is a method named listOwners which has a TODO inside it. Please complete it'. 
+
+Use these methods to assist in code generation.
+
+
+This is the 1 relevant method for the user query.
+
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+
+And these are the methods it calls or is called by:
+This is the 2 relevant method for the user query.
+
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\rest\controller\OwnerRestController.java
+
+Method: ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n        // TODO Complete this method\n        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);\n    }
+
+And these are the methods it calls or is called by:
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\rest\controller\OwnerRestController.java
+Method: ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n        // TODO Complete this method\n        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\service\ClinicServiceImpl.java
+Method: Collection<Owner> findAllOwners(nan) {\n        return ownerRepository.findAll();\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\rest\controller\OwnerRestController.java
+Method: ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n        // TODO Complete this method\n        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);\n    }
+
+
+Relevant Java Classes referenced in the methods:
+
+class Owner {\n    @Column(name = "address")\n    @NotEmpty\n    private String address;\n    @Column(name = "city")\n    @NotEmpty\n    private String city;\n    @Column(name = "telephone")\n    @NotEmpty\n    @Digits(fraction = 0, integer = 10)\n    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")\n    private String telephone;\n    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)\n    private Set<Pet> pets;\n    public String getAddress();\n    public void setAddress(String address);\n    public String getCity();\n    public void setCity(String city);\n    public String getTelephone();\n    public void setTelephone(String telephone);\n    protected Set<Pet> getPetsInternal();\n    protected void setPetsInternal(Set<Pet> pets);\n    public List<Pet> getPets();\n    public void setPets(List<Pet> pets);\n    public void addPet(Pet pet);\n    public Pet getPet(String name);\n    public Pet getPet(String name, boolean ignoreNew);\n    public Pet getPet(Integer petId);\n    @Override public String toString();\n}
+
+class OwnerDto {\n    private String firstName;\n    private String lastName;\n    private String address;\n    private String city;\n    private String telephone;\n    private @Nullable Integer id;\n    @Valid\n  private List<PetDto> pets = new ArrayList<>();\n    public OwnerDto();\n    public OwnerDto(String firstName, String lastName, String address, String city, String telephone, List<PetDto> pets);\n    public OwnerDto firstName(String firstName);\n    @NotNull @Pattern(regexp = "^[\\p{L}]+([ '-][\\p{L}]+){0,2}$") @Size(min = 1, max = 30) @Schema(name = "firstName", example = "George", description = "The first name of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("firstName") public String getFirstName();\n    public void setFirstName(String firstName);\n    public OwnerDto lastName(String lastName);\n    @NotNull @Pattern(regexp = "^[\\p{L}]+([ '-][\\p{L}]+){0,2}\\.?$") @Size(min = 1, max = 30) @Schema(name = "lastName", example = "Franklin", description = "The last name of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("lastName") public String getLastName();\n    public void setLastName(String lastName);\n    public OwnerDto address(String address);\n    @NotNull @Size(min = 1, max = 255) @Schema(name = "address", example = "110 W. Liberty St.", description = "The postal address of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("address") public String getAddress();\n    public void setAddress(String address);\n    public OwnerDto city(String city);\n    @NotNull @Size(min = 1, max = 80) @Schema(name = "city", example = "Madison", description = "The city of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("city") public String getCity();\n    public void setCity(String city);\n    public OwnerDto telephone(String telephone);\n    @NotNull @Pattern(regexp = "^[0-9]*$") @Size(min = 1, max = 20) @Schema(name = "telephone", example = "6085551023", description = "The telephone number of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("telephone") public String getTelephone();\n    public void setTelephone(String telephone);\n    public OwnerDto id(Integer id);\n    @Min(0) @Schema(name = "id", accessMode = Schema.AccessMode.READ_ONLY, example = "1", description = "The ID of the pet owner.", requiredMode = Schema.RequiredMode.NOT_REQUIRED) @JsonProperty("id") public @Nullable Integer getId();\n    public void setId(Integer id);\n    public OwnerDto pets(List<PetDto> pets);\n    public OwnerDto addPetsItem(PetDto petsItem);\n    @Valid @Schema(name = "pets", accessMode = Schema.AccessMode.READ_ONLY, description = "The pets owned by this individual including any booked vet visits.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("pets") public List<PetDto> getPets();\n    public void setPets(List<PetDto> pets);\n    @Override public boolean equals(Object o);\n    @Override public int hashCode();\n    @Override public String toString();\n    private String toIndentedString(Object o);\n}
+
+class OwnerRepository {\n    Collection<Owner> findByLastName(String lastName) throws DataAccessException;\n    Owner findById(int id) throws DataAccessException;\n    void save(Owner owner) throws DataAccessException;\n    Collection<Owner> findAll() throws DataAccessException;\n    void delete(Owner owner) throws DataAccessException;\n}
+

@@ -5,6 +5,7 @@ import faiss
 from openai import AzureOpenAI
 import nltk
 from nltk.stem import WordNetLemmatizer
+from key import key
 
 class CodeSearcher:
     def get_code_embedding(self, code_text: str) -> np.ndarray:
@@ -29,7 +30,6 @@ class CodeSearcher:
         # Azure OpenAI Configuration
         endpoint = "https://azure-ai-hackthon.openai.azure.com/"
         api_version = "2024-12-01-preview"
-        key = ""
         
         self.client = AzureOpenAI(
             api_version=api_version,

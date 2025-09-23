@@ -1,0 +1,22 @@
+The following are Java methods relevant to the user's query: 'There is a method named listOwners which has a TODO inside it. Please complete it'. 
+
+Use these methods to assist in code generation.
+
+
+This is the 1 relevant method for the user query.
+
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+
+And these are the methods it calls or is called by:
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+
+
+Relevant Java Classes referenced in the methods:
+
+class Owner {\n    @Column(name = "address")\n    @NotEmpty\n    private String address;\n    @Column(name = "city")\n    @NotEmpty\n    private String city;\n    @Column(name = "telephone")\n    @NotEmpty\n    @Digits(fraction = 0, integer = 10)\n    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")\n    private String telephone;\n    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)\n    private Set<Pet> pets;\n    public String getAddress();\n    public void setAddress(String address);\n    public String getCity();\n    public void setCity(String city);\n    public String getTelephone();\n    public void setTelephone(String telephone);\n    protected Set<Pet> getPetsInternal();\n    protected void setPetsInternal(Set<Pet> pets);\n    public List<Pet> getPets();\n    public void setPets(List<Pet> pets);\n    public void addPet(Pet pet);\n    public Pet getPet(String name);\n    public Pet getPet(String name, boolean ignoreNew);\n    public Pet getPet(Integer petId);\n    @Override public String toString();\n}
+

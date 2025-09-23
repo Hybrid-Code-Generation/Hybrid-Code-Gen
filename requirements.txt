@@ -1,7 +1,8 @@
 pandas
 numpy
-faiss
+faiss-cpu
 openai
 nltk
-tree_sitter
-tree_sitter_languages
+tree-sitter==0.21.3
+tree-sitter-languages==1.10.2
+neo4j

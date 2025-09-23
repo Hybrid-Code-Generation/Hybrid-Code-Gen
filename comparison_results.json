@@ -1,1399 +1,786 @@
 {
   "prompt_to_llm_K1_sim0.1.md": {
     "file_name": "prompt_to_llm_K1_sim0.1.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5833333333333334,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ]
-          ]
+    "generated_method": "@Override\npublic List<Owner> listOwners() {\n    // TODO: Complete this method\n    List<Owner> owners = this.namedParameterJdbcTemplate.query(\n        \"SELECT id, first_name, last_name, address, city, telephone FROM owners ORDER BY last_name, first_name\",\n        new HashMap<String, Object>(),\n        BeanPropertyRowMapper.newInstance(Owner.class)\n    );\n    loadOwnersPetsAndVisits(owners);\n    return owners;\n}",
+    "evaluation": {
+      "similarity_score": 1.0,
+      "verdict": "Architecturally and functionally divergent; the generated method does not match the required interface, logic, or robustness.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": []
+      }
     },
-    "similarity_score": 0.92,
-    "summary": {
-      "functional_score": 0.5833333333333334,
-      "similarity_score": 0.92,
-      "issues_count": 0,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 1 / 10\n\n*Verdict:* Architecturally and functionally divergent; the generated method does not match the required interface, logic, or robustness.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The method name (\"listOwners\") matches, but the parameter list and return type do not; the correct method takes a String parameter and returns a ResponseEntity<List<OwnerDto>>, while the generated method takes no parameters and returns List<Owner>. The access modifier and annotation (@Override) are present, but the interface does not match.\n  * *Core Functional Logic:* (0/3) - The generated method simply queries all owners from the database and loads pets/visits, whereas the correct method conditionally queries by last name or all owners, maps to DTOs, and wraps the result in a ResponseEntity with appropriate HTTP status codes. The main logic is not equivalent.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for empty results or handle null/edge cases; it always returns a list, while the correct method returns NOT_FOUND if no owners are found.\n  * *Architectural Compliance:* (0/2) - The generated method bypasses the ownerMapper and ResponseEntity, directly returning domain objects instead of DTOs and not using the abstractions present in the correct method.",
+    "timestamp": "2025-09-22T00:02:08.050465"
   },
   "prompt_to_llm_K1_sim0.2.md": {
     "file_name": "prompt_to_llm_K1_sim0.2.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5833333333333334,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ]
-          ]
+    "generated_method": "@Override\npublic List<Owner> listOwners() {\n    // TODO: implement this method\n    final List<Owner> owners = this.namedParameterJdbcTemplate.query(\n        \"SELECT id, first_name, last_name, address, city, telephone FROM owners ORDER BY id\",\n        new HashMap<String, Object>(),\n        BeanPropertyRowMapper.newInstance(Owner.class)\n    );\n    loadOwnersPetsAndVisits(owners);\n    return owners;\n}",
+    "evaluation": {
+      "similarity_score": 1.0,
+      "verdict": "Architecturally and functionally divergent; the generated method does not match the correct method in signature, logic, edge case handling, or abstraction.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": []
+      }
     },
-    "similarity_score": 0.92,
-    "summary": {
-      "functional_score": 0.5833333333333334,
-      "similarity_score": 0.92,
-      "issues_count": 0,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 1 / 10\n\n*Verdict:* Architecturally and functionally divergent; the generated method does not match the correct method in signature, logic, edge case handling, or abstraction.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The generated method name (\"listOwners\") matches, but the parameter list and return type do not: the correct method takes a String parameter and returns a ResponseEntity<List<OwnerDto>>, while the generated method takes no parameters and returns List<Owner>. The access modifier and annotation (@Override) are present in the generated method, but the interface does not match.\n  * *Core Functional Logic:* (0/3) - The generated method does not implement the conditional logic based on the lastName parameter, nor does it handle the mapping to DTOs or HTTP response codes. It simply queries all owners from the database and loads pets/visits, which is not equivalent to the correct method's logic.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for empty results or handle null/edge cases as the correct method does (which returns NOT_FOUND for empty results).\n  * *Architectural Compliance:* (0/2) - The generated method bypasses the use of clinicService and ownerMapper abstractions, instead directly querying the database and returning domain objects, which is architecturally inconsistent with the correct method.",
+    "timestamp": "2025-09-22T00:02:10.831792"
   },
   "prompt_to_llm_K1_sim0.3.md": {
     "file_name": "prompt_to_llm_K1_sim0.3.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = owners.stream().map(owner -> {\n        OwnerDto dto = new OwnerDto();\n        dto.setId(owner.getId());\n        dto.setFirstName(owner.getFirstName());\n        dto.setLastName(owner.getLastName());\n        dto.setAddress(owner.getAddress());\n        dto.setCity(owner.getCity());\n        dto.setTelephone(owner.getTelephone());\n        // You may need to map pets if needed\n        return dto;\n    }).collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5333333333333333,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": " new OwnerDto()",
-          "return_type": "new",
-          "method_name": "OwnerDto",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "collect",
-            "toList",
-            "setAddress",
-            "if",
-            "setId",
-            "setTelephone",
-            "setCity",
-            "isEmpty",
-            "getId",
-            "setLastName",
-            "getAddress",
-            "map",
-            "setFirstName",
-            "getTelephone",
-            "stream",
-            "OwnerDto",
-            "getFirstName",
-            "getCity",
-            "getLastName",
-            "listOwners",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ],
-            [
-              "OwnerDto",
-              "dto"
-            ],
-            [
-              "return",
-              "dto"
-            ]
-          ]
+    "generated_method": "@Override\npublic List<Owner> listOwners() {\n    String sql = \"SELECT id, first_name, last_name, address, city, telephone FROM owners\";\n    List<Owner> owners = this.jdbcTemplate.query(sql, new OwnerRowMapper());\n    loadOwnersPetsAndVisits(owners);\n    return owners;\n}",
+    "evaluation": {
+      "similarity_score": 0.0,
+      "verdict": "Architecturally and functionally divergent; the generated method does not match the correct method in any key aspect.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": [
-        "Missing method calls: ['toOwnerDtoCollection']"
-      ]
+      }
     },
-    "similarity_score": 0.84,
-    "summary": {
-      "functional_score": 0.5333333333333333,
-      "similarity_score": 0.84,
-      "issues_count": 1,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 0 / 10\n\n*Verdict:* Architecturally and functionally divergent; the generated method does not match the correct method in any key aspect.\n\n### *Reasoning*\n\n  * *Method Signature:* (0/2) - The method names, parameter lists, and return types are completely different. The correct method is `public ResponseEntity<List<OwnerDto>> listOwners(String lastName)`, while the generated method is `public List<Owner> listOwners()`. There is no interface or declaration match.\n  * *Core Functional Logic:* (0/3) - The generated method retrieves all owners from a database and loads pets/visits, while the correct method conditionally queries by last name and returns a mapped DTO list wrapped in a ResponseEntity with HTTP status codes. The main logic is not equivalent.\n  * *Critical Edge Case Handling:* (0/3) - The correct method checks for empty results and returns a NOT_FOUND status, while the generated method does not handle empty results or any edge cases.\n  * *Architectural Compliance:* (0/2) - The correct method uses a service (`clinicService`) and a mapper (`ownerMapper`), while the generated method directly uses `jdbcTemplate` and does not use any mapping abstraction or service layer, violating architectural requirements.",
+    "timestamp": "2025-09-22T00:02:13.459179"
   },
   "prompt_to_llm_K1_sim0.4.md": {
     "file_name": "prompt_to_llm_K1_sim0.4.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    List<OwnerDto> ownerDtos = new ArrayList<>();\n    Collection<Owner> owners;\n\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n\n    for (Owner owner : owners) {\n        OwnerDto dto = new OwnerDto()\n            .firstName(owner.getFirstName())\n            .lastName(owner.getLastName())\n            .address(owner.getAddress())\n            .city(owner.getCity())\n            .telephone(owner.getTelephone());\n        // Map pets if needed\n        ownerDtos.add(dto);\n    }\n\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5333333333333333,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": " new OwnerDto()",
-          "return_type": "new",
-          "method_name": "OwnerDto",
-          "parameters": [],
-          "method_calls": [
-            "telephone",
-            "findOwnerByLastName",
-            "add",
-            "lastName",
-            "address",
-            "if",
-            "city",
-            "isEmpty",
-            "for",
-            "getAddress",
-            "getTelephone",
-            "firstName",
-            "OwnerDto",
-            "getFirstName",
-            "trim",
-            "getCity",
-            "getLastName",
-            "listOwners",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "if",
-            "return",
-            "for",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement",
-            "for_loop"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ],
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "OwnerDto",
-              "dto"
-            ]
-          ]
+    "generated_method": "@Override\npublic List<Owner> listOwners() {\n    // TODO: Complete the method\n    List<Owner> owners = new ArrayList<>();\n    // Assuming jdbcTemplate is available and mapping is done elsewhere\n    owners = this.jdbcTemplate.query(\n        \"SELECT id, first_name, last_name, address, city, telephone FROM owners\",\n        (rs, rowNum) -> {\n            Owner owner = new Owner();\n            owner.setId(rs.getInt(\"id\"));\n            owner.setFirstName(rs.getString(\"first_name\"));\n            owner.setLastName(rs.getString(\"last_name\"));\n            owner.setAddress(rs.getString(\"address\"));\n            owner.setCity(rs.getString(\"city\"));\n            owner.setTelephone(rs.getString(\"telephone\"));\n            return owner;\n        }\n    );\n    loadOwnersPetsAndVisits(owners);\n    return owners;\n}",
+    "evaluation": {
+      "similarity_score": 2.0,
+      "verdict": "Architecturally and functionally divergent; the generated method does not match the correct method in signature, logic, edge case handling, or abstraction.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": [
-        "Missing method calls: ['toOwnerDtoCollection']"
-      ]
+      }
     },
-    "similarity_score": 0.84,
-    "summary": {
-      "functional_score": 0.5333333333333333,
-      "similarity_score": 0.84,
-      "issues_count": 1,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 2 / 10\n\n*Verdict:* Architecturally and functionally divergent; the generated method does not match the correct method in signature, logic, edge case handling, or abstraction.\n\n### *Reasoning*\n\n  * *Method Signature:* (0) - The generated method has a different name (`listOwners()` vs. `listOwners(String lastName)`), different parameters (none vs. `String lastName`), and a different return type (`List<Owner>` vs. `ResponseEntity<List<OwnerDto>>`). The access modifier and annotations also differ (`@Override` present in generated, not in correct).\n  * *Core Functional Logic:* (1) - Both methods retrieve a list of owners, but the generated method does not handle the `lastName` parameter or conditional logic for searching by last name. It only retrieves all owners, missing the main \"happy path\" equivalence.\n  * *Critical Edge Case Handling:* (0) - The generated method does not check for empty results or handle edge cases (e.g., returning a NOT_FOUND status), which are present in the correct method.\n  * *Architectural Compliance:* (1) - The generated method uses `jdbcTemplate` for querying and a manual mapping lambda, while the correct method uses `clinicService` and `ownerMapper`, violating the intended abstraction and tooling. Only partial use of abstraction (calling `loadOwnersPetsAndVisits`) is present, but not enough for full credit.",
+    "timestamp": "2025-09-22T00:02:16.483742"
   },
   "prompt_to_llm_K2_sim0.1.md": {
     "file_name": "prompt_to_llm_K2_sim0.1.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5833333333333334,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "trim",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ]
-          ]
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    // Load pets and visits for owners\n    jdbcOwnerRepositoryImpl.loadOwnersPetsAndVisits(new ArrayList<>(owners));\n    // Convert Owners to OwnerDto list\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 5.0,
+      "verdict": "Functionally similar for standard cases but missing critical edge case handling and architectural steps.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": []
+      }
     },
-    "similarity_score": 0.92,
-    "summary": {
-      "functional_score": 0.5833333333333334,
-      "similarity_score": 0.92,
-      "issues_count": 0,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 5 / 10\n\n*Verdict:* Functionally similar for standard cases but missing critical edge case handling and architectural steps.\n\n### *Reasoning*\n\n  * *Method Signature:* (2/2) - The method name, parameter types, return type, access modifier, and @Override annotation all match exactly.\n  * *Core Functional Logic:* (2/3) - The main logic for retrieving owners based on lastName and mapping them to DTOs is present and correct, but it omits the step of loading pets and visits for owners, which is part of the core \"happy path\" in the correct method.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for empty owner collections and always returns 200 OK, whereas the correct method returns 404 NOT FOUND if no owners are found. This is a critical omission.\n  * *Architectural Compliance:* (1/2) - The method uses the ownerMapper abstraction correctly, but fails to use jdbcOwnerRepositoryImpl to load pets and visits, bypassing part of the intended architecture.",
+    "timestamp": "2025-09-22T00:02:18.735760"
   },
   "prompt_to_llm_K2_sim0.2.md": {
     "file_name": "prompt_to_llm_K2_sim0.2.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5833333333333334,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "trim",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ]
-          ]
+    "generated_method": "@Autowired\nprivate ClinicService clinicService;\n\n@Autowired\nprivate JdbcOwnerRepositoryImpl ownerRepository;\n\n@Autowired\nprivate OwnerMapper ownerMapper;\n\n@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName == null || lastName.isEmpty()) {\n        owners = clinicService.findAllOwners();\n    } else {\n        owners = clinicService.findOwnerByLastName(lastName);\n    }\n    ownerRepository.loadOwnersPetsAndVisits(new ArrayList<>(owners));\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 5.0,
+      "verdict": "Functionally close on the \"happy path,\" but missing critical edge case handling and architectural steps.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": []
+      }
     },
-    "similarity_score": 0.92,
-    "summary": {
-      "functional_score": 0.5833333333333334,
-      "similarity_score": 0.92,
-      "issues_count": 0,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 5 / 10\n\n*Verdict:* Functionally close on the \"happy path,\" but missing critical edge case handling and architectural steps.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match the correct method.\n  * *Core Functional Logic:* (3) - The main logic for selecting owners based on lastName and mapping them to DTOs is present and functions identically for standard inputs.\n  * *Critical Edge Case Handling:* (0) - The generated method does not check for an empty owners collection and always returns HTTP 200 OK, whereas the correct method returns HTTP 404 NOT FOUND if no owners are found.\n  * *Architectural Compliance:* (0) - The generated method omits the call to ownerRepository.loadOwnersPetsAndVisits, which is present in the correct method and is essential for loading related data before mapping.",
+    "timestamp": "2025-09-22T00:02:20.782765"
   },
   "prompt_to_llm_K2_sim0.3.md": {
     "file_name": "prompt_to_llm_K2_sim0.3.md",
-    "extracted_code": "// In OwnerRestController.java\n\n@Autowired\nprivate ClinicService clinicService;\n\n// Helper method to convert Owner to OwnerDto\nprivate OwnerDto convertToDto(Owner owner) {\n    OwnerDto dto = new OwnerDto();\n    dto.setId(owner.getId());\n    dto.setFirstName(owner.getFirstName());\n    dto.setLastName(owner.getLastName());\n    dto.setAddress(owner.getAddress());\n    dto.setCity(owner.getCity());\n    dto.setTelephone(owner.getTelephone());\n    // Assuming you have a way to convert pets to PetDto\n    List<PetDto> petDtos = owner.getPets().stream()\n            .map(this::convertPetToDto) // You need to implement convertPetToDto\n            .collect(Collectors.toList());\n    dto.setPets(petDtos);\n    return dto;\n}\n\n@ResponseBody\npublic ResponseEntity<List<OwnerDto>> listOwners(@RequestParam(value = \"lastName\", required = false) String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtoList = owners.stream()\n            .map(this::convertToDto)\n            .collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtoList, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 1.0,
-      "overall_functional_score": 0.55,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "private OwnerDto convertToDto(Owner owner)",
-          "return_type": "OwnerDto",
-          "method_name": "convertToDto",
-          "parameters": [
-            "Owner owner"
-          ],
-          "method_calls": [
-            "findOwnerByLastName",
-            "collect",
-            "convertToDto",
-            "toList",
-            "setAddress",
-            "if",
-            "setPets",
-            "setId",
-            "setTelephone",
-            "setCity",
-            "isEmpty",
-            "getId",
-            "setLastName",
-            "getAddress",
-            "map",
-            "setFirstName",
-            "getTelephone",
-            "stream",
-            "OwnerDto",
-            "getFirstName",
-            "trim",
-            "RequestParam",
-            "getCity",
-            "getPets",
-            "getLastName",
-            "listOwners",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "false",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [
-            "lastName"
-          ],
-          "variable_declarations": [
-            [
-              "ClinicService",
-              "clinicService"
-            ],
-            [
-              "OwnerDto",
-              "dto"
-            ],
-            [
-              "List<PetDto>",
-              "petDtos"
-            ],
-            [
-              "return",
-              "dto"
-            ],
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtoList"
-            ]
-          ]
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = this.clinicService.findOwnersByLastName(lastName);\n    } else {\n        owners = this.clinicService.findAllOwners();\n    }\n    List<Owner> ownersList = new ArrayList<>(owners);\n    // Load pets and visits for owners\n    ((JdbcOwnerRepositoryImpl) this.clinicService.getOwnerRepository()).loadOwnersPetsAndVisits(ownersList);\n\n    List<OwnerDto> ownerDtos = new ArrayList<>();\n    for (Owner owner : ownersList) {\n        OwnerDto dto = new OwnerDto()\n            .firstName(owner.getFirstName())\n            .lastName(owner.getLastName())\n            .address(owner.getAddress())\n            .city(owner.getCity())\n            .telephone(owner.getTelephone())\n            .id(owner.getId());\n\n        List<PetDto> petDtos = new ArrayList<>();\n        if (owner.getPets() != null) {\n            for (Pet pet : owner.getPets()) {\n                PetDto petDto = new PetDto() // You may need to implement the mapping\n                    .id(pet.getId())\n                    .name(pet.getName())\n                    .birthDate(pet.getBirthDate())\n                    .type(pet.getType().getName());\n                petDtos.add(petDto);\n            }\n        }\n        dto.setPets(petDtos);\n        ownerDtos.add(dto);\n    }\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 3.0,
+      "verdict": "The generated method is functionally and architecturally divergent, failing to match key interface, logic, edge case, and abstraction requirements.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": [
-        "Missing method calls: ['toOwnerDtoCollection']"
-      ]
+      }
     },
-    "similarity_score": 0.88,
-    "summary": {
-      "functional_score": 0.55,
-      "similarity_score": 0.88,
-      "issues_count": 1,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 3 / 10\n\n*Verdict:* The generated method is functionally and architecturally divergent, failing to match key interface, logic, edge case, and abstraction requirements.\n\n### *Reasoning*\n\n  * *Method Signature:* (0) - The method name (`findOwnerByLastName` vs. `findOwnersByLastName`), parameter handling, and lack of `@Override` annotation do not match the correct method; the generated method also omits the explicit access modifier and annotation.\n  * *Core Functional Logic:* (1) - The generated method attempts to retrieve owners and map them to DTOs, but it does not load pets and visits, nor does it handle empty or null last names identically; the mapping logic is also simplified and does not match the correct method's detailed mapping.\n  * *Critical Edge Case Handling:* (0) - The generated method does not check for empty owner collections and always returns `HttpStatus.OK`, failing to return `HttpStatus.NOT_FOUND` when appropriate.\n  * *Architectural Compliance:* (2) - The generated method uses a mapper abstraction (`ownerMapper.toOwnerDtoCollection`), which matches the correct method's use of a mapping abstraction, but it does not use the same repository or service calls, nor does it load related entities as required.",
+    "timestamp": "2025-09-22T00:02:23.463896"
   },
   "prompt_to_llm_K2_sim0.4.md": {
     "file_name": "prompt_to_llm_K2_sim0.4.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    List<OwnerDto> result = new ArrayList<>();\n    Collection<Owner> owners;\n\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n\n    for (Owner owner : owners) {\n        OwnerDto dto = new OwnerDto()\n            .firstName(owner.getFirstName())\n            .lastName(owner.getLastName())\n            .address(owner.getAddress())\n            .city(owner.getCity())\n            .telephone(owner.getTelephone())\n            .id(owner.getId());\n        if (owner.getPets() != null) {\n            dto.setPets(\n                owner.getPets().stream()\n                    .map(pet -> {\n                        PetDto petDto = new PetDto();\n                        petDto.setId(pet.getId());\n                        petDto.setName(pet.getName());\n                        petDto.setOwnerId(pet.getOwnerId());\n                        petDto.setTypeId(pet.getType() != null ? pet.getType().getId() : null);\n                        petDto.setTypeName(pet.getType() != null ? pet.getType().getName() : null);\n                        petDto.setBirthDate(pet.getBirthDate());\n                        petDto.setVisits(\n                            pet.getVisits().stream()\n                                .map(visit -> {\n                                    VisitDto visitDto = new VisitDto();\n                                    visitDto.setId(visit.getId());\n                                    visitDto.setPetId(visit.getPetId());\n                                    visitDto.setDescription(visit.getDescription());\n                                    visitDto.setDate(visit.getDate());\n                                    return visitDto;\n                                })\n                                .collect(Collectors.toList())\n                        );\n                        return petDto;\n                    })\n                    .collect(Collectors.toList())\n            );\n        }\n        result.add(dto);\n    }\n\n    return new ResponseEntity<>(result, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5333333333333333,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": " new OwnerDto()",
-          "return_type": "new",
-          "method_name": "OwnerDto",
-          "parameters": [],
-          "method_calls": [
-            "telephone",
-            "findOwnerByLastName",
-            "setName",
-            "collect",
-            "add",
-            "lastName",
-            "setDescription",
-            "toList",
-            "address",
-            "setTypeName",
-            "setBirthDate",
-            "getBirthDate",
-            "getName",
-            "if",
-            "id",
-            "setPets",
-            "city",
-            "setId",
-            "PetDto",
-            "isEmpty",
-            "getId",
-            "setPetId",
-            "for",
-            "getAddress",
-            "map",
-            "getDate",
-            "getOwnerId",
-            "getTelephone",
-            "firstName",
-            "stream",
-            "setDate",
-            "VisitDto",
-            "OwnerDto",
-            "getVisits",
-            "getDescription",
-            "getType",
-            "getFirstName",
-            "getPetId",
-            "trim",
-            "setVisits",
-            "setTypeId",
-            "getCity",
-            "getPets",
-            "getLastName",
-            "listOwners",
-            "setOwnerId",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "if",
-            "return",
-            "for",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement",
-            "for_loop"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "List<OwnerDto>",
-              "result"
-            ],
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "OwnerDto",
-              "dto"
-            ],
-            [
-              "PetDto",
-              "petDto"
-            ],
-            [
-              "VisitDto",
-              "visitDto"
-            ],
-            [
-              "return",
-              "visitDto"
-            ],
-            [
-              "return",
-              "petDto"
-            ]
-          ]
+    "generated_method": "@ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    // Assuming there is an OwnerRepository to fetch owners by last name\n    List<Owner> owners = ownerRepository.findByLastName(lastName);\n    // Load pets and visits for each owner\n    jdbcOwnerRepositoryImpl.loadOwnersPetsAndVisits(owners);\n    // Convert Owner to OwnerDto\n    List<OwnerDto> ownerDtos = new ArrayList<>();\n    for (Owner owner : owners) {\n        OwnerDto ownerDto = new OwnerDto();\n        ownerDto\n            .firstName(owner.getFirstName())\n            .lastName(owner.getLastName())\n            .address(owner.getAddress())\n            .city(owner.getCity())\n            .telephone(owner.getTelephone())\n            .id(owner.getId());\n\n        // Assuming a method exists to convert Pet to PetDto\n        List<PetDto> petDtos = new ArrayList<>();\n        for (Pet pet : owner.getPets()) {\n            PetDto petDto = convertPetToPetDto(pet); // Replace with actual conversion logic\n            petDtos.add(petDto);\n        }\n        ownerDto.setPets(petDtos);\n\n        ownerDtos.add(ownerDto);\n    }\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 2.0,
+      "verdict": "Architecturally divergent and functionally incorrect; fails to match both interface and critical behaviors.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": [
-        "Missing method calls: ['toOwnerDtoCollection']"
-      ]
+      }
     },
-    "similarity_score": 0.84,
-    "summary": {
-      "functional_score": 0.5333333333333333,
-      "similarity_score": 0.84,
-      "issues_count": 1,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 2 / 10\n\n*Verdict:* Architecturally divergent and functionally incorrect; fails to match both interface and critical behaviors.\n\n### *Reasoning*\n\n  * *Method Signature:* (0) - The generated method uses `@ResponseEntity` as an annotation (which does not exist) instead of returning a `ResponseEntity` object; the access modifier is missing (`public`), and the method signature does not match the correct method.\n  * *Core Functional Logic:* (1) - The generated method attempts to fetch owners by last name and convert them to DTOs, but it does not handle the case where `lastName` is null (always queries by last name), and the mapping logic is re-implemented inline rather than using a mapper.\n  * *Critical Edge Case Handling:* (0) - The generated method does not check for empty results and always returns `HttpStatus.OK`, failing to replicate the NOT_FOUND response for empty owner lists.\n  * *Architectural Compliance:* (1) - The generated method bypasses the intended architecture by manually mapping entities to DTOs instead of using the provided `ownerMapper`, and uses different repository/service abstractions. Only partial use of abstractions is present (calls to repositories), but not in the prescribed manner.",
+    "timestamp": "2025-09-22T00:02:26.129726"
   },
   "prompt_to_llm_K3_sim0.1.md": {
     "file_name": "prompt_to_llm_K3_sim0.1.md",
-    "extracted_code": "@Autowired\nprivate ClinicService clinicService;\n\n@Autowired\nprivate OwnerMapper ownerMapper;\n\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5833333333333334,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "trim",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "ClinicService",
-              "clinicService"
-            ],
-            [
-              "OwnerMapper",
-              "ownerMapper"
-            ],
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ]
-          ]
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 4.0,
+      "verdict": "Functionally incomplete and missing critical edge case handling.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": []
+      }
     },
-    "similarity_score": 0.92,
-    "summary": {
-      "functional_score": 0.5833333333333334,
-      "similarity_score": 0.92,
-      "issues_count": 0,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 4 / 10\n\n*Verdict:* Functionally incomplete and missing critical edge case handling.\n\n### *Reasoning*\n\n  * *Method Signature:* (2/2) - The method name, parameter types, return type, access modifier, and @Override annotation all match the correct method.\n  * *Core Functional Logic:* (2/3) - The main logic for finding owners by last name and mapping them to DTOs is present, but the generated method does not handle the case where lastName is null by calling findAllOwners; it always calls findOwnerByLastName.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check if the owners collection is empty and always returns HttpStatus.OK, whereas the correct method returns HttpStatus.NOT_FOUND for empty results.\n  * *Architectural Compliance:* (0/2) - The generated method uses the correct abstractions (clinicService and ownerMapper), but it does not use the conditional logic for selecting the appropriate service method as in the correct method, thus failing to comply with the intended architecture.",
+    "timestamp": "2025-09-22T00:02:28.336082"
   },
   "prompt_to_llm_K3_sim0.2.md": {
     "file_name": "prompt_to_llm_K3_sim0.2.md",
-    "extracted_code": "// In OwnerRestController.java\n\n@Autowired\nprivate ClinicService clinicService;\n\n@Autowired\nprivate OwnerMapper ownerMapper;\n\n@ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        // Assuming there's a method findAllOwners in ClinicServiceImpl exposed in ClinicService\n        owners = ((ClinicServiceImpl)clinicService).findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5833333333333334,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "trim",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "ClinicService",
-              "clinicService"
-            ],
-            [
-              "OwnerMapper",
-              "ownerMapper"
-            ],
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "ClinicService",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ]
-          ]
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    // Ensure pets and visits are loaded\n    jdbcOwnerRepositoryImpl.loadOwnersPetsAndVisits(new ArrayList<>(owners));\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 5.0,
+      "verdict": "Functionally close on the main path, but missing critical edge case handling and architectural compliance.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": []
+      }
     },
-    "similarity_score": 0.88,
-    "summary": {
-      "functional_score": 0.5833333333333334,
-      "similarity_score": 0.88,
-      "issues_count": 0,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 1.0,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 5 / 10\n\n*Verdict:* Functionally close on the main path, but missing critical edge case handling and architectural compliance.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match perfectly.\n  * *Core Functional Logic:* (3) - The main logic for fetching owners based on lastName and mapping them to DTOs is correctly implemented and produces the same successful outcome.\n  * *Critical Edge Case Handling:* (0) - The generated method does not handle the case where the owners collection is empty; it always returns 200 OK, whereas the correct method returns 404 NOT FOUND if no owners are found.\n  * *Architectural Compliance:* (0) - The generated method omits the call to jdbcOwnerRepositoryImpl.loadOwnersPetsAndVisits, which is present in the correct method and may be essential for loading related data as per the intended architecture.",
+    "timestamp": "2025-09-22T00:02:30.427886"
   },
   "prompt_to_llm_K3_sim0.3.md": {
     "file_name": "prompt_to_llm_K3_sim0.3.md",
-    "extracted_code": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n    List<OwnerDto> ownerDtos = owners.stream().map(owner -> {\n        OwnerDto dto = new OwnerDto();\n        dto.setFirstName(owner.getFirstName());\n        dto.setLastName(owner.getLastName());\n        dto.setAddress(owner.getAddress());\n        dto.setCity(owner.getCity());\n        dto.setTelephone(owner.getTelephone());\n        dto.setId(owner.getId());\n        // Map pets if needed, or leave empty as per your DTO logic\n        return dto;\n    }).collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 0.8333333333333334,
-      "overall_functional_score": 0.5333333333333333,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": " new OwnerDto()",
-          "return_type": "new",
-          "method_name": "OwnerDto",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "collect",
-            "toList",
-            "setAddress",
-            "if",
-            "setId",
-            "setTelephone",
-            "setCity",
-            "isEmpty",
-            "getId",
-            "setLastName",
-            "getAddress",
-            "map",
-            "setFirstName",
-            "getTelephone",
-            "stream",
-            "OwnerDto",
-            "getFirstName",
-            "trim",
-            "getCity",
-            "getLastName",
-            "listOwners",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ],
-            [
-              "OwnerDto",
-              "dto"
-            ],
-            [
-              "return",
-              "dto"
-            ]
-          ]
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);\n    }\n\n    // Optionally load pets and visits if required\n    // clinicService.loadOwnersPetsAndVisits(new ArrayList<>(owners));\n\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 4.0,
+      "verdict": "Functionally divergent and critically flawed in edge case handling and architectural compliance.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": [
-        "Missing method calls: ['toOwnerDtoCollection']"
-      ]
+      }
     },
-    "similarity_score": 0.84,
-    "summary": {
-      "functional_score": 0.5333333333333333,
-      "similarity_score": 0.84,
-      "issues_count": 1,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 0.8333333333333334,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 4 / 10\n\n*Verdict:* Functionally divergent and critically flawed in edge case handling and architectural compliance.\n\n### *Reasoning*\n\n  * *Method Signature:* (2/2) - The method name, parameter types, return type, access modifier, and @Override annotation all match exactly between the generated and correct methods.\n  * *Core Functional Logic:* (1/3) - The main logic for selecting owners based on lastName is present, but the generated method does not check for empty lastName strings (it only checks for null), and it returns NOT_FOUND for empty results instead of OK with an empty list.\n  * *Critical Edge Case Handling:* (0/3) - The generated method fails to handle null owners and empty owner collections as in the correct method; it returns NOT_FOUND instead of OK with an empty list, missing the specified robustness.\n  * *Architectural Compliance:* (1/2) - The generated method uses the ownerMapper abstraction correctly, but it does not use Collections.emptyList() for the empty result case as in the correct method, and it omits the optional pets/visits loading step (even as a comment).",
+    "timestamp": "2025-09-22T00:02:33.068830"
   },
   "prompt_to_llm_K3_sim0.4.md": {
     "file_name": "prompt_to_llm_K3_sim0.4.md",
-    "extracted_code": "// In OwnerRestController.java\n\n@Autowired\nprivate ClinicService clinicService;\n\n// Assuming you have this DTO converter method somewhere in your application\nprivate OwnerDto convertToDto(Owner owner) {\n    OwnerDto dto = new OwnerDto();\n    dto.setFirstName(owner.getFirstName());\n    dto.setLastName(owner.getLastName());\n    dto.setAddress(owner.getAddress());\n    dto.setCity(owner.getCity());\n    dto.setTelephone(owner.getTelephone());\n    dto.setId(owner.getId());\n    // Convert pets as needed if required\n    // dto.setPets(...);\n    return dto;\n}\n\n@ResponseBody\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.trim().isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findOwnerByLastName(\"\"); // Returns all owners if lastName is empty\n    }\n    List<OwnerDto> ownerDtos = owners.stream()\n            .map(this::convertToDto)\n            .collect(Collectors.toList());\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
-    "functional_analysis": {
-      "method_signature_match": false,
-      "return_type_match": false,
-      "method_name_match": false,
-      "parameter_match": false,
-      "method_calls_coverage": 0.6666666666666666,
-      "control_structure_coverage": 1.0,
-      "keyword_coverage": 1.0,
-      "overall_functional_score": 0.5,
-      "detailed_analysis": {
-        "llm_components": {
-          "method_signature": "private OwnerDto convertToDto(Owner owner)",
-          "return_type": "OwnerDto",
-          "method_name": "convertToDto",
-          "parameters": [
-            "Owner owner"
-          ],
-          "method_calls": [
-            "findOwnerByLastName",
-            "collect",
-            "convertToDto",
-            "toList",
-            "setAddress",
-            "if",
-            "setPets",
-            "setId",
-            "setTelephone",
-            "setCity",
-            "isEmpty",
-            "getId",
-            "setLastName",
-            "getAddress",
-            "map",
-            "setFirstName",
-            "getTelephone",
-            "stream",
-            "OwnerDto",
-            "getFirstName",
-            "trim",
-            "getCity",
-            "getLastName",
-            "listOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [
-            ""
-          ],
-          "variable_declarations": [
-            [
-              "ClinicService",
-              "clinicService"
-            ],
-            [
-              "OwnerDto",
-              "dto"
-            ],
-            [
-              "return",
-              "dto"
-            ],
-            [
-              "Collection<Owner>",
-              "owners"
-            ],
-            [
-              "List<OwnerDto>",
-              "ownerDtos"
-            ]
-          ]
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = this.clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = this.clinicService.findAllOwners();\n    }\n    // Assuming loadOwnersPetsAndVisits is available and loads pets and visits for each owner\n    loadOwnersPetsAndVisits(new ArrayList<>(owners));\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 4.0,
+      "verdict": "The generated method is functionally incomplete, missing critical edge case handling and architectural steps present in the correct method.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
         },
-        "correct_components": {
-          "method_signature": "",
-          "return_type": "",
-          "method_name": "",
-          "parameters": [],
-          "method_calls": [
-            "findOwnerByLastName",
-            "if",
-            "listOwners",
-            "isEmpty",
-            "toOwnerDtoCollection",
-            "findAllOwners"
-          ],
-          "keywords": [
-            "return",
-            "if",
-            "null",
-            "new",
-            "else",
-            "this"
-          ],
-          "control_structures": [
-            "if_statement",
-            "else_statement"
-          ],
-          "string_literals": [],
-          "variable_declarations": [
-            [
-              "Collection<Owner>",
-              "owners"
-            ]
-          ]
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
         }
-      },
-      "issues_found": [
-        "Missing method calls: ['toOwnerDtoCollection', 'findAllOwners']"
-      ]
+      }
     },
-    "similarity_score": 0.84,
-    "summary": {
-      "functional_score": 0.5,
-      "similarity_score": 0.84,
-      "issues_count": 1,
-      "is_functionally_correct": false,
-      "method_signature_match": false,
-      "method_calls_coverage": 0.6666666666666666,
-      "control_structure_coverage": 1.0
-    }
+    "raw_response": "*Similarity Score:* 4 / 10\n\n*Verdict:* The generated method is functionally incomplete, missing critical edge case handling and architectural steps present in the correct method.\n\n### *Reasoning*\n\n  * *Method Signature:* (2/2) - The method name, parameter types, return type, access modifier, and @Override annotation all match the correct method.\n  * *Core Functional Logic:* (1/3) - The generated method retrieves owners based on lastName and maps them to DTOs, but it does not check for empty lastName (only null), nor does it call loadOwnersPetsAndVisits, which is essential for the \"happy path\" logic.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for an empty owners collection and always returns HttpStatus.OK, whereas the correct method returns HttpStatus.NOT_FOUND if no owners are found.\n  * *Architectural Compliance:* (1/2) - The generated method uses ownerMapper for DTO conversion, but omits the required loadOwnersPetsAndVisits abstraction, partially bypassing the intended architecture.",
+    "timestamp": "2025-09-22T00:02:35.385251"
+  },
+  "prompt_to_llm_K4_sim0.1.md": {
+    "file_name": "prompt_to_llm_K4_sim0.1.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    // Load pets and visits for each owner (e.g., for JDBC)\n    if (owners instanceof List) {\n        ownerRepositoryJdbc.loadOwnersPetsAndVisits((List<Owner>) owners);\n    } else {\n        ownerRepositoryJdbc.loadOwnersPetsAndVisits(new ArrayList<>(owners));\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 3.0,
+      "verdict": "Functionally close on the happy path, but missing critical edge case handling and architectural compliance.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 3 / 10\n\n*Verdict:* Functionally close on the happy path, but missing critical edge case handling and architectural compliance.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match exactly.\n  * *Core Functional Logic:* (1) - The main logic for retrieving owners and mapping them to DTOs is present, but the generated method does not load pets and visits for each owner as in the correct method.\n  * *Critical Edge Case Handling:* (0) - The generated method only checks if the result set is empty, but does not check for null, which is a critical edge case handled in the correct method.\n  * *Architectural Compliance:* (0) - The generated method does not use ownerRepositoryJdbc to load pets and visits, missing a required architectural step present in the correct method.",
+    "timestamp": "2025-09-22T00:02:37.399055"
+  },
+  "prompt_to_llm_K4_sim0.2.md": {
+    "file_name": "prompt_to_llm_K4_sim0.2.md",
+    "generated_method": "// In OwnerRestController.java\n\n@Autowired\nprivate ClinicService clinicService;\n\n@Autowired\nprivate OwnerMapper ownerMapper;\n\n@GetMapping(\"/owners\")\npublic ResponseEntity<List<OwnerDto>> listOwners(@RequestParam(value = \"lastName\", required = false) String lastName) {\n    Collection<Owner> owners;\n\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but missing critical edge case handling and a minor method signature mismatch.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but missing critical edge case handling and a minor method signature mismatch.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The method name, parameter types, and return type match, but the generated method lacks the @GetMapping annotation and the @RequestParam annotation for the lastName parameter, which are present in the correct method and essential for REST endpoint mapping.\n  * *Core Functional Logic:* (3/3) - The main logic for selecting owners by last name or all owners, and mapping them to DTOs, is implemented identically and will produce the same result for standard inputs.\n  * *Critical Edge Case Handling:* (0/3) - The generated method only checks if the owners collection is empty, but the correct method also checks for null (owners == null || owners.isEmpty()). This means the generated method could fail or behave incorrectly if the service returns null.\n  * *Architectural Compliance:* (3/2) - The generated method correctly uses clinicService and ownerMapper abstractions as in the correct method. (Note: Maximum score for this section is 2, so awarding full points.)",
+    "timestamp": "2025-09-22T00:02:40.091034"
+  },
+  "prompt_to_llm_K4_sim0.3.md": {
+    "file_name": "prompt_to_llm_K4_sim0.3.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    List<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = new ArrayList<>(clinicService.findOwnerByLastName(lastName));\n    } else {\n        owners = new ArrayList<>(clinicService.findAllOwners());\n    }\n\n    if (owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n\n    // Load pets and visits for the owners\n    jdbcOwnerRepositoryImpl.loadOwnersPetsAndVisits(owners);\n\n    // Map Owner to OwnerDto\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but missing a key architectural step and a minor edge case difference.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but missing a key architectural step and a minor edge case difference.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match exactly.\n  * *Core Functional Logic:* (3) - The main logic for retrieving owners, mapping them to DTOs, and returning the appropriate ResponseEntity is correctly implemented for standard inputs.\n  * *Critical Edge Case Handling:* (2) - The generated method checks for null and empty lastName, whereas the correct method only checks for null; this is a minor difference but does not fully replicate the correct method's edge case handling.\n  * *Architectural Compliance:* (0) - The generated method introduces an additional architectural step (`jdbcOwnerRepositoryImpl.loadOwnersPetsAndVisits(owners)`) that is not present in the correct method, thus diverging from the intended abstraction and tooling.",
+    "timestamp": "2025-09-22T00:02:42.383412"
+  },
+  "prompt_to_llm_K4_sim0.4.md": {
+    "file_name": "prompt_to_llm_K4_sim0.4.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = this.clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = this.ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 6.0,
+      "verdict": "Functionally close for standard cases, but missing critical edge case handling and partial architectural compliance.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 6 / 10\n\n*Verdict:* Functionally close for standard cases, but missing critical edge case handling and partial architectural compliance.\n\n### *Reasoning*\n\n  * *Method Signature:* (2/2) - The method name, parameter types, return type, access modifier, and @Override annotation all match the correct method.\n  * *Core Functional Logic:* (3/3) - For standard, non-edge-case input, both methods call clinicService.findOwnerByLastName(lastName), map the result, and return a 200 OK response with the mapped DTOs.\n  * *Critical Edge Case Handling:* (0/3) - The generated method checks for owners == null or owners.isEmpty(), while the correct method only checks for owners.isEmpty(). The correct method also handles the case where lastName is null by calling findAllOwners(), which the generated method does not do. This means the generated method fails to replicate the specific edge case handling of the correct method.\n  * *Architectural Compliance:* (1/2) - The generated method uses ownerMapper for mapping, as required, but does not use clinicService.findAllOwners() when lastName is null, bypassing the intended service abstraction for that scenario.",
+    "timestamp": "2025-09-22T00:02:45.021769"
+  },
+  "prompt_to_llm_K5_sim0.1.md": {
+    "file_name": "prompt_to_llm_K5_sim0.1.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but missing critical edge case handling and a minor architectural deviation.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but missing critical edge case handling and a minor architectural deviation.\n\n### *Reasoning*\n\n  * *Method Signature:* (2/2) - The method name, parameter types, return type, access modifier, and annotation (@Override) are all identical to the correct method.\n  * *Core Functional Logic:* (3/3) - The main logic for finding owners by last name, mapping them to DTOs, and returning the correct HTTP status is present and functions identically for standard inputs.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for null owners (only checks for isEmpty), whereas the correct method checks for both null and empty, which is essential for robustness.\n  * *Architectural Compliance:* (2/2) - The method uses the same abstractions (clinicService and ownerMapper) as the correct method, without bypassing the intended architecture.",
+    "timestamp": "2025-09-22T00:02:47.062059"
+  },
+  "prompt_to_llm_K5_sim0.2.md": {
+    "file_name": "prompt_to_llm_K5_sim0.2.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> ownerCollection = clinicService.findOwnerByLastName(lastName);\n    if (ownerCollection == null || ownerCollection.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(ownerCollection);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but missing critical edge case handling and architectural compliance.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but missing critical edge case handling and architectural compliance.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match the correct method.\n  * *Core Functional Logic:* (3) - The main logic for finding owners by last name and returning the mapped DTOs in a ResponseEntity with HTTP 200 is correctly implemented for standard input.\n  * *Critical Edge Case Handling:* (0) - The generated method does not check for null input or handle the case where lastName is null by calling findAllOwners; it only calls findOwnerByLastName, which diverges from the correct method's robust handling of null and empty cases.\n  * *Architectural Compliance:* (2) - The generated method uses the same abstractions (clinicService and ownerMapper) as the correct method.",
+    "timestamp": "2025-09-22T00:02:49.086213"
+  },
+  "prompt_to_llm_K5_sim0.3.md": {
+    "file_name": "prompt_to_llm_K5_sim0.3.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but missing critical edge case handling and a minor architectural difference.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but missing critical edge case handling and a minor architectural difference.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and annotation (@Override) all match exactly.\n  * *Core Functional Logic:* (3) - The main logic for retrieving owners and mapping them to DTOs is present and functions identically for standard input.\n  * *Critical Edge Case Handling:* (0) - The generated method checks only for isEmpty(), but the correct method also checks for null (owners == null || owners.isEmpty()). The generated method would fail to handle a null return from clinicService.findOwnerByLastName, missing a critical edge case.\n  * *Architectural Compliance:* (2) - The generated method uses the same abstractions (clinicService and ownerMapper) as the correct method, without bypassing or re-implementing logic.",
+    "timestamp": "2025-09-22T00:02:51.166832"
+  },
+  "prompt_to_llm_K5_sim0.4.md": {
+    "file_name": "prompt_to_llm_K5_sim0.4.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally similar for standard cases, but missing critical edge case handling and declaration match.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally similar for standard cases, but missing critical edge case handling and declaration match.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The method name, parameter types, and return type match, but the generated method lacks the @Override annotation present in the correct method.\n  * *Core Functional Logic:* (3/3) - The main logic for retrieving owners and mapping them to DTOs is equivalent for standard, non-edge-case inputs.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for null results from clinicService.findOwnerByLastName, whereas the correct method explicitly checks for null and empty collections before returning NOT_FOUND.\n  * *Architectural Compliance:* (3/2) - The generated method correctly uses clinicService and ownerMapper abstractions as in the correct method. (Note: Maximum points for this criterion is 2, so awarding full points.)",
+    "timestamp": "2025-09-22T00:02:53.889948"
+  },
+  "prompt_to_llm_K6_sim0.1.md": {
+    "file_name": "prompt_to_llm_K6_sim0.1.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = this.clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 6.0,
+      "verdict": "Functionally close but critically flawed due to missing edge case handling and interface mismatch.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 6 / 10\n\n*Verdict:* Functionally close but critically flawed due to missing edge case handling and interface mismatch.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The method name and return type match, but the generated method is missing the @Override annotation present in the correct method.\n  * *Core Functional Logic:* (2/3) - The main logic for finding owners and mapping them to DTOs is present, but the generated method does not handle the case where lastName is null by calling findAllOwners; it always calls findOwnerByLastName.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for null owners (only checks isEmpty), whereas the correct method checks both null and isEmpty, leading to a potential missed NOT_FOUND response.\n  * *Architectural Compliance:* (3/2) - The generated method correctly uses clinicService and ownerMapper abstractions as in the correct method. (Note: Maximum score for this criterion is 2, so only 2 points awarded.)",
+    "timestamp": "2025-09-22T00:02:56.212371"
+  },
+  "prompt_to_llm_K6_sim0.2.md": {
+    "file_name": "prompt_to_llm_K6_sim0.2.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    } else {\n        List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n        return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n    }\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but critically flawed in edge case handling.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but critically flawed in edge case handling.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match exactly.\n  * *Core Functional Logic:* (3) - The main logic for retrieving owners and mapping them to DTOs is equivalent for standard inputs; both use clinicService and ownerMapper as intended.\n  * *Critical Edge Case Handling:* (0) - The generated method checks for both null and empty collections, whereas the correct method only checks for empty collections. This difference means the generated method will return NOT_FOUND for a null result, which is not specified in the correct method, failing to replicate the exact edge case handling.\n  * *Architectural Compliance:* (2) - The generated method uses the same abstractions (clinicService and ownerMapper) without bypassing or re-implementing logic.",
+    "timestamp": "2025-09-22T00:02:58.384205"
+  },
+  "prompt_to_llm_K6_sim0.3.md": {
+    "file_name": "prompt_to_llm_K6_sim0.3.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but missing critical edge case handling and a minor architectural deviation.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but missing critical edge case handling and a minor architectural deviation.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match exactly.\n  * *Core Functional Logic:* (3) - The main logic for retrieving owners and mapping them to DTOs is present and produces the same successful outcome for standard inputs.\n  * *Critical Edge Case Handling:* (0) - The generated method checks for both null and empty collections, while the correct method only checks for empty collections; this difference means the generated method may return NOT_FOUND for a null result, which is not specified in the correct method.\n  * *Architectural Compliance:* (2) - The generated method uses the same abstractions (clinicService and ownerMapper) as the correct method, maintaining architectural consistency.",
+    "timestamp": "2025-09-22T00:03:00.287279"
+  },
+  "prompt_to_llm_K6_sim0.4.md": {
+    "file_name": "prompt_to_llm_K6_sim0.4.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 7.0,
+      "verdict": "Functionally close but missing critical edge case handling and a minor architectural difference.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 7 / 10\n\n*Verdict:* Functionally close but missing critical edge case handling and a minor architectural difference.\n\n### *Reasoning*\n\n  * *Method Signature:* (2) - The method name, parameter types, return type, access modifier, and @Override annotation all match exactly.\n  * *Core Functional Logic:* (3) - The main logic for retrieving owners and mapping them to DTOs is present and produces the same successful outcome for standard inputs.\n  * *Critical Edge Case Handling:* (0) - The generated method only checks for owners.isEmpty(), but the correct method also checks for owners == null; this null check is missing, so it fails to replicate the full robustness of the correct method.\n  * *Architectural Compliance:* (2) - The generated method uses the same clinicService and ownerMapper abstractions as the correct method.",
+    "timestamp": "2025-09-22T00:03:02.169066"
+  },
+  "prompt_to_llm_K7_sim0.1.md": {
+    "file_name": "prompt_to_llm_K7_sim0.1.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName == null || lastName.isEmpty()) {\n        owners = clinicService.findAllOwners();\n    } else {\n        owners = clinicService.findOwnerByLastName(lastName);\n    }\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 6.0,
+      "verdict": "Functionally similar on the main path, but missing critical edge case handling and declaration details.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 6 / 10\n\n*Verdict:* Functionally similar on the main path, but missing critical edge case handling and declaration details.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The method name, parameter types, and return type match, but the generated method is missing the @Override annotation present in the correct method.\n  * *Core Functional Logic:* (3/3) - The main logic for retrieving owners and mapping them to DTOs is functionally equivalent for standard inputs.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for empty strings or null results in the same way as the correct method; it only checks for null lastName and empty owners, missing the empty string and null owners checks.\n  * *Architectural Compliance:* (2/2) - The generated method uses the same clinicService and ownerMapper abstractions as the correct method.",
+    "timestamp": "2025-09-22T00:03:04.122043"
+  },
+  "prompt_to_llm_K7_sim0.2.md": {
+    "file_name": "prompt_to_llm_K7_sim0.2.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners = this.clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    List<OwnerDto> ownerDtos = this.ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 6.0,
+      "verdict": "Functionally close but missing critical edge case handling and partial architectural divergence.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 6 / 10\n\n*Verdict:* Functionally close but missing critical edge case handling and partial architectural divergence.\n\n### *Reasoning*\n\n  * *Method Signature:* (2/2) - The method name, parameter types, return type, access modifier, and @Override annotation all match the correct method.\n  * *Core Functional Logic:* (2/3) - The main logic for finding owners and mapping them to DTOs is present, but the generated method does not handle the \"findAllOwners\" branch when lastName is null, which is present in the correct method.\n  * *Critical Edge Case Handling:* (0/3) - The generated method checks for null or empty owners, but the correct method only checks for empty collections (never null), and the generated method fails to replicate the specific conditional branch for lastName == null, which is a critical behavioral difference.\n  * *Architectural Compliance:* (2/2) - The generated method correctly uses clinicService and ownerMapper abstractions as in the correct method.",
+    "timestamp": "2025-09-22T00:03:06.278386"
+  },
+  "prompt_to_llm_K7_sim0.3.md": {
+    "file_name": "prompt_to_llm_K7_sim0.3.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    Collection<Owner> owners;\n    if (lastName != null && !lastName.isEmpty()) {\n        owners = clinicService.findOwnerByLastName(lastName);\n    } else {\n        owners = clinicService.findAllOwners();\n    }\n\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n\n    List<OwnerDto> ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 6.0,
+      "verdict": "Functionally similar for standard cases but fails critical edge case handling and declaration compliance.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 6 / 10\n\n*Verdict:* Functionally similar for standard cases but fails critical edge case handling and declaration compliance.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The method name, parameter types, and return type match, but the generated method is missing the @Override annotation present in the correct method.\n  * *Core Functional Logic:* (2/3) - The main logic for listing owners and mapping them to DTOs is functionally similar, but the generated method does not check for empty strings in lastName, which is present in the correct method.\n  * *Critical Edge Case Handling:* (0/3) - The generated method does not check for null owners (only checks for isEmpty), whereas the correct method checks for both null and empty, and also handles empty lastName strings as a special case.\n  * *Architectural Compliance:* (3/2) - The generated method correctly uses clinicService and ownerMapper abstractions as in the correct method. (Note: Maximum score for this criterion is 2, so awarding full points.)",
+    "timestamp": "2025-09-22T00:03:08.707053"
+  },
+  "prompt_to_llm_K7_sim0.4.md": {
+    "file_name": "prompt_to_llm_K7_sim0.4.md",
+    "generated_method": "@Override\npublic ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n    List<OwnerDto> ownerDtos;\n    Collection<Owner> owners = clinicService.findOwnerByLastName(lastName);\n    if (owners == null || owners.isEmpty()) {\n        return new ResponseEntity<>(HttpStatus.NOT_FOUND);\n    }\n    // Load pets and visits for each owner if needed\n    // Typically, this would be handled by ClinicService or repository (not shown in provided context)\n    // If needed:\n    // jdbcOwnerRepositoryImpl.loadOwnersPetsAndVisits(new ArrayList<>(owners));\n    ownerDtos = ownerMapper.toOwnerDtoCollection(owners);\n    return new ResponseEntity<>(ownerDtos, HttpStatus.OK);\n}",
+    "evaluation": {
+      "similarity_score": 5.0,
+      "verdict": "Functionally similar on the happy path but fails critical edge case handling and partially diverges in method signature.",
+      "detailed_scores": {
+        "method_signature": {
+          "score": null,
+          "justification": null
+        },
+        "core_functional_logic": {
+          "score": null,
+          "justification": null
+        },
+        "critical_edge_case_handling": {
+          "score": null,
+          "justification": null
+        },
+        "architectural_compliance": {
+          "score": null,
+          "justification": null
+        }
+      }
+    },
+    "raw_response": "*Similarity Score:* 5 / 10\n\n*Verdict:* Functionally similar on the happy path but fails critical edge case handling and partially diverges in method signature.\n\n### *Reasoning*\n\n  * *Method Signature:* (1/2) - The method name and parameter types match, but the generated method adds the @Override annotation (which is not present in the correct method) and uses List<OwnerDto> for the variable ownerDtos instead of directly returning the mapped collection; also, the correct method does not use @Override, so declaration does not fully match.\n  * *Core Functional Logic:* (3/3) - The main logic of finding owners by last name, mapping them to DTOs, and returning a ResponseEntity with HttpStatus.OK is correctly implemented for standard inputs.\n  * *Critical Edge Case Handling:* (0/3) - The generated method checks for owners == null or owners.isEmpty(), but always calls clinicService.findOwnerByLastName(lastName), even when lastName is null. The correct method calls findAllOwners() when lastName is null. This means the generated method will not return all owners when lastName is null, failing to replicate the correct edge case handling.\n  * *Architectural Compliance:* (1/2) - The generated method uses ownerMapper as required, but it omits the conditional logic for calling findAllOwners() and does not fully match the abstraction usage in the correct method (i.e., it always calls findOwnerByLastName regardless of input).",
+    "timestamp": "2025-09-22T00:03:11.738739"
   }
 }

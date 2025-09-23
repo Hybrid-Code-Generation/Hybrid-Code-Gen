@@ -129,9 +129,9 @@ unique_matched_classes = set()  # Global set to store all unique matched classes
 user_query = input("Enter your code search query: ")
 
 # Pre-fetch all data with maximum K value (3)
-print("🔍 Pre-fetching all data with K=3...")
-MAX_K = 3
-top_matches = searcher.search_top_k(user_query, k=MAX_K)
+MAX_DEPTH = 8
+print(f"🔍 Pre-fetching all data with K={MAX_DEPTH}...")
+top_matches = searcher.search_top_k(user_query, k=MAX_DEPTH)
 
 # Import required functions
 from processor.search_neo4j import search_method
@@ -153,7 +153,7 @@ all_results = []
 all_related_methods = []  # Store all related methods with their similarities
 
 for i, method_info in enumerate(top_matches, 1):
-    print(f"Processing method {i}/{MAX_K}: {method_info['Class']}.{method_info['Method Name']}")
+    print(f"Processing method {i}/{MAX_DEPTH}: {method_info['Class']}.{method_info['Method Name']}")
     
     # KG search
     result = search_method(
@@ -161,7 +161,7 @@ for i, method_info in enumerate(top_matches, 1):
         class_name=method_info['Class'],
         parameters=method_info['Parameters'],
         return_type=method_info['Return Type'],
-        calls=MAX_K-i+1,
+        calls=MAX_DEPTH-i+1,
         called_by=1,
         belongs_to=True,
         uses=True
@@ -174,7 +174,13 @@ for i, method_info in enumerate(top_matches, 1):
         parameters=method_info['Parameters'],
         return_type=method_info['Return Type']
     )
-    
+
+    if (detailed_method_info  is None):
+        print('$'*100)
+        print(f"⚠️ Detailed method info not found for: {method_info['Class']}.{method_info['Method Name']}.{method_info['Parameters']}.{method_info['Return Type']}")
+        print('$'*100)
+        # continue
+
     all_results.append({
         'method_info': method_info,
         'context': result,
@@ -203,7 +209,7 @@ for i, method_info in enumerate(top_matches, 1):
 print(f"✅ Pre-fetched {len(all_results)} main methods and {len(all_related_methods)} related methods")
 
 # Now iterate through different K and sim values using the pre-fetched data
-for K in range(1, 4, 1):
+for K in range(1, 8, 1):
     for sim in [0.1, 0.2, 0.3, 0.4]:
         print(f"\n{'='*60}")
         print(f"Processing K={K}, similarity threshold={sim}")

@@ -24,11 +24,11 @@ def search_method(
 
     # Filter the DataFrame based on the provided criteria
     filtered_df = df[df['Method Name'] == method_name]
-    if class_name:
+    if class_name and not pd.isna(class_name):
         filtered_df = filtered_df[filtered_df['Class'] == class_name]
-    if parameters:
+    if parameters and not pd.isna(parameters):
         filtered_df = filtered_df[filtered_df['Parameters'] == parameters]
-    if return_type:
+    if return_type and not pd.isna(return_type):
         filtered_df = filtered_df[filtered_df['Return Type'] == return_type]
 
     # If no matching method is found, return None

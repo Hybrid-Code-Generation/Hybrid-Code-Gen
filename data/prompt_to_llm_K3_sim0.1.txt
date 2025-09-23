@@ -1,0 +1,130 @@
+The following are Java methods relevant to the user's query: 'There is a method named listOwners which has a TODO inside it. Please complete it'. 
+
+Use these methods to assist in code generation.
+
+
+This is the 1 relevant method for the user query.
+
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+
+And these are the methods it calls or is called by:
+This is the 2 relevant method for the user query.
+
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\rest\controller\OwnerRestController.java
+
+Method: ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n        // TODO Complete this method\n        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);\n    }
+
+And these are the methods it calls or is called by:
+This is the 3 relevant method for the user query.
+
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\test\java\org\springframework\samples\petclinic\rest\controller\OwnerRestControllerTests.java
+
+Method: void testGetOwnersListSuccess(nan) {\n        owners.remove(0);\n        owners.remove(1);\n        given(this.clinicService.findOwnerByLastName("Davis")).willReturn(ownerMapper.toOwners(owners));\n        this.mockMvc.perform(get("/api/owners?lastName=Davis")\n                .accept(MediaType.APPLICATION_JSON))\n            .andExpect(status().isOk())\n            .andExpect(content().contentType("application/json"))\n            .andExpect(jsonPath("$.[0].id").value(2))\n            .andExpect(jsonPath("$.[0].firstName").value("Betty"))\n            .andExpect(jsonPath("$.[1].id").value(4))\n            .andExpect(jsonPath("$.[1].firstName").value("Harold"));\n    }
+
+And these are the methods it calls or is called by:
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadPetsAndVisits(Owner owner) {\n        Map<String, Object> params = new HashMap<>();\n        params.put("id", owner.getId());\n        final List<JdbcPet> pets = this.namedParameterJdbcTemplate.query(\n            "SELECT pets.id as pets_id, name, birth_date, type_id, owner_id, visits.id as visit_id, visit_date, description, visits.pet_id as visits_pet_id FROM pets LEFT OUTER JOIN visits ON pets.id = visits.pet_id WHERE owner_id=:id ORDER BY pets.id",\n            params,\n            new JdbcPetVisitExtractor()\n        );\n        Collection<PetType> petTypes = getPetTypes();\n        for (JdbcPet pet : pets) {\n            pet.setType(EntityUtils.getById(petTypes, PetType.class, pet.getTypeId()));\n            owner.addPet(pet);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Owner.java
+Method: void addPet(Pet pet) {\n        getPetsInternal().add(pet);\n        pet.setOwner(this);\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Owner.java
+Method: Set<Pet> getPetsInternal(nan) {\n        if (this.pets == null) {\n            this.pets = new HashSet<>();\n        }\n        return this.pets;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Pet.java
+Method: void setOwner(Owner owner) {\n        this.owner = owner;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Pet.java
+Method: void setType(PetType type) {\n        this.type = type;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: Collection<PetType> getPetTypes(nan) {\n        return this.namedParameterJdbcTemplate.query(\n            "SELECT id, name FROM types ORDER BY name", new HashMap<String, Object>(),\n            BeanPropertyRowMapper.newInstance(PetType.class));\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcPet.java
+Method: int getTypeId(nan) {\n        return this.typeId;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\rest\controller\OwnerRestController.java
+Method: ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n        // TODO Complete this method\n        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\service\ClinicServiceImpl.java
+Method: Collection<Owner> findAllOwners(nan) {\n        return ownerRepository.findAll();\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\VisitRepository.java
+Method: Collection<Visit> findAll(nan)
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Pet.java
+Method: void setOwner(Owner owner) {\n        this.owner = owner;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Pet.java
+Method: void setType(PetType type) {\n        this.type = type;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Vet.java
+Method: Set<Specialty> getSpecialtiesInternal(nan) {\n        if (this.specialties == null) {\n            this.specialties = new HashSet<>();\n        }\n        return this.specialties;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\VisitRepository.java
+Method: void save(Visit visit)
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\BaseEntity.java
+Method: boolean isNew(nan) {\n        return this.id == null;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\User.java
+Method: String getUsername(nan) {\n        return username;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcUserRepositoryImpl.java
+Method: void updateUserRoles(User user) {\n        Map<String, Object> params = new HashMap<>();\n        params.put("username", user.getUsername());\n        this.namedParameterJdbcTemplate.update("DELETE FROM roles WHERE username=:username", params);\n        for (Role role : user.getRoles()) {\n            params.put("role", role.getName());\n            if (role.getName() != null) {\n                this.namedParameterJdbcTemplate.update("INSERT INTO roles(username, role) VALUES (:username, :role)", params);\n            }\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcVetRepositoryImpl.java
+Method: void updateVetSpecialties(Vet vet) {\n		Map<String, Object> params = new HashMap<>();\n		params.put("id", vet.getId());\n		this.namedParameterJdbcTemplate.update("DELETE FROM vet_specialties WHERE vet_id=:id", params);\n		for (Specialty spec : vet.getSpecialties()) {\n			params.put("spec_id", spec.getId());\n			if(!(spec.getId() == null)) {\n				this.namedParameterJdbcTemplate.update("INSERT INTO vet_specialties VALUES (:id, :spec_id)", params);\n			}\n		}\n	}
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\mapper\SpecialtyMapper.java
+Method: Specialty toSpecialty(SpecialtyDto specialtyDto)
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\mapper\SpecialtyMapper.java
+Method: SpecialtyDto toSpecialtyDto(Specialty specialty)
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadPetsAndVisits(Owner owner) {\n        Map<String, Object> params = new HashMap<>();\n        params.put("id", owner.getId());\n        final List<JdbcPet> pets = this.namedParameterJdbcTemplate.query(\n            "SELECT pets.id as pets_id, name, birth_date, type_id, owner_id, visits.id as visit_id, visit_date, description, visits.pet_id as visits_pet_id FROM pets LEFT OUTER JOIN visits ON pets.id = visits.pet_id WHERE owner_id=:id ORDER BY pets.id",\n            params,\n            new JdbcPetVisitExtractor()\n        );\n        Collection<PetType> petTypes = getPetTypes();\n        for (JdbcPet pet : pets) {\n            pet.setType(EntityUtils.getById(petTypes, PetType.class, pet.getTypeId()));\n            owner.addPet(pet);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Owner.java
+Method: void addPet(Pet pet) {\n        getPetsInternal().add(pet);\n        pet.setOwner(this);\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\model\Owner.java
+Method: Set<Pet> getPetsInternal(nan) {\n        if (this.pets == null) {\n            this.pets = new HashSet<>();\n        }\n        return this.pets;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: Collection<PetType> getPetTypes(nan) {\n        return this.namedParameterJdbcTemplate.query(\n            "SELECT id, name FROM types ORDER BY name", new HashMap<String, Object>(),\n            BeanPropertyRowMapper.newInstance(PetType.class));\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcPet.java
+Method: int getTypeId(nan) {\n        return this.typeId;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcPet.java
+Method: int getOwnerId(nan) {\n        return this.ownerId;\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\service\ClinicServiceImpl.java
+Method: Collection<Owner> findOwnerByLastName(String lastName) {\n        return ownerRepository.findByLastName(lastName);\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\springdatajpa\SpringDataOwnerRepository.java
+Method: Collection<Owner> findByLastName(String lastName)
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\repository\jdbc\JdbcOwnerRepositoryImpl.java
+Method: void loadOwnersPetsAndVisits(List<Owner> owners) {\n        for (Owner owner : owners) {\n            loadPetsAndVisits(owner);\n        }\n    }
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\mapper\OwnerMapper.java
+Method: List<OwnerDto> toOwnerDtoCollection(Collection<Owner> ownerCollection)
+File name: ./javarepoparser/temp/spring-petclinic-rest\src\main\java\org\springframework\samples\petclinic\rest\controller\OwnerRestController.java
+Method: ResponseEntity<List<OwnerDto>> listOwners(String lastName) {\n        // TODO Complete this method\n        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);\n    }
+
+
+Relevant Java Classes referenced in the methods:
+
+class ClinicService {\n    Pet findPetById(int id) throws DataAccessException;\n    Collection<Pet> findAllPets() throws DataAccessException;\n    void savePet(Pet pet) throws DataAccessException;\n    void deletePet(Pet pet) throws DataAccessException;\n    Collection<Visit> findVisitsByPetId(int petId);\n    Visit findVisitById(int visitId) throws DataAccessException;\n    Collection<Visit> findAllVisits() throws DataAccessException;\n    void saveVisit(Visit visit) throws DataAccessException;\n    void deleteVisit(Visit visit) throws DataAccessException;\n    Vet findVetById(int id) throws DataAccessException;\n    Collection<Vet> findVets() throws DataAccessException;\n    Collection<Vet> findAllVets() throws DataAccessException;\n    void saveVet(Vet vet) throws DataAccessException;\n    void deleteVet(Vet vet) throws DataAccessException;\n    Owner findOwnerById(int id) throws DataAccessException;\n    Collection<Owner> findAllOwners() throws DataAccessException;\n    void saveOwner(Owner owner) throws DataAccessException;\n    void deleteOwner(Owner owner) throws DataAccessException;\n    Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException;\n    PetType findPetTypeById(int petTypeId);\n    Collection<PetType> findAllPetTypes() throws DataAccessException;\n    Collection<PetType> findPetTypes() throws DataAccessException;\n    void savePetType(PetType petType) throws DataAccessException;\n    void deletePetType(PetType petType) throws DataAccessException;\n    Specialty findSpecialtyById(int specialtyId);\n    Collection<Specialty> findAllSpecialties() throws DataAccessException;\n    void saveSpecialty(Specialty specialty) throws DataAccessException;\n    void deleteSpecialty(Specialty specialty) throws DataAccessException;\n    List<Specialty> findSpecialtiesByNameIn(Set<String> names) throws DataAccessException;\n}
+
+class EntityUtils {\n    public static <T extends BaseEntity> T getById(Collection<T> entities, Class<T> entityClass, int entityId) throws ObjectRetrievalFailureException;\n}
+
+class JdbcPet {\n    private int typeId;\n    private int ownerId;\n    public int getTypeId();\n    public void setTypeId(int typeId);\n    public int getOwnerId();\n    public void setOwnerId(int ownerId);\n}
+
+class JdbcPetVisitExtractor {\n    public JdbcPetVisitExtractor();\n    @Override protected Integer mapPrimaryKey(ResultSet rs) throws SQLException;\n    @Override protected Integer mapForeignKey(ResultSet rs) throws SQLException;\n    @Override protected void addChild(JdbcPet root, Visit child);\n}
+
+class Owner {\n    @Column(name = "address")\n    @NotEmpty\n    private String address;\n    @Column(name = "city")\n    @NotEmpty\n    private String city;\n    @Column(name = "telephone")\n    @NotEmpty\n    @Digits(fraction = 0, integer = 10)\n    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")\n    private String telephone;\n    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)\n    private Set<Pet> pets;\n    public String getAddress();\n    public void setAddress(String address);\n    public String getCity();\n    public void setCity(String city);\n    public String getTelephone();\n    public void setTelephone(String telephone);\n    protected Set<Pet> getPetsInternal();\n    protected void setPetsInternal(Set<Pet> pets);\n    public List<Pet> getPets();\n    public void setPets(List<Pet> pets);\n    public void addPet(Pet pet);\n    public Pet getPet(String name);\n    public Pet getPet(String name, boolean ignoreNew);\n    public Pet getPet(Integer petId);\n    @Override public String toString();\n}
+
+class OwnerDto {\n    private String firstName;\n    private String lastName;\n    private String address;\n    private String city;\n    private String telephone;\n    private @Nullable Integer id;\n    @Valid\n  private List<PetDto> pets = new ArrayList<>();\n    public OwnerDto();\n    public OwnerDto(String firstName, String lastName, String address, String city, String telephone, List<PetDto> pets);\n    public OwnerDto firstName(String firstName);\n    @NotNull @Pattern(regexp = "^[\\p{L}]+([ '-][\\p{L}]+){0,2}$") @Size(min = 1, max = 30) @Schema(name = "firstName", example = "George", description = "The first name of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("firstName") public String getFirstName();\n    public void setFirstName(String firstName);\n    public OwnerDto lastName(String lastName);\n    @NotNull @Pattern(regexp = "^[\\p{L}]+([ '-][\\p{L}]+){0,2}\\.?$") @Size(min = 1, max = 30) @Schema(name = "lastName", example = "Franklin", description = "The last name of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("lastName") public String getLastName();\n    public void setLastName(String lastName);\n    public OwnerDto address(String address);\n    @NotNull @Size(min = 1, max = 255) @Schema(name = "address", example = "110 W. Liberty St.", description = "The postal address of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("address") public String getAddress();\n    public void setAddress(String address);\n    public OwnerDto city(String city);\n    @NotNull @Size(min = 1, max = 80) @Schema(name = "city", example = "Madison", description = "The city of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("city") public String getCity();\n    public void setCity(String city);\n    public OwnerDto telephone(String telephone);\n    @NotNull @Pattern(regexp = "^[0-9]*$") @Size(min = 1, max = 20) @Schema(name = "telephone", example = "6085551023", description = "The telephone number of the pet owner.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("telephone") public String getTelephone();\n    public void setTelephone(String telephone);\n    public OwnerDto id(Integer id);\n    @Min(0) @Schema(name = "id", accessMode = Schema.AccessMode.READ_ONLY, example = "1", description = "The ID of the pet owner.", requiredMode = Schema.RequiredMode.NOT_REQUIRED) @JsonProperty("id") public @Nullable Integer getId();\n    public void setId(Integer id);\n    public OwnerDto pets(List<PetDto> pets);\n    public OwnerDto addPetsItem(PetDto petsItem);\n    @Valid @Schema(name = "pets", accessMode = Schema.AccessMode.READ_ONLY, description = "The pets owned by this individual including any booked vet visits.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("pets") public List<PetDto> getPets();\n    public void setPets(List<PetDto> pets);\n    @Override public boolean equals(Object o);\n    @Override public int hashCode();\n    @Override public String toString();\n    private String toIndentedString(Object o);\n}
+
+class OwnerMapper {\n    OwnerDto toOwnerDto(Owner owner);\n    Owner toOwner(OwnerDto ownerDto);\n    @Mapping(target = "id", ignore = true) @Mapping(target = "pets", ignore = true) Owner toOwner(OwnerFieldsDto ownerDto);\n    List<OwnerDto> toOwnerDtoCollection(Collection<Owner> ownerCollection);\n    Collection<Owner> toOwners(Collection<OwnerDto> ownerDtos);\n}
+
+class OwnerRepository {\n    Collection<Owner> findByLastName(String lastName) throws DataAccessException;\n    Owner findById(int id) throws DataAccessException;\n    void save(Owner owner) throws DataAccessException;\n    Collection<Owner> findAll() throws DataAccessException;\n    void delete(Owner owner) throws DataAccessException;\n}
+
+class Pet {\n    @Column(name = "birth_date", columnDefinition = "DATE")\n    private LocalDate birthDate;\n    @ManyToOne(cascade = CascadeType.ALL)\n    @JoinColumn(name = "type_id")\n    private PetType type;\n    @ManyToOne\n    @JoinColumn(name = "owner_id")\n    private Owner owner;\n    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)\n    private Set<Visit> visits;\n    public LocalDate getBirthDate();\n    public void setBirthDate(LocalDate birthDate);\n    public PetType getType();\n    public void setType(PetType type);\n    public Owner getOwner();\n    public void setOwner(Owner owner);\n    protected Set<Visit> getVisitsInternal();\n    protected void setVisitsInternal(Set<Visit> visits);\n    public List<Visit> getVisits();\n    public void setVisits(List<Visit> visits);\n    public void addVisit(Visit visit);\n}
+
+class PetType {\n}
+
+class Role {\n    @ManyToOne\n    @JoinColumn(name = "username")\n    @JsonIgnore\n    private User user;\n    @Column( name = "role")\n    private String name;\n    public User getUser();\n    public void setUser(User user);\n    public String getName();\n    public void setName(String name);\n}
+
+class Roles {\n    public final String OWNER_ADMIN = "ROLE_OWNER_ADMIN";\n    public final String VET_ADMIN = "ROLE_VET_ADMIN";\n    public final String ADMIN = "ROLE_ADMIN";\n}
+
+class Specialty {\n}
+
+class SpecialtyDto {\n    private Integer id;\n    private String name;\n    public SpecialtyDto();\n    public SpecialtyDto(Integer id, String name);\n    public SpecialtyDto id(Integer id);\n    @Min(0) @Schema(name = "id", accessMode = Schema.AccessMode.READ_ONLY, example = "1", description = "The ID of the specialty.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("id") public Integer getId();\n    public void setId(Integer id);\n    public SpecialtyDto name(String name);\n    @NotNull @Size(min = 1, max = 80) @Schema(name = "name", example = "radiology", description = "The name of the specialty.", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty("name") public String getName();\n    public void setName(String name);\n    @Override public boolean equals(Object o);\n    @Override public int hashCode();\n    @Override public String toString();\n    private String toIndentedString(Object o);\n}
+
+class User {\n    @Id\n    @Column(name = "username")\n    private String username;\n    @Column(name = "password")\n    private String password;\n    @Column(name = "enabled")\n    private Boolean enabled;\n    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)\n    private Set<Role> roles;\n    public String getUsername();\n    public void setUsername(String username);\n    public String getPassword();\n    public void setPassword(String password);\n    public Boolean getEnabled();\n    public void setEnabled(Boolean enabled);\n    public Set<Role> getRoles();\n    public void setRoles(Set<Role> roles);\n    @JsonIgnore public void addRole(String roleName);\n}
+
+class Vet {\n    @ManyToMany(fetch = FetchType.EAGER)\n    @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),\n        inverseJoinColumns = @JoinColumn(name = "specialty_id"))\n    private Set<Specialty> specialties;\n    @JsonIgnore protected Set<Specialty> getSpecialtiesInternal();\n    protected void setSpecialtiesInternal(Set<Specialty> specialties);\n    @XmlElement public List<Specialty> getSpecialties();\n    public void setSpecialties(List<Specialty> specialties);\n    @JsonIgnore public int getNrOfSpecialties();\n    public void addSpecialty(Specialty specialty);\n    public void clearSpecialties();\n}
+
+class Visit {\n    @Column(name = "visit_date", columnDefinition = "DATE")\n    private LocalDate date;\n    @NotEmpty\n    @Column(name = "description")\n    private String description;\n    @ManyToOne\n    @JoinColumn(name = "pet_id")\n    private Pet pet;\n    public Visit();\n    public LocalDate getDate();\n    public void setDate(LocalDate date);\n    public String getDescription();\n    public void setDescription(String description);\n    public Pet getPet();\n    public void setPet(Pet pet);\n}
+

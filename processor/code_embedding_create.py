@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import faiss
 from openai import AzureOpenAI
+from key import key
 
 def generate_embeddings_and_save(csv_path="methods.csv", batch_size=20):
     """
@@ -21,7 +22,6 @@ def generate_embeddings_and_save(csv_path="methods.csv", batch_size=20):
     endpoint = "https://azure-ai-hackthon.openai.azure.com/"
     deployment = "text-embedding-3-large"
     api_version = "2024-12-01-preview"
-    key = ""
 
     client = AzureOpenAI(
         api_version=api_version,
